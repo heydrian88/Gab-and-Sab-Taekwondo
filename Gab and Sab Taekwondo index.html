@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gab & Sab TKD | Philippine Taekwondo Athletes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Montserrat & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        tkd: {
+                            red: '#DC2626',
+                            darkred: '#991B1B',
+                            deepbg: '#0B0C10',
+                            cardbg: '#16181E',
+                            gold: '#F59E0B',
+                            goldhover: '#D97706',
+                            silver: '#9CA3AF',
+                            bronze: '#B45309'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'red-glow': '0 0 25px -5px rgba(220, 38, 38, 0.5)',
+                        'gold-glow': '0 0 20px -5px rgba(245, 158, 11, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0C10;
+            color: #E5E7EB;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0C10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #991B1B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #DC2626;
+        }
+        /* Gradient overlays */
+        .gradient-red-overlay {
+            background: linear-gradient(180deg, rgba(11, 12, 16, 0.7) 0%, rgba(153, 27, 27, 0.3) 50%, rgba(11, 12, 16, 0.95) 100%);
+        }
+        .text-gradient-red {
+            background: linear-gradient(135deg, #FF4D4D 0%, #DC2626 50%, #991B1B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 50%, #B45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-tkd-deepbg text-gray-200 antialiased min-h-screen flex flex-col justify-between selection:bg-tkd-red selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-tkd-deepbg/90 backdrop-blur-md border-b border-tkd-darkred/40 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-tkd-red to-tkd-darkred flex items-center justify-center shadow-red-glow border border-red-500/30 group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid font-bold text-2xl text-white">🥋</i>
+                    </div>
+                    <div>
+                        <span class="text-xl sm:text-2xl font-extrabold tracking-wider text-white font-heading">GAB & SAB <span class="text-tkd-red">TKD</span></span>
+                        <p class="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Philippine National Team Prospects</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide">
+                    <a href="#about" class="text-gray-300 hover:text-tkd-red transition-colors duration-200">About Athletes</a>
+                    <a href="#achievements" class="text-gray-300 hover:text-tkd-red transition-colors duration-200">Achievements</a>
+                    <a href="#gallery" class="text-gray-300 hover:text-tkd-red transition-colors duration-200">Gallery</a>
+                    <a href="#sponsorship" class="text-gray-300 hover:text-tkd-red transition-colors duration-200">Sponsorship</a>
+                    <a href="#contact" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-tkd-red to-red-800 text-white shadow-md hover:shadow-red-glow hover:brightness-110 transition-all duration-300 border border-red-500/40">
+                        Sponsor Us
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-gray-300 hover:text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-tkd-red">
+                        <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-tkd-cardbg/95 border-b border-tkd-darkred/50 backdrop-blur-lg px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-tkd-darkred/30 hover:text-tkd-red">About Athletes</a>
+            <a href="#achievements" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-tkd-darkred/30 hover:text-tkd-red">Achievements</a>
+            <a href="#gallery" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-tkd-darkred/30 hover:text-tkd-red">Gallery</a>
+            <a href="#sponsorship" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-tkd-darkred/30 hover:text-tkd-red">Sponsorship Tiers</a>
+            <a href="#contact" class="block w-full text-center px-4 py-3 rounded-xl bg-gradient-to-r from-tkd-red to-red-800 text-white font-bold shadow-red-glow mt-4">
+                Sponsor Our Journey
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center overflow-hidden">
+        <!-- Dark & Red Overlay -->
+        <div class="absolute inset-0 gradient-red-overlay"></div>
+        <div class="absolute inset-0 bg-black/60"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
+            <!-- Philippine Badge -->
+            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-tkd-cardbg/80 border border-tkd-red/50 text-tkd-red text-xs sm:text-sm font-semibold mb-6 shadow-lg backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                <span>🇵🇭 PHILIPPINE TAEKWONDO SIBLINGS</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 uppercase">
+                Forging Champions <br>
+                <span class="text-gradient-red">Gabriel & Ysabel</span>
+            </h1>
+
+            <p class="max-w-3xl mx-auto text-base sm:text-xl text-gray-300 font-normal leading-relaxed mb-10">
+                Driven by discipline, honor, and national pride. Follow the journey of Gab & Sab as they conquer local championships and aim for international glory in Kyorugi and Poomsae.
+            </p>
+
+            <!-- Call to Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <a href="#sponsorship" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-tkd-red to-red-800 text-white font-bold text-lg tracking-wide shadow-red-glow hover:scale-105 transition-all duration-300 border border-red-500/50 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <span>Sponsor Our Journey</span>
+                </a>
+                <a href="#achievements" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-tkd-cardbg/80 text-white font-semibold text-lg hover:bg-tkd-cardbg border border-gray-700 hover:border-tkd-red transition-all duration-300 flex items-center justify-center space-x-2 backdrop-blur-md">
+                    <i class="fa-solid fa-trophy text-tkd-gold"></i>
+                    <span>Explore Achievements</span>
+                </a>
+            </div>
+
+            <!-- Quick Stats Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-16 p-6 rounded-2xl bg-tkd-cardbg/80 border border-tkd-darkred/40 backdrop-blur-md">
+                <div class="text-center p-2">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-tkd-gold">24+</p>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-1 uppercase font-semibold">Gold Medals</p>
+                </div>
+                <div class="text-center p-2">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-gray-300">12</p>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-1 uppercase font-semibold">Silver Medals</p>
+                </div>
+                <div class="text-center p-2">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-amber-600">8</p>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-1 uppercase font-semibold">Bronze Medals</p>
+                </div>
+                <div class="text-center p-2">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-tkd-red">8+ Yrs</p>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-1 uppercase font-semibold">Dedication</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Athlete Profiles Section -->
+    <section id="about" class="py-24 bg-tkd-deepbg relative border-b border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-xs sm:text-sm font-bold tracking-widest text-tkd-red uppercase">Meet The Athletes</h2>
+                <p class="text-3xl sm:text-5xl font-extrabold text-white mt-2 font-heading">The Taekwondo Siblings</p>
+                <div class="w-24 h-1 bg-tkd-red mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Athletes Cards Container -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                <!-- Gabriel Profile Card -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 sm:p-8 border border-red-900/40 hover:border-tkd-red transition-all duration-300 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-tkd-red to-transparent w-32 h-32 opacity-10 rounded-bl-full pointer-events-none"></div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                        <!-- Avatar / Photo Placeholder -->
+                        <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden border-2 border-tkd-red flex-shrink-0 shadow-red-glow">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Gabriel Taekwondo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/991B1B/FFFFFF?text=GAB'">
+                            <div class="absolute bottom-0 inset-x-0 bg-black/80 py-1 text-center text-xs font-bold text-tkd-gold">KYORUGI SPECIALIST</div>
+                        </div>
+
+                        <!-- Bio Info -->
+                        <div class="text-center sm:text-left flex-1">
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
+                                <span class="px-3 py-1 bg-black/60 rounded-full text-xs font-bold text-tkd-red border border-tkd-red/30">1st Dan Black Belt</span>
+                                <span class="px-3 py-1 bg-black/60 rounded-full text-xs font-bold text-tkd-gold border border-tkd-gold/30">Junior Men</span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white font-heading">Gabriel "Gab"</h3>
+                            <p class="text-xs text-gray-400 mb-4">Philippine Taekwondo Association (PTA) Registered</p>
+
+                            <p class="text-sm text-gray-300 leading-relaxed mb-6">
+                                Known for his aggressive counter-kick timing and relentless ring control. Gab has been representing his school and regional delegation in national championships.
+                            </p>
+
+                            <!-- Key Specs Grid -->
+                            <div class="grid grid-cols-2 gap-3 text-xs bg-black/40 p-4 rounded-xl border border-gray-800">
+                                <div>
+                                    <span class="text-gray-500 block">Dojang / Club:</span>
+                                    <span class="font-semibold text-gray-200">Manila Strikers TKD</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Weight Division:</span>
+                                    <span class="font-semibold text-gray-200">Welterweight (-63kg)</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Favorite Kick:</span>
+                                    <span class="font-semibold text-tkd-red">Axe Kick / Naeryeo Chagi</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Experience:</span>
+                                    <span class="font-semibold text-gray-200">7 Years</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Belt Progression Visual -->
+                    <div class="mt-8 pt-6 border-t border-gray-800">
+                        <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Belt Ranking Pathway</p>
+                        <div class="flex items-center justify-between text-[10px] font-semibold text-gray-400">
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-yellow-400 mb-1"></span>Yellow</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-green-500 mb-1"></span>Green</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mb-1"></span>Blue</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-red-600 mb-1"></span>Red</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-black border border-tkd-red ring-2 ring-tkd-red mb-1"></span>Black 1st Dan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ysabel Profile Card -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 sm:p-8 border border-red-900/40 hover:border-tkd-red transition-all duration-300 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-tkd-red to-transparent w-32 h-32 opacity-10 rounded-bl-full pointer-events-none"></div>
+
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                        <!-- Avatar / Photo Placeholder -->
+                        <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden border-2 border-tkd-red flex-shrink-0 shadow-red-glow">
+                            <img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=600&q=80" alt="Ysabel Taekwondo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/991B1B/FFFFFF?text=SAB'">
+                            <div class="absolute bottom-0 inset-x-0 bg-black/80 py-1 text-center text-xs font-bold text-tkd-gold">POOMSAE & KYORUGI</div>
+                        </div>
+
+                        <!-- Bio Info -->
+                        <div class="text-center sm:text-left flex-1">
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
+                                <span class="px-3 py-1 bg-black/60 rounded-full text-xs font-bold text-tkd-red border border-tkd-red/30">1st Poom Black Belt</span>
+                                <span class="px-3 py-1 bg-black/60 rounded-full text-xs font-bold text-tkd-gold border border-tkd-gold/30">Cadet Female</span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white font-heading">Ysabel "Sab"</h3>
+                            <p class="text-xs text-gray-400 mb-4">Philippine Taekwondo Association (PTA) Registered</p>
+
+                            <p class="text-sm text-gray-300 leading-relaxed mb-6">
+                                Renowned for her crisp form execution, balance, and high-speed roundhouse kicking drills. Sab excels in both Poomsae forms and sparring competitions.
+                            </p>
+
+                            <!-- Key Specs Grid -->
+                            <div class="grid grid-cols-2 gap-3 text-xs bg-black/40 p-4 rounded-xl border border-gray-800">
+                                <div>
+                                    <span class="text-gray-500 block">Dojang / Club:</span>
+                                    <span class="font-semibold text-gray-200">Manila Strikers TKD</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Weight Division:</span>
+                                    <span class="font-semibold text-gray-200">Finweight (-42kg)</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Specialty:</span>
+                                    <span class="font-semibold text-tkd-red">Individual Poomsae & Sparring</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block">Experience:</span>
+                                    <span class="font-semibold text-gray-200">5 Years</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Belt Progression Visual -->
+                    <div class="mt-8 pt-6 border-t border-gray-800">
+                        <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Belt Ranking Pathway</p>
+                        <div class="flex items-center justify-between text-[10px] font-semibold text-gray-400">
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-yellow-400 mb-1"></span>Yellow</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-green-500 mb-1"></span>Green</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mb-1"></span>Blue</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-red-600 mb-1"></span>Red</span>
+                            <span class="flex flex-col items-center"><span class="w-3 h-3 rounded-full bg-red-600 border-b-2 border-black ring-2 ring-tkd-red mb-1"></span>1st Poom Belt</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-24 bg-tkd-deepbg/50 relative border-b border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-xs sm:text-sm font-bold tracking-widest text-tkd-red uppercase">Track Record</h2>
+                <p class="text-3xl sm:text-5xl font-extrabold text-white mt-2 font-heading">National & Regional Achievements</p>
+                <div class="w-24 h-1 bg-tkd-red mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12" id="filterContainer">
+                <button onclick="filterAchievements('all')" class="filter-btn active px-5 py-2 rounded-full text-xs sm:text-sm font-bold bg-tkd-red text-white shadow-red-glow transition-all">All Matches</button>
+                <button onclick="filterAchievements('gab')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-bold bg-tkd-cardbg text-gray-400 hover:text-white border border-gray-800 transition-all">Gabriel's Wins</button>
+                <button onclick="filterAchievements('sab')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-bold bg-tkd-cardbg text-gray-400 hover:text-white border border-gray-800 transition-all">Ysabel's Wins</button>
+                <button onclick="filterAchievements('national')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-bold bg-tkd-cardbg text-gray-400 hover:text-white border border-gray-800 transition-all">National Tournaments</button>
+            </div>
+
+            <!-- Achievements Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="achievementsGrid">
+
+                <!-- Item 1 -->
+                <div class="achievement-card national gab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-tkd-gold/60 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-tkd-gold border border-yellow-500/30 flex items-center gap-1">
+                            🥇 GOLD MEDAL
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2025</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Carlos Palanca Sr. National TKD</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athlete: Gabriel | Kyorugi Junior Male</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Secured 1st Place after 4 rounds of intense sparring, defeating regional champions at the Ninoy Aquino Stadium, Manila.
+                    </p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="achievement-card national sab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-tkd-gold/60 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-tkd-gold border border-yellow-500/30 flex items-center gap-1">
+                            🥇 GOLD MEDAL
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2025</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">SMART National Poomsae Championships</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athlete: Ysabel | Individual Cadet Female</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Awarded highest score in Taegeuk 8 Jang execution with perfect form precision and timing.
+                    </p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="achievement-card national gab sab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-gray-400 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-400/10 text-gray-300 border border-gray-400/30 flex items-center gap-1">
+                            🥈 SILVER MEDAL
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2024</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Palarong Pambansa National Finals</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athletes: Gabriel & Ysabel (NCR Delegation)</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Both athletes represented National Capital Region (NCR) taking home Silver honors in their respective weight divisions.
+                    </p>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="achievement-card gab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-tkd-gold/60 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-tkd-gold border border-yellow-500/30 flex items-center gap-1">
+                            🥇 GOLD MEDAL
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2024</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">CPJ (Ching Ping Jr.) All-Belt Championship</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athlete: Gabriel | Sparring</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Dominant performance with three consecutive knockout kicks leading to gold trophy victory.
+                    </p>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="achievement-card sab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-amber-600 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-600/10 text-amber-500 border border-amber-600/30 flex items-center gap-1">
+                            🥉 BRONZE MEDAL
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2024</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Best of the Best National TKD Championship</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athlete: Ysabel | Kyorugi</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Fought through tough semi-finals against top-seeded national athletes in Rizal Memorial Sports Complex.
+                    </p>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="achievement-card national gab sab bg-tkd-cardbg p-6 rounded-2xl border border-gray-800 hover:border-tkd-gold/60 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-tkd-gold border border-yellow-500/30 flex items-center gap-1">
+                            🥇 GOLD MEDAL (DUAL)
+                        </span>
+                        <span class="text-xs text-gray-500 font-medium">2023</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">NCR Regional Athletic Association Meet</h3>
+                    <p class="text-xs text-tkd-red font-semibold mb-3">Athletes: Gabriel & Ysabel</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Sibling sweep! Both Gab and Sab earned Gold in their divisions, qualifying directly for the National stage.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsorship & Support Section -->
+    <section id="sponsorship" class="py-24 bg-tkd-deepbg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-xs sm:text-sm font-bold tracking-widest text-tkd-red uppercase">Partner With Us</h2>
+                <p class="text-3xl sm:text-5xl font-extrabold text-white mt-2 font-heading">Sponsorship Tiers & Support</p>
+                <p class="max-w-2xl mx-auto text-sm text-gray-400 mt-4">
+                    Help empower Philippine youth athletes! Your support covers competition registration fees, tournament gear (Daedo / KPNP electronic protectors), travel, and conditioning.
+                </p>
+                <div class="w-24 h-1 bg-tkd-red mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Season Funding Goal Bar -->
+            <div class="max-w-3xl mx-auto bg-tkd-cardbg p-6 rounded-2xl border border-tkd-darkred/40 mb-16 shadow-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs sm:text-sm font-bold text-gray-300">2026 National Competition Fund Drive</span>
+                    <span class="text-xs sm:text-sm font-bold text-tkd-gold">₱85,000 / ₱150,000 Raised</span>
+                </div>
+                <div class="w-full h-4 bg-gray-800 rounded-full overflow-hidden p-0.5 border border-gray-700">
+                    <div class="h-full bg-gradient-to-r from-tkd-red via-red-500 to-tkd-gold rounded-full w-[56%] transition-all duration-1000 shadow-red-glow"></div>
+                </div>
+                <div class="flex justify-between items-center mt-3 text-[11px] text-gray-400">
+                    <span>56% Completed</span>
+                    <span>Next Tournament: Asian Junior Qualifiers Tryouts</span>
+                </div>
+            </div>
+
+            <!-- Tiers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+
+                <!-- Bronze Tier -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 border border-amber-900/40 hover:border-amber-700 transition-all flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="text-center pb-6 border-b border-gray-800">
+                            <span class="text-xs font-bold uppercase text-amber-600 tracking-wider">Bronze Supporter</span>
+                            <p class="text-3xl font-extrabold text-white mt-2">₱5,000 <span class="text-xs text-gray-400 font-normal">/ season</span></p>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> Social Media Mention / Shoutout</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> Name listed on Website Sponsor Wall</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> Signed Digital Thank You Card</li>
+                        </ul>
+                    </div>
+                    <button onclick="openSponsorModal('Bronze Supporter (₱5,000)')" class="mt-8 w-full py-3 rounded-xl bg-gray-800 hover:bg-amber-700 text-white font-bold text-xs transition-colors">Select Tier</button>
+                </div>
+
+                <!-- Silver Tier -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 border border-gray-500/40 hover:border-gray-400 transition-all flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="text-center pb-6 border-b border-gray-800">
+                            <span class="text-xs font-bold uppercase text-gray-300 tracking-wider">Silver Sponsor</span>
+                            <p class="text-3xl font-extrabold text-white mt-2">₱15,000 <span class="text-xs text-gray-400 font-normal">/ season</span></p>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> All Bronze Supporter Perks</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> Small Brand Logo on Warmup Tracksuits</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-red"></i> 2x Dedicated Social Media Promo Posts</li>
+                        </ul>
+                    </div>
+                    <button onclick="openSponsorModal('Silver Sponsor (₱15,000)')" class="mt-8 w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold text-xs transition-colors">Select Tier</button>
+                </div>
+
+                <!-- Gold Tier -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 border-2 border-tkd-red shadow-red-glow relative flex flex-col justify-between transform lg:-translate-y-2">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-tkd-red text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-full tracking-wider">
+                        Most Popular
+                    </div>
+                    <div>
+                        <div class="text-center pb-6 border-b border-gray-800">
+                            <span class="text-xs font-bold uppercase text-tkd-gold tracking-wider">Gold Partner</span>
+                            <p class="text-3xl font-extrabold text-white mt-2">₱35,000 <span class="text-xs text-gray-400 font-normal">/ season</span></p>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> All Silver Sponsor Perks</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Medium Logo on Sparring Equipment Bag</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Brand placement on match banners</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Product endorsements / short reels</li>
+                        </ul>
+                    </div>
+                    <button onclick="openSponsorModal('Gold Partner (₱35,000)')" class="mt-8 w-full py-3 rounded-xl bg-gradient-to-r from-tkd-red to-red-800 text-white font-bold text-xs hover:brightness-110 transition-all shadow-red-glow">Select Gold Tier</button>
+                </div>
+
+                <!-- Platinum Tier -->
+                <div class="bg-tkd-cardbg rounded-3xl p-6 border border-yellow-500/50 hover:border-tkd-gold transition-all flex flex-col justify-between shadow-gold-glow">
+                    <div>
+                        <div class="text-center pb-6 border-b border-gray-800">
+                            <span class="text-xs font-bold uppercase text-gradient-gold tracking-wider">Platinum Champion</span>
+                            <p class="text-3xl font-extrabold text-white mt-2">₱60,000+ <span class="text-xs text-gray-400 font-normal">/ season</span></p>
+                        </div>
+                        <ul class="mt-6 space-y-3 text-xs text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Title / Main Brand Sponsor Status</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Prime Logo Placement on Dobok / Gear</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Custom Promotional Video Feature</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-tkd-gold"></i> Exclusive Athlete Appearances</li>
+                        </ul>
+                    </div>
+                    <button onclick="openSponsorModal('Platinum Champion (₱60,000+)')" class="mt-8 w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-bold text-xs hover:brightness-110 transition-all">Select Platinum</button>
+                </div>
+
+            </div>
+
+            <!-- Philippine Payment Methods Showcase -->
+            <div class="max-w-4xl mx-auto bg-tkd-cardbg/90 rounded-3xl p-6 sm:p-8 border border-gray-800 text-center">
+                <h3 class="text-xl font-bold text-white mb-2">Direct Local Philippine Support Channels</h3>
+                <p class="text-xs text-gray-400 mb-6">For individual monetary contributions, send directly through PH e-wallets or bank transfers:</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- GCash -->
+                    <div class="bg-black/50 p-4 rounded-xl border border-blue-500/30 flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-lg mb-2">G</div>
+                        <span class="font-bold text-sm text-white">GCash</span>
+                        <span class="text-xs text-gray-400 mt-1 font-mono">0917-XXX-GAB1</span>
+                        <span class="text-[10px] text-gray-500">Account: Gabriel T. / Parent</span>
+                    </div>
+
+                    <!-- BDO -->
+                    <div class="bg-black/50 p-4 rounded-xl border border-blue-800/30 flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-900/30 text-blue-300 flex items-center justify-center font-bold text-lg mb-2">BDO</div>
+                        <span class="font-bold text-sm text-white">BDO Unibank</span>
+                        <span class="text-xs text-gray-400 mt-1 font-mono">0012-3456-7890</span>
+                        <span class="text-[10px] text-gray-500">Account Name: Ysabel T.</span>
+                    </div>
+
+                    <!-- BPI -->
+                    <div class="bg-black/50 p-4 rounded-xl border border-red-700/30 flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full bg-red-900/30 text-red-400 flex items-center justify-center font-bold text-lg mb-2">BPI</div>
+                        <span class="font-bold text-sm text-white">BPI Bank</span>
+                        <span class="text-xs text-gray-400 mt-1 font-mono">1982-3456-11</span>
+                        <span class="text-[10px] text-gray-500">Account Name: Gabriel T.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Photo & Media Gallery -->
+    <section id="gallery" class="py-24 bg-tkd-deepbg/50 relative border-b border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-xs sm:text-sm font-bold tracking-widest text-tkd-red uppercase">Action & Moments</h2>
+                <p class="text-3xl sm:text-5xl font-extrabold text-white mt-2 font-heading">Photo Gallery</p>
+                <div class="w-24 h-1 bg-tkd-red mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Image 1 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1200&q=80', 'Sparring Final Match - Palarong Pambansa')">
+                    <img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=600&q=80" alt="Training Session" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Sparring+Match'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-tkd-red">Sparring Highlights</span>
+                        <p class="text-sm font-semibold text-white">Gabriel Counter-kick timing</p>
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=1200&q=80', 'National Poomsae Competition Podium')">
+                    <img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=600&q=80" alt="Poomsae Form" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Poomsae+Form'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-tkd-gold">Poomsae Gold</span>
+                        <p class="text-sm font-semibold text-white">Ysabel Form Execution</p>
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80', 'Podium Celebration')">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Podium Victory" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Podium+Victory'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-tkd-red">Awards Ceremony</span>
+                        <p class="text-sm font-semibold text-white">Gold Medal Ceremony 2025</p>
+                    </div>
+                </div>
+
+                <!-- Image 4 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1200&q=80', 'Dojang Intensive Conditioning')">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80" alt="Dojang Training" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Dojang+Training'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-gray-300">Daily Training</span>
+                        <p class="text-sm font-semibold text-white">Target Pad Conditioning</p>
+                    </div>
+                </div>
+
+                <!-- Image 5 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1508215885820-4585e56135c8?auto=format&fit=crop&w=1200&q=80', 'Sibling Dual Medal Champions')">
+                    <img src="https://images.unsplash.com/photo-1508215885820-4585e56135c8?auto=format&fit=crop&w=600&q=80" alt="Sibling Victory" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Sibling+Champions'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-tkd-gold">Double Gold</span>
+                        <p class="text-sm font-semibold text-white">Gab & Sab Team Triumph</p>
+                    </div>
+                </div>
+
+                <!-- Image 6 -->
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-gray-800 hover:border-tkd-red transition-all" onclick="openImageModal('https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=1200&q=80', 'Equipment Prep and Kicking Drills')">
+                    <img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=600&q=80" alt="Gear Prep" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/991B1B/FFFFFF?text=Gear+Prep'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-gray-300">Gear & Focus</span>
+                        <p class="text-sm font-semibold text-white">Pre-match Mental Prep</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Sponsorship Inquiry Form -->
+    <section id="contact" class="py-24 bg-tkd-deepbg relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-tkd-cardbg rounded-3xl p-8 sm:p-12 border border-tkd-darkred/60 shadow-red-glow">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold text-tkd-red tracking-widest uppercase">Get In Touch</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1 font-heading">Sponsor & General Inquiries</h2>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Interested in supporting Gab & Sab or exploring brand partnerships? Send us a message!</p>
+                </div>
+
+                <form id="inquiryForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Your Name / Organization *</label>
+                            <input type="text" required placeholder="e.g. Juan Cruz / Brand Co." class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-700 text-white focus:outline-none focus:border-tkd-red text-sm transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Email Address *</label>
+                            <input type="email" required placeholder="name@company.ph" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-700 text-white focus:outline-none focus:border-tkd-red text-sm transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Phone / Viber (PH)</label>
+                            <input type="tel" placeholder="0917-XXX-XXXX" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-700 text-white focus:outline-none focus:border-tkd-red text-sm transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Sponsorship Interest</label>
+                            <select id="sponsorshipSelect" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-700 text-white focus:outline-none focus:border-tkd-red text-sm transition-colors">
+                                <option value="General Support">General Support / In-Kind Gear</option>
+                                <option value="Bronze Supporter (₱5,000)">Bronze Supporter (₱5,000)</option>
+                                <option value="Silver Sponsor (₱15,000)">Silver Sponsor (₱15,000)</option>
+                                <option value="Gold Partner (₱35,000)">Gold Partner (₱35,000)</option>
+                                <option value="Platinum Champion (₱60,000+)">Platinum Champion (₱60,000+)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Message or Partnership Details</label>
+                        <textarea rows="4" placeholder="Tell us how you would like to collaborate..." class="w-full px-4 py-3 rounded-xl bg-black/60 border border-gray-700 text-white focus:outline-none focus:border-tkd-red text-sm transition-colors"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-tkd-red to-red-800 text-white font-extrabold text-base tracking-wider uppercase shadow-red-glow hover:brightness-110 transition-all">
+                        Send Sponsorship Message
+                    </button>
+                </form>
+
+                <!-- Feedback Toast -->
+                <div id="formToast" class="hidden mt-6 p-4 rounded-xl bg-green-900/80 border border-green-500 text-center text-sm font-semibold text-green-200">
+                    <i class="fa-solid fa-circle-check mr-2"></i> Thank you! Your sponsorship message has been received. We will get back to you shortly.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Lightbox Modal -->
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full bg-tkd-cardbg rounded-2xl overflow-hidden border border-gray-800">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-tkd-red text-2xl z-10 w-10 h-10 rounded-full bg-black/60 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="modalImg" src="" alt="Enlarged gallery photo" class="w-full max-h-[75vh] object-contain bg-black">
+            <div class="p-4 text-center">
+                <p id="modalCaption" class="text-sm font-semibold text-gray-200"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-900 py-12 text-gray-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-tkd-red flex items-center justify-center text-white font-bold text-sm">🥋</div>
+                <span class="font-extrabold text-white text-base font-heading">GAB & SAB TKD</span>
+            </div>
+
+            <p class="text-center sm:text-left text-gray-500">
+                © 2026 Gabriel & Ysabel Taekwondo Journey. Metro Manila, Philippines.
+            </p>
+
+            <!-- Social Links -->
+            <div class="flex space-x-4 text-lg">
+                <a href="#" class="hover:text-tkd-red transition-colors" title="Facebook Page"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-tkd-red transition-colors" title="Instagram Profile"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-tkd-red transition-colors" title="TikTok Highlights"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="hover:text-tkd-red transition-colors" title="YouTube Channel"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.className = 'fa-solid fa-bars text-2xl';
+            } else {
+                menuIcon.className = 'fa-solid fa-xmark text-2xl';
+            }
+        });
+
+        // Close mobile menu when link clicked
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.className = 'fa-solid fa-bars text-2xl';
+            });
+        });
+
+        // Achievements Filtering System
+        function filterAchievements(category) {
+            const cards = document.querySelectorAll('.achievement-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update button styles
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-tkd-red', 'text-white', 'shadow-red-glow');
+                btn.classList.add('bg-tkd-cardbg', 'text-gray-400');
+            });
+            event.currentTarget.classList.remove('bg-tkd-cardbg', 'text-gray-400');
+            event.currentTarget.classList.add('bg-tkd-red', 'text-white', 'shadow-red-glow');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.classList.contains(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Sponsorship Tier Modal Pre-selection
+        function openSponsorModal(tierName) {
+            const select = document.getElementById('sponsorshipSelect');
+            if (select) {
+                select.value = tierName;
+            }
+            const contactSection = document.getElementById('contact');
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('formToast');
+            toast.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Gallery Modal Lightbox
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+
+        function openImageModal(src, caption) {
+            modalImg.src = src;
+            modalCaption.innerText = caption;
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex');
+        }
+
+        function closeImageModal() {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex');
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeImageModal();
+        });
+    </script>
+</body>
+</html>
