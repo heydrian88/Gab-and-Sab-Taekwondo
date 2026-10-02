@@ -40,17 +40,10 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Object contain to show whole pictures perfectly without cropping */
         .img-fit-contain {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            object-position: center;
-        }
-        .img-fit-full {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
             object-position: center;
         }
         .custom-scrollbar::-webkit-scrollbar {
@@ -114,12 +107,9 @@
         
         <div id="view-home" class="view-section transition-opacity duration-300">
             
-            <!-- Hero Slideshow (Supports Up to 5 Slides, whole pictures fit perfectly via object-contain and blurred backdrop) -->
             <section class="max-w-7xl mx-auto px-4 py-6">
                 <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[480px] shadow-2xl border border-slate-800 bg-slate-950 flex items-center justify-center">
-                    <div id="heroSliderContainer" class="w-full h-full relative flex items-center justify-center">
-                        <!-- Hero Slides rendered via JS -->
-                    </div>
+                    <div id="heroSliderContainer" class="w-full h-full relative flex items-center justify-center"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none"></div>
                     
                     <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-end sm:items-center z-20 pointer-events-auto">
@@ -165,7 +155,6 @@
                 </div>
             </section>
 
-            <!-- Dual Athlete Homepage Preview Cards -->
             <section class="max-w-7xl mx-auto px-4 py-8">
                 <div class="grid md:grid-cols-2 gap-8">
                     
@@ -252,7 +241,6 @@
                 </div>
             </section>
 
-            <!-- Sponsorship Tiers Section -->
             <section class="max-w-7xl mx-auto px-4 py-12">
                 <div class="text-center mb-10">
                     <span class="text-red-500 font-bold text-xs uppercase tracking-widest">Support Their Journey</span>
@@ -622,6 +610,33 @@
         </div>
     </div>
 
+    <!-- Firebase SDK (v10) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPkN1snF0SzDfP7yvVNGKpfklr68H5OZc",
+            authDomain: "gab-and-sab-taekwondo.firebaseapp.com",
+            projectId: "gab-and-sab-taekwondo",
+            storageBucket: "gab-and-sab-taekwondo.firebasestorage.app",
+            messagingSenderId: "137007670126",
+            appId: "1:137007670126:web:bf2bd265c07b4c9534d77f",
+            measurementId: "G-TMYZSP072L"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.setDoc = setDoc;
+
+        // Trigger initial data load from Firestore
+        window.loadSavedDataFromCloud();
+    </script>
+
     <script>
         const ADMIN_PASS = "Beaisthebest88@";
         let isAdminLoggedIn = false;
@@ -641,7 +656,6 @@
             siteLogo: "https://placehold.co/100x100/1D3557/ffffff?text=TKD",
             homeHeadline: "Gabriel & Sabrina Tiburcio",
             homeSubheadline: "Tracking training milestones, competitive achievements, and national tournament journeys.",
-            // Supports up to 5 photos with object-contain display
             heroSlides: [
                 'https://placehold.co/1200x600/1D3557/ffffff?text=Gab+and+Sab+Taekwondo+National+Championships',
                 'https://placehold.co/1200x600/0B132B/ffffff?text=Olympic+Style+Taekwondo+Training',
@@ -684,7 +698,36 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadSavedData();
+            refreshAllUI();
+        });
+
+        async function loadSavedDataFromCloud() {
+            try {
+                if (!window.db) return;
+                const docRef = window.doc(window.db, "portal", "data");
+                const docSnap = await window.getDoc(docRef);
+                if (docSnap.exists()) {
+                    appData = { ...appData, ...docSnap.data() };
+                    refreshAllUI();
+                }
+            } catch(e) {
+                console.log("Cloud sync load fallback to default:", e);
+            }
+        }
+
+        async function saveData() {
+            refreshAllUI();
+            try {
+                if (window.db) {
+                    const docRef = window.doc(window.db, "portal", "data");
+                    await window.setDoc(docRef, appData);
+                }
+            } catch(e) {
+                console.log("Cloud sync save error:", e);
+            }
+        }
+
+        function refreshAllUI() {
             renderHeroSlides();
             renderBeltTrack('gab');
             renderBeltTrack('sab');
@@ -701,7 +744,7 @@
             updateLogoUI();
             updateHomeTextUI();
             updateMedalCalculations();
-        });
+        }
 
         function navigateTo(viewName) {
             document.querySelectorAll('.view-section').forEach(view => view.classList.add('hidden'));
@@ -735,7 +778,6 @@
             }).join('');
         }
 
-        // Hero Slideshow Supporting Up to 5 Slides with object-contain (whole picture fits screen perfectly without cropping)
         function renderHeroSlides() {
             const container = document.getElementById('heroSliderContainer');
             const dotsContainer = document.getElementById('heroDotIndicators');
@@ -747,7 +789,6 @@
 
             container.innerHTML = appData.heroSlides.map((src, i) => `
                 <div class="absolute inset-0 transition-opacity duration-700 flex items-center justify-center ${i === currentSlideIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
-                    <!-- Blurred backdrop wrapper to ensure aesthetic presentation for any photo aspect ratio -->
                     <div class="absolute inset-0 bg-cover bg-center filter blur-xl opacity-30 scale-105" style="background-image: url('${src}')"></div>
                     <img src="${src}" class="relative w-full h-full object-contain object-center z-10 p-2">
                     ${isAdminLoggedIn ? `
@@ -808,7 +849,6 @@
                     appData.heroSlides.push(evt.target.result);
                     currentSlideIdx = appData.heroSlides.length - 1;
                     saveData();
-                    renderHeroSlides();
                 }
                 reader.readAsDataURL(file);
             }
@@ -825,7 +865,6 @@
                 appData.heroSlides.push(newUrl.trim());
                 currentSlideIdx = appData.heroSlides.length - 1;
                 saveData();
-                renderHeroSlides();
             }
         }
 
@@ -835,7 +874,6 @@
             if (newUrl && newUrl.trim() !== '') {
                 appData.heroSlides[idx] = newUrl.trim();
                 saveData();
-                renderHeroSlides();
             }
         }
 
@@ -844,17 +882,14 @@
             appData.heroSlides.splice(idx, 1);
             currentSlideIdx = 0;
             saveData();
-            renderHeroSlides();
         }
 
-        // Editable Homepage Headline & Subheadline
         function editHomeHeroHeadline() {
             if (!isAdminLoggedIn) return;
             const newHeadline = prompt("Enter main homepage headline:", appData.homeHeadline);
             if (newHeadline && newHeadline.trim() !== '') {
                 appData.homeHeadline = newHeadline.trim();
                 saveData();
-                updateHomeTextUI();
             }
         }
 
@@ -864,7 +899,6 @@
             if (newSub && newSub.trim() !== '') {
                 appData.homeSubheadline = newSub.trim();
                 saveData();
-                updateHomeTextUI();
             }
         }
 
@@ -881,13 +915,7 @@
                 document.getElementById('adminBtnText').innerText = "Admin Login";
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
                 document.getElementById('logoEditBtn').classList.add('hidden');
-                renderHeroSlides();
-                renderTournaments('gab');
-                renderTournaments('sab');
-                renderVideos('gab');
-                renderVideos('sab');
-                renderGallery('gab');
-                renderGallery('sab');
+                refreshAllUI();
             } else {
                 document.getElementById('adminModal').classList.remove('hidden');
             }
@@ -902,13 +930,7 @@
                 document.getElementById('logoEditBtn').classList.remove('hidden');
                 document.getElementById('adminModal').classList.add('hidden');
                 document.getElementById('adminPasswordInput').value = '';
-                renderHeroSlides();
-                renderTournaments('gab');
-                renderTournaments('sab');
-                renderVideos('gab');
-                renderVideos('sab');
-                renderGallery('gab');
-                renderGallery('sab');
+                refreshAllUI();
             } else {
                 alert('Incorrect password!');
             }
@@ -924,7 +946,6 @@
                     appData[athlete].bio = newBio.trim();
                 }
                 saveData();
-                updateNamesAndBiosUI();
             }
         }
 
@@ -946,7 +967,6 @@
             if (newWeight && newWeight.trim() !== '') {
                 appData[athlete].weight = newWeight.trim();
                 saveData();
-                updateWeightsUI();
             }
         }
 
@@ -976,7 +996,6 @@
                 reader.onload = function(evt) {
                     appData[athlete].profilePhoto = evt.target.result;
                     saveData();
-                    updatePhotosUI();
                 }
                 reader.readAsDataURL(file);
             }
@@ -988,7 +1007,6 @@
             if (newUrl && newUrl.trim() !== '') {
                 appData.facebookUrl = newUrl.trim();
                 saveData();
-                updateFacebookUI();
             }
         }
 
@@ -1026,8 +1044,6 @@
                     </tr>
                 `;
             }).join('');
-
-            updateMedalCalculations();
         }
 
         function updateMedalCalculations() {
@@ -1068,7 +1084,6 @@
 
             appData[athlete].tournaments.push({ id: Date.now(), date, name, category, result });
             saveData();
-            renderTournaments(athlete);
             closeTournamentModal();
         }
 
@@ -1076,7 +1091,6 @@
             if (!isAdminLoggedIn) return;
             appData[athlete].tournaments = appData[athlete].tournaments.filter(t => t.id !== id);
             saveData();
-            renderTournaments(athlete);
         }
 
         function renderVideos(athlete) {
@@ -1117,7 +1131,6 @@
 
             appData[athlete].videos.push({ id: Date.now(), title, youtubeId });
             saveData();
-            renderVideos(athlete);
             closeVideoModal();
         }
 
@@ -1125,7 +1138,6 @@
             if (!isAdminLoggedIn) return;
             appData[athlete].videos = appData[athlete].videos.filter(v => v.id !== id);
             saveData();
-            renderVideos(athlete);
         }
 
         function renderGallery(athlete) {
@@ -1152,7 +1164,6 @@
             if (newUrl && newUrl.trim() !== '') {
                 appData[athlete].photos.push(newUrl.trim());
                 saveData();
-                renderGallery(athlete);
             }
         }
 
@@ -1163,7 +1174,6 @@
                 reader.onload = function(evt) {
                     appData.siteLogo = evt.target.result;
                     saveData();
-                    updateLogoUI();
                 }
                 reader.readAsDataURL(file);
             }
@@ -1176,7 +1186,6 @@
                 reader.onload = function(evt) {
                     appData[athlete].photos.push(evt.target.result);
                     saveData();
-                    renderGallery(athlete);
                 }
                 reader.readAsDataURL(file);
             }
@@ -1186,7 +1195,6 @@
             if (!isAdminLoggedIn) return;
             appData[athlete].photos.splice(idx, 1);
             saveData();
-            renderGallery(athlete);
         }
 
         function openSponsorModal(tier) {
@@ -1196,26 +1204,6 @@
 
         function closeSponsorModal() {
             document.getElementById('sponsorModal').classList.add('hidden');
-        }
-
-        function saveData() {
-            try {
-                localStorage.setItem('gab_sab_tkd_layout5_v2', JSON.stringify(appData));
-            } catch(e) {
-                console.log('LocalStorage constrained');
-            }
-        }
-
-        function loadSavedData() {
-            try {
-                const saved = localStorage.getItem('gab_sab_tkd_layout5_v2');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    appData = { ...appData, ...parsed };
-                }
-            } catch(e) {
-                console.log('Using default dataset');
-            }
         }
     </script>
 </body>
