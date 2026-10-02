@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,6 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Custom image auto-fit and edge-to-edge covering */
         .img-fit-full {
             width: 100%;
             height: 100%;
@@ -66,7 +65,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 
-                <!-- Top-Left Branding & Editable Logo -->
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
                     <div class="relative group w-12 h-12 flex-shrink-0">
                         <img id="siteLogo" src="https://placehold.co/100x100/1D3557/ffffff?text=TKD" alt="TKD Logo" class="w-full h-full object-cover object-center rounded-full border-2 border-red-500 shadow-md transition-transform group-hover:scale-105">
@@ -83,7 +81,6 @@
                     </div>
                 </div>
 
-                <!-- Navigation Links & Admin Toggle -->
                 <div class="flex items-center space-x-2 sm:space-x-4">
                     <nav class="hidden md:flex space-x-1">
                         <button onclick="navigateTo('home')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all bg-slate-800 text-white" id="nav-home">Home</button>
@@ -91,7 +88,6 @@
                         <button onclick="navigateTo('sab')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:bg-slate-800 text-slate-300" id="nav-sab"><span id="sabNavName">Sabrina</span> (<span class="sab-weight-text">-59kg</span>)</button>
                     </nav>
 
-                    <!-- Admin Auth Button -->
                     <button id="adminToggleBtn" onclick="toggleAdminModal()" class="flex items-center space-x-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold border border-red-500/40 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all">
                         <i class="fas fa-lock text-xs"></i>
                         <span id="adminBtnText">Admin Login</span>
@@ -99,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Navigation Bar -->
             <div class="flex md:hidden border-t border-slate-800 py-2 justify-around text-xs">
                 <button onclick="navigateTo('home')" class="text-slate-300 hover:text-white font-medium py-1">Home</button>
                 <button onclick="navigateTo('gab')" class="text-slate-300 hover:text-white font-medium py-1"><span class="gab-name-text">Gabriel</span> (<span class="gab-weight-text">-48kg</span>)</button>
@@ -112,7 +107,7 @@
         
         <div id="view-home" class="view-section transition-opacity duration-300">
             
-            <!-- Hero Photo Slideshow (Supports Up to 5 Slides, Edge-to-Edge Covered) -->
+            <!-- Hero Slideshow (Supports Up to 5 Slides, Edge-to-Edge Covered) -->
             <section class="max-w-7xl mx-auto px-4 py-6">
                 <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[480px] shadow-2xl border border-slate-800">
                     <div id="heroSliderContainer" class="w-full h-full relative">
@@ -125,21 +120,29 @@
                             <span class="inline-block py-1 px-3 rounded-full bg-red-600/80 text-white font-bold text-xs tracking-wider uppercase mb-2">
                                 Elite Martial Artists
                             </span>
-                            <h1 class="text-2xl sm:text-4xl font-black text-white drop-shadow-md">
-                                Gabriel & Sabrina Tiburcio
-                            </h1>
-                            <p class="text-xs sm:text-sm text-slate-300 max-w-lg mt-1">
-                                Tracking training milestones, competitive achievements, and national tournament journeys.
-                            </p>
+                            <div class="flex items-center space-x-3">
+                                <h1 id="homeHeroHeadline" class="text-2xl sm:text-4xl font-black text-white drop-shadow-md">
+                                    Gabriel & Sabrina Tiburcio
+                                </h1>
+                                <button onclick="editHomeHeroHeadline()" class="admin-only hidden bg-slate-900/80 hover:bg-slate-800 text-white p-2 rounded-lg text-xs border border-slate-700" title="Edit Headline">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <p id="homeHeroSubheadline" class="text-xs sm:text-sm text-slate-300 max-w-lg">
+                                    Tracking training milestones, competitive achievements, and national tournament journeys.
+                                </p>
+                                <button onclick="editHomeHeroSubheadline()" class="admin-only hidden bg-slate-900/80 hover:bg-slate-800 text-white p-1.5 rounded text-xs border border-slate-700 flex-shrink-0" title="Edit Subheadline">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="flex flex-wrap items-center space-x-2 mt-4 sm:mt-0 gap-y-2">
-                            <!-- Slide Indicator Dots -->
                             <div id="heroDotIndicators" class="flex space-x-1.5 mr-2"></div>
                             
                             <button onclick="prevSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-left"></i></button>
                             <button onclick="nextSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-right"></i></button>
                             
-                            <!-- Direct Add Photo Buttons for Hero Slideshow -->
                             <div id="addSlideBtnContainer" class="admin-only hidden flex items-center space-x-1">
                                 <button onclick="triggerImageUpload('heroSliderInput')" class="px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
                                     <i class="fas fa-upload"></i>
@@ -159,13 +162,11 @@
             <section class="max-w-7xl mx-auto px-4 py-8">
                 <div class="grid md:grid-cols-2 gap-8">
                     
-                    <!-- Gabriel Homepage Card -->
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-red-500/50 transition-all shadow-xl group">
                         <div class="relative h-64 sm:h-72 w-full overflow-hidden">
                             <img id="gabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Gabriel+TKD" alt="Gabriel" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                             
-                            <!-- Editable Photo Button for Admin Mode -->
                             <button onclick="triggerImageUpload('gabProfileInput')" class="admin-only hidden absolute bottom-3 right-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center space-x-1">
                                 <i class="fas fa-camera"></i>
                                 <span>Change Photo</span>
@@ -187,7 +188,6 @@
                             </div>
                             <p class="text-slate-400 text-xs mb-4 gab-bio-text">Dedicated athlete pursuing excellence in speed sparring and tactical counters.</p>
                             
-                            <!-- Dynamic Medal Counter -->
                             <div class="grid grid-cols-4 gap-2 mb-6 text-center bg-slate-900/70 p-3 rounded-xl border border-slate-800">
                                 <div><span class="block text-xl font-extrabold text-amber-400" id="gabGoldCountHome">0</span><span class="text-[10px] uppercase text-slate-400">Gold</span></div>
                                 <div><span class="block text-xl font-extrabold text-slate-300" id="gabSilverCountHome">0</span><span class="text-[10px] uppercase text-slate-400">Silver</span></div>
@@ -202,13 +202,11 @@
                         </div>
                     </div>
 
-                    <!-- Sabrina Homepage Card -->
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all shadow-xl group">
                         <div class="relative h-64 sm:h-72 w-full overflow-hidden">
                             <img id="sabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Sabrina+TKD" alt="Sabrina" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                             
-                            <!-- Editable Photo Button for Admin Mode -->
                             <button onclick="triggerImageUpload('sabProfileInput')" class="admin-only hidden absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center space-x-1">
                                 <i class="fas fa-camera"></i>
                                 <span>Change Photo</span>
@@ -230,7 +228,6 @@
                             </div>
                             <p class="text-slate-400 text-xs mb-4 sab-bio-text">Known for technical form execution, precision kicks, and tournament focus.</p>
                             
-                            <!-- Dynamic Medal Counter -->
                             <div class="grid grid-cols-4 gap-2 mb-6 text-center bg-slate-900/70 p-3 rounded-xl border border-slate-800">
                                 <div><span class="block text-xl font-extrabold text-amber-400" id="sabGoldCountHome">0</span><span class="text-[10px] uppercase text-slate-400">Gold</span></div>
                                 <div><span class="block text-xl font-extrabold text-slate-300" id="sabSilverCountHome">0</span><span class="text-[10px] uppercase text-slate-400">Silver</span></div>
@@ -291,7 +288,6 @@
         <div id="view-gab" class="view-section hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-4 py-8">
                 
-                <!-- 1. Belt Progression Journey AT THE VERY TOP -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-red-500/20">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-extrabold text-white flex items-center space-x-2">
@@ -300,12 +296,9 @@
                         </h3>
                         <span class="text-xs text-red-400 font-bold bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">Red Belt Rank</span>
                     </div>
-                    <div id="gabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                        <!-- Belt sequence rendered via JS -->
-                    </div>
+                    <div id="gabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
                 </section>
 
-                <!-- 2. Profile Header Card -->
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
                         <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-red-500 shadow-xl flex-shrink-0">
@@ -331,7 +324,6 @@
                             </div>
                             <p class="text-slate-400 text-xs max-w-xl mb-6 gab-bio-text">Dedicated athlete pursuing excellence in speed sparring and tactical counters.</p>
 
-                            <!-- Dynamic Medal Counter -->
                             <div class="grid grid-cols-4 gap-3 max-w-lg bg-slate-900/80 p-4 rounded-xl border border-slate-800">
                                 <div class="text-center"><span id="gabGoldCountProf" class="block text-2xl font-black text-amber-400">0</span><span class="text-[10px] uppercase font-bold text-slate-400">Gold</span></div>
                                 <div class="text-center"><span id="gabSilverCountProf" class="block text-2xl font-black text-slate-300">0</span><span class="text-[10px] uppercase font-bold text-slate-400">Silver</span></div>
@@ -342,7 +334,6 @@
                     </div>
                 </section>
 
-                <!-- 3. Match Video Highlights -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -354,12 +345,9 @@
                             <span>Add Video</span>
                         </button>
                     </div>
-                    <div id="gabVideoGrid" class="grid md:grid-cols-2 gap-6">
-                        <!-- Videos populated dynamically -->
-                    </div>
+                    <div id="gabVideoGrid" class="grid md:grid-cols-2 gap-6"></div>
                 </section>
 
-                <!-- 4. Tournament History & Medal Log -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -383,14 +371,11 @@
                                     <th class="admin-only hidden py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="gabTournamentTable" class="divide-y divide-slate-800/50 text-xs">
-                                <!-- Tournament entries -->
-                            </tbody>
+                            <tbody id="gabTournamentTable" class="divide-y divide-slate-800/50 text-xs"></tbody>
                         </table>
                     </div>
                 </section>
 
-                <!-- 5. Photo Gallery -->
                 <section class="glass-card rounded-2xl p-6 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -408,9 +393,7 @@
                         </div>
                         <input type="file" id="gabGalleryInput" class="hidden" accept="image/*" onchange="handleGalleryUpload(event, 'gab')">
                     </div>
-                    <div id="gabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <!-- Gallery photos -->
-                    </div>
+                    <div id="gabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
                 </section>
 
             </div>
@@ -419,7 +402,6 @@
         <div id="view-sab" class="view-section hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-4 py-8">
                 
-                <!-- 1. Belt Progression Journey AT THE VERY TOP -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-blue-500/20">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-extrabold text-white flex items-center space-x-2">
@@ -428,12 +410,9 @@
                         </h3>
                         <span class="text-xs text-blue-400 font-bold bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Red Belt Rank</span>
                     </div>
-                    <div id="sabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                        <!-- Belt sequence rendered via JS -->
-                    </div>
+                    <div id="sabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
                 </section>
 
-                <!-- 2. Profile Header Card -->
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
                         <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-xl flex-shrink-0">
@@ -459,7 +438,6 @@
                             </div>
                             <p class="text-slate-400 text-xs max-w-xl mb-6 sab-bio-text">Known for technical form execution, precision kicks, and tournament focus.</p>
 
-                            <!-- Dynamic Medal Counter -->
                             <div class="grid grid-cols-4 gap-3 max-w-lg bg-slate-900/80 p-4 rounded-xl border border-slate-800">
                                 <div class="text-center"><span id="sabGoldCountProf" class="block text-2xl font-black text-amber-400">0</span><span class="text-[10px] uppercase font-bold text-slate-400">Gold</span></div>
                                 <div class="text-center"><span id="sabSilverCountProf" class="block text-2xl font-black text-slate-300">0</span><span class="text-[10px] uppercase font-bold text-slate-400">Silver</span></div>
@@ -470,7 +448,6 @@
                     </div>
                 </section>
 
-                <!-- 3. Match Video Highlights -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -482,12 +459,9 @@
                             <span>Add Video</span>
                         </button>
                     </div>
-                    <div id="sabVideoGrid" class="grid md:grid-cols-2 gap-6">
-                        <!-- Videos populated dynamically -->
-                    </div>
+                    <div id="sabVideoGrid" class="grid md:grid-cols-2 gap-6"></div>
                 </section>
 
-                <!-- 4. Tournament History & Medal Log -->
                 <section class="glass-card rounded-2xl p-6 mb-8 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -511,14 +485,11 @@
                                     <th class="admin-only hidden py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="sabTournamentTable" class="divide-y divide-slate-800/50 text-xs">
-                                <!-- Tournament entries -->
-                            </tbody>
+                            <tbody id="sabTournamentTable" class="divide-y divide-slate-800/50 text-xs"></tbody>
                         </table>
                     </div>
                 </section>
 
-                <!-- 5. Photo Gallery -->
                 <section class="glass-card rounded-2xl p-6 border border-slate-800">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-extrabold text-white flex items-center space-x-2">
@@ -536,9 +507,7 @@
                         </div>
                         <input type="file" id="sabGalleryInput" class="hidden" accept="image/*" onchange="handleGalleryUpload(event, 'sab')">
                     </div>
-                    <div id="sabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <!-- Gallery photos -->
-                    </div>
+                    <div id="sabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
                 </section>
 
             </div>
@@ -553,7 +522,6 @@
                 <p class="text-xs text-slate-400 mt-1">&copy; 2026 Gab and Sab Taekwondo. All Rights Reserved.</p>
             </div>
 
-            <!-- Globally Synced Editable Facebook Social Link -->
             <div class="flex items-center space-x-3 bg-slate-900/80 px-4 py-2.5 rounded-xl border border-slate-800">
                 <i class="fab fa-facebook text-blue-500 text-xl"></i>
                 <a id="footerFacebookLink" href="https://facebook.com" target="_blank" class="text-xs sm:text-sm font-semibold text-slate-200 hover:text-blue-400 transition-colors">
@@ -652,7 +620,6 @@
         let isAdminLoggedIn = false;
         let currentSlideIdx = 0;
 
-        // Belt Sequence: White -> Yellow -> Blue -> Red (Current Active) -> Brown -> Black
         const beltLevels = [
             { name: 'White Belt', color: 'bg-slate-100 text-slate-900' },
             { name: 'Yellow Belt', color: 'bg-amber-300 text-slate-900' },
@@ -665,7 +632,9 @@
         let appData = {
             facebookUrl: "https://facebook.com",
             siteLogo: "https://placehold.co/100x100/1D3557/ffffff?text=TKD",
-            // Up to 5 slides, filled edge-to-edge
+            homeHeadline: "Gabriel & Sabrina Tiburcio",
+            homeSubheadline: "Tracking training milestones, competitive achievements, and national tournament journeys.",
+            // Supports up to 5 photos
             heroSlides: [
                 'https://placehold.co/1200x600/1D3557/ffffff?text=Gab+and+Sab+Taekwondo+National+Championships',
                 'https://placehold.co/1200x600/0B132B/ffffff?text=Olympic+Style+Taekwondo+Training',
@@ -723,6 +692,7 @@
             updatePhotosUI();
             updateFacebookUI();
             updateLogoUI();
+            updateHomeTextUI();
             updateMedalCalculations();
         });
 
@@ -743,7 +713,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Belt Track Timeline Component
         function renderBeltTrack(athlete) {
             const container = document.getElementById(`${athlete}BeltTrack`);
             if (!container) return;
@@ -759,7 +728,7 @@
             }).join('');
         }
 
-        // Hero Slideshow Supporting Up to 5 Slides (Edge-to-Edge Fill)
+        // Hero Slideshow Supporting Up to 5 Slides
         function renderHeroSlides() {
             const container = document.getElementById('heroSliderContainer');
             const dotsContainer = document.getElementById('heroDotIndicators');
@@ -787,14 +756,12 @@
                 </div>
             `).join('');
 
-            // Dot Indicators
             if (dotsContainer) {
                 dotsContainer.innerHTML = appData.heroSlides.map((_, i) => `
                     <button onclick="goToSlide(${i})" class="w-2.5 h-2.5 rounded-full transition-all ${i === currentSlideIdx ? 'bg-red-500 w-5' : 'bg-slate-600 hover:bg-slate-400'}"></button>
                 `).join('');
             }
 
-            // Hide add buttons if max 5 slides limit is reached
             const addBtnContainer = document.getElementById('addSlideBtnContainer');
             if (addBtnContainer) {
                 if (appData.heroSlides.length >= 5) {
@@ -844,7 +811,7 @@
                 alert('Maximum 5 slides supported.');
                 return;
             }
-            const newUrl = prompt("Enter Web Image URL for the new slide:");
+            const newUrl = prompt("Enter Web Image URL for the new slide (Up to 5 photos):");
             if (newUrl && newUrl.trim() !== '') {
                 appData.heroSlides.push(newUrl.trim());
                 currentSlideIdx = appData.heroSlides.length - 1;
@@ -871,7 +838,34 @@
             renderHeroSlides();
         }
 
-        // Admin Auth Toggle
+        // Editable Homepage Headline & Subheadline
+        function editHomeHeroHeadline() {
+            if (!isAdminLoggedIn) return;
+            const newHeadline = prompt("Enter main homepage headline:", appData.homeHeadline);
+            if (newHeadline && newHeadline.trim() !== '') {
+                appData.homeHeadline = newHeadline.trim();
+                saveData();
+                updateHomeTextUI();
+            }
+        }
+
+        function editHomeHeroSubheadline() {
+            if (!isAdminLoggedIn) return;
+            const newSub = prompt("Enter homepage subheadline description:", appData.homeSubheadline);
+            if (newSub && newSub.trim() !== '') {
+                appData.homeSubheadline = newSub.trim();
+                saveData();
+                updateHomeTextUI();
+            }
+        }
+
+        function updateHomeTextUI() {
+            const headlineEl = document.getElementById('homeHeroHeadline');
+            const subEl = document.getElementById('homeHeroSubheadline');
+            if (headlineEl) headlineEl.innerText = appData.homeHeadline;
+            if (subEl) subEl.innerText = appData.homeSubheadline;
+        }
+
         function toggleAdminModal() {
             if (isAdminLoggedIn) {
                 isAdminLoggedIn = false;
@@ -911,7 +905,6 @@
             }
         }
 
-        // Editable Name & Bio Handlers
         function editAthleteProfile(athlete) {
             if (!isAdminLoggedIn) return;
             const newName = prompt(`Enter full display name for ${athlete.toUpperCase()}:`, appData[athlete].name);
@@ -938,7 +931,6 @@
             if (sabNav) sabNav.innerText = appData.sab.name.split(' ')[0];
         }
 
-        // Editable Weight Divisions
         function editWeightBadge(athlete) {
             if (!isAdminLoggedIn) return;
             const newWeight = prompt(`Enter updated weight division for ${athlete.toUpperCase()}:`, appData[athlete].weight);
@@ -956,7 +948,6 @@
             document.querySelectorAll('.sab-weight-text').forEach(e => e.innerText = appData.sab.weight);
         }
 
-        // Editable Athlete Profile Photos
         function updatePhotosUI() {
             const gabHomeImg = document.getElementById('gabHomeImg');
             const gabProfImg = document.getElementById('gabProfileImg');
@@ -982,7 +973,6 @@
             }
         }
 
-        // Facebook Social Link Editing
         function editFacebookUrl() {
             if (!isAdminLoggedIn) return;
             const newUrl = prompt("Enter official Facebook page URL:", appData.facebookUrl);
@@ -1080,7 +1070,6 @@
             renderTournaments(athlete);
         }
 
-        // Highlight Video Section
         function renderVideos(athlete) {
             const container = document.getElementById(`${athlete}VideoGrid`);
             if (!container) return;
@@ -1130,7 +1119,6 @@
             renderVideos(athlete);
         }
 
-        // Photo Gallery Section
         function renderGallery(athlete) {
             const container = document.getElementById(`${athlete}GalleryGrid`);
             if (!container) return;
@@ -1201,10 +1189,9 @@
             document.getElementById('sponsorModal').classList.add('hidden');
         }
 
-        // Local Storage Syncing
         function saveData() {
             try {
-                localStorage.setItem('gab_sab_tkd_layout4_v2', JSON.stringify(appData));
+                localStorage.setItem('gab_sab_tkd_layout5_v1', JSON.stringify(appData));
             } catch(e) {
                 console.log('LocalStorage constrained');
             }
@@ -1212,7 +1199,7 @@
 
         function loadSavedData() {
             try {
-                const saved = localStorage.getItem('gab_sab_tkd_layout4_v2');
+                const saved = localStorage.getItem('gab_sab_tkd_layout5_v1');
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     appData = { ...appData, ...parsed };
