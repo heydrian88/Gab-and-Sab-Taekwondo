@@ -40,7 +40,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Custom image auto-fit and centering styles */
+        /* Custom image auto-fit and edge-to-edge covering */
         .img-fit-full {
             width: 100%;
             height: 100%;
@@ -70,7 +70,7 @@
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
                     <div class="relative group w-12 h-12 flex-shrink-0">
                         <img id="siteLogo" src="https://placehold.co/100x100/1D3557/ffffff?text=TKD" alt="TKD Logo" class="w-full h-full object-cover object-center rounded-full border-2 border-red-500 shadow-md transition-transform group-hover:scale-105">
-                        <button id="logoEditBtn" onclick="event.stopPropagation(); triggerImageUpload('siteLogoInput')" class="admin-only hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center text-xs text-white hover:bg-black/90">
+                        <button id="logoEditBtn" onclick="event.stopPropagation(); triggerImageUpload('siteLogoInput')" class="admin-only hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center text-xs text-white hover:bg-black/90" title="Change Logo">
                             <i class="fas fa-camera"></i>
                         </button>
                         <input type="file" id="siteLogoInput" class="hidden" accept="image/*" onchange="handleLogoUpload(event)">
@@ -110,16 +110,15 @@
 
     <main class="flex-grow">
         
-        <!-- VIEW 1: HOMEPAGE -->
         <div id="view-home" class="view-section transition-opacity duration-300">
             
-            <!-- Hero Photo Slideshow (Supports Up to 5 Slides) -->
+            <!-- Hero Photo Slideshow (Supports Up to 5 Slides, Edge-to-Edge Covered) -->
             <section class="max-w-7xl mx-auto px-4 py-6">
-                <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[450px] shadow-2xl border border-slate-800">
+                <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[480px] shadow-2xl border border-slate-800">
                     <div id="heroSliderContainer" class="w-full h-full relative">
                         <!-- Hero Slides rendered via JS -->
                     </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
                     
                     <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-end sm:items-center z-10 pointer-events-auto">
                         <div>
@@ -140,7 +139,7 @@
                             <button onclick="prevSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-left"></i></button>
                             <button onclick="nextSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-right"></i></button>
                             
-                            <!-- Enhanced Direct Add Photo Button for Hero Slideshow -->
+                            <!-- Direct Add Photo Buttons for Hero Slideshow -->
                             <div id="addSlideBtnContainer" class="admin-only hidden flex items-center space-x-1">
                                 <button onclick="triggerImageUpload('heroSliderInput')" class="px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
                                     <i class="fas fa-upload"></i>
@@ -289,7 +288,6 @@
             </section>
         </div>
 
-        <!-- VIEW 2: GABRIEL PROFILE -->
         <div id="view-gab" class="view-section hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-4 py-8">
                 
@@ -302,7 +300,7 @@
                         </h3>
                         <span class="text-xs text-red-400 font-bold bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">Red Belt Rank</span>
                     </div>
-                    <div id="gabBeltTrack" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+                    <div id="gabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
                         <!-- Belt sequence rendered via JS -->
                     </div>
                 </section>
@@ -399,10 +397,15 @@
                             <i class="fas fa-images text-blue-400"></i>
                             <span>Photo Gallery</span>
                         </h3>
-                        <button onclick="triggerImageUpload('gabGalleryInput')" class="admin-only hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center space-x-1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload Photo</span>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="triggerImageUpload('gabGalleryInput')" class="admin-only hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center space-x-1">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Photo</span>
+                            </button>
+                            <button onclick="addGalleryUrl('gab')" class="admin-only hidden px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700" title="Add Web Photo URL">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
                         <input type="file" id="gabGalleryInput" class="hidden" accept="image/*" onchange="handleGalleryUpload(event, 'gab')">
                     </div>
                     <div id="gabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -413,7 +416,6 @@
             </div>
         </div>
 
-        <!-- VIEW 3: SABRINA PROFILE -->
         <div id="view-sab" class="view-section hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-4 py-8">
                 
@@ -426,7 +428,7 @@
                         </h3>
                         <span class="text-xs text-blue-400 font-bold bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Red Belt Rank</span>
                     </div>
-                    <div id="sabBeltTrack" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+                    <div id="sabBeltTrack" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
                         <!-- Belt sequence rendered via JS -->
                     </div>
                 </section>
@@ -523,10 +525,15 @@
                             <i class="fas fa-images text-blue-400"></i>
                             <span>Photo Gallery</span>
                         </h3>
-                        <button onclick="triggerImageUpload('sabGalleryInput')" class="admin-only hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center space-x-1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload Photo</span>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="triggerImageUpload('sabGalleryInput')" class="admin-only hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center space-x-1">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Photo</span>
+                            </button>
+                            <button onclick="addGalleryUrl('sab')" class="admin-only hidden px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700" title="Add Web Photo URL">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
                         <input type="file" id="sabGalleryInput" class="hidden" accept="image/*" onchange="handleGalleryUpload(event, 'sab')">
                     </div>
                     <div id="sabGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -564,7 +571,7 @@
         <div class="glass-card max-w-sm w-full rounded-2xl p-6 border border-slate-700 shadow-2xl">
             <h3 class="text-xl font-bold text-white mb-2">Admin Portal Authentication</h3>
             <p class="text-xs text-slate-400 mb-4">Enter master password to edit athlete info, photos, videos, and weights.</p>
-            <input type="password" id="adminPasswordInput" placeholder="Password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white mb-4 focus:outline-none focus:border-red-500">
+            <input type="password" id="adminPasswordInput" placeholder="Password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white mb-4 focus:outline-none focus:border-red-500" onkeyup="if(event.key==='Enter') verifyAdminPassword()">
             <div class="flex space-x-3">
                 <button onclick="toggleAdminModal()" class="w-1/2 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Cancel</button>
                 <button onclick="verifyAdminPassword()" class="w-1/2 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold">Login</button>
@@ -645,21 +652,20 @@
         let isAdminLoggedIn = false;
         let currentSlideIdx = 0;
 
-        // Belt Sequence: White -> Yellow -> Green -> Blue -> Red (Current Active) -> Brown -> Black / Poom
+        // Belt Sequence: White -> Yellow -> Blue -> Red (Current Active) -> Brown -> Black
         const beltLevels = [
             { name: 'White Belt', color: 'bg-slate-100 text-slate-900' },
             { name: 'Yellow Belt', color: 'bg-amber-300 text-slate-900' },
-            { name: 'Green Belt', color: 'bg-emerald-600 text-white' },
             { name: 'Blue Belt', color: 'bg-blue-600 text-white' },
             { name: 'Red Belt', color: 'bg-red-600 text-white border-2 border-amber-400 shadow-lg shadow-red-600/50' },
             { name: 'Brown Belt', color: 'bg-amber-800 text-amber-100' },
-            { name: 'Black / Poom', color: 'bg-slate-950 text-slate-300 border border-slate-800' }
+            { name: 'Black Belt', color: 'bg-slate-950 text-slate-300 border border-slate-800' }
         ];
 
         let appData = {
             facebookUrl: "https://facebook.com",
             siteLogo: "https://placehold.co/100x100/1D3557/ffffff?text=TKD",
-            // Supports up to 5 editable slides
+            // Up to 5 slides, filled edge-to-edge
             heroSlides: [
                 'https://placehold.co/1200x600/1D3557/ffffff?text=Gab+and+Sab+Taekwondo+National+Championships',
                 'https://placehold.co/1200x600/0B132B/ffffff?text=Olympic+Style+Taekwondo+Training',
@@ -753,7 +759,7 @@
             }).join('');
         }
 
-        // Hero Slideshow Supporting Up to 5 Slides
+        // Hero Slideshow Supporting Up to 5 Slides (Edge-to-Edge Fill)
         function renderHeroSlides() {
             const container = document.getElementById('heroSliderContainer');
             const dotsContainer = document.getElementById('heroDotIndicators');
@@ -765,14 +771,14 @@
 
             container.innerHTML = appData.heroSlides.map((src, i) => `
                 <div class="absolute inset-0 transition-opacity duration-700 ${i === currentSlideIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
-                    <img src="${src}" class="img-fit-full">
+                    <img src="${src}" class="w-full h-full object-cover object-center">
                     ${isAdminLoggedIn ? `
                         <div class="absolute top-4 right-4 flex space-x-2 z-20">
-                            <button onclick="editHeroSlideUrl(${i})" class="bg-black/70 hover:bg-slate-800 text-white p-2 rounded-full text-xs">
+                            <button onclick="editHeroSlideUrl(${i})" class="bg-black/70 hover:bg-slate-800 text-white p-2 rounded-full text-xs" title="Edit Slide URL">
                                 <i class="fas fa-pen"></i>
                             </button>
                             ${appData.heroSlides.length > 1 ? `
-                                <button onclick="deleteHeroSlide(${i})" class="bg-black/70 hover:bg-red-600 text-white p-2 rounded-full text-xs">
+                                <button onclick="deleteHeroSlide(${i})" class="bg-black/70 hover:bg-red-600 text-white p-2 rounded-full text-xs" title="Delete Slide">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             ` : ''}
@@ -781,14 +787,14 @@
                 </div>
             `).join('');
 
-            // Render Dot Indicators
+            // Dot Indicators
             if (dotsContainer) {
                 dotsContainer.innerHTML = appData.heroSlides.map((_, i) => `
                     <button onclick="goToSlide(${i})" class="w-2.5 h-2.5 rounded-full transition-all ${i === currentSlideIdx ? 'bg-red-500 w-5' : 'bg-slate-600 hover:bg-slate-400'}"></button>
                 `).join('');
             }
 
-            // Hide add buttons if 5 slides limit is reached
+            // Hide add buttons if max 5 slides limit is reached
             const addBtnContainer = document.getElementById('addSlideBtnContainer');
             if (addBtnContainer) {
                 if (appData.heroSlides.length >= 5) {
@@ -1141,6 +1147,16 @@
 
         function triggerImageUpload(id) {
             document.getElementById(id).click();
+        }
+
+        function addGalleryUrl(athlete) {
+            if (!isAdminLoggedIn) return;
+            const newUrl = prompt("Enter Web Image URL for photo gallery:");
+            if (newUrl && newUrl.trim() !== '') {
+                appData[athlete].photos.push(newUrl.trim());
+                saveData();
+                renderGallery(athlete);
+            }
         }
 
         function handleLogoUpload(e) {
