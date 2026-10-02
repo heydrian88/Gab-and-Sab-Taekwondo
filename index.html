@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gab and Sab Taekwondo - Official Portal</title>
+    <title>Gab and Sab Taekwondo - Official Portal (Layout 5)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -39,6 +39,13 @@
             background: rgba(28, 37, 65, 0.75);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Object contain to show whole pictures perfectly without cropping */
+        .img-fit-contain {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
         }
         .img-fit-full {
             width: 100%;
@@ -107,15 +114,15 @@
         
         <div id="view-home" class="view-section transition-opacity duration-300">
             
-            <!-- Hero Slideshow (Supports Up to 5 Slides, Edge-to-Edge Covered) -->
+            <!-- Hero Slideshow (Supports Up to 5 Slides, whole pictures fit perfectly via object-contain and blurred backdrop) -->
             <section class="max-w-7xl mx-auto px-4 py-6">
-                <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[480px] shadow-2xl border border-slate-800">
-                    <div id="heroSliderContainer" class="w-full h-full relative">
+                <div class="relative rounded-2xl overflow-hidden glass-card h-[320px] sm:h-[480px] shadow-2xl border border-slate-800 bg-slate-950 flex items-center justify-center">
+                    <div id="heroSliderContainer" class="w-full h-full relative flex items-center justify-center">
                         <!-- Hero Slides rendered via JS -->
                     </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none"></div>
                     
-                    <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-end sm:items-center z-10 pointer-events-auto">
+                    <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-end sm:items-center z-20 pointer-events-auto">
                         <div>
                             <span class="inline-block py-1 px-3 rounded-full bg-red-600/80 text-white font-bold text-xs tracking-wider uppercase mb-2">
                                 Elite Martial Artists
@@ -124,15 +131,15 @@
                                 <h1 id="homeHeroHeadline" class="text-2xl sm:text-4xl font-black text-white drop-shadow-md">
                                     Gabriel & Sabrina Tiburcio
                                 </h1>
-                                <button onclick="editHomeHeroHeadline()" class="admin-only hidden bg-slate-900/80 hover:bg-slate-800 text-white p-2 rounded-lg text-xs border border-slate-700" title="Edit Headline">
+                                <button onclick="editHomeHeroHeadline()" class="admin-only hidden bg-slate-900/90 hover:bg-slate-800 text-white p-2 rounded-lg text-xs border border-slate-700 shadow" title="Edit Headline">
                                     <i class="fas fa-pen"></i>
                                 </button>
                             </div>
                             <div class="flex items-center space-x-2 mt-1">
-                                <p id="homeHeroSubheadline" class="text-xs sm:text-sm text-slate-300 max-w-lg">
+                                <p id="homeHeroSubheadline" class="text-xs sm:text-sm text-slate-300 max-w-lg drop-shadow">
                                     Tracking training milestones, competitive achievements, and national tournament journeys.
                                 </p>
-                                <button onclick="editHomeHeroSubheadline()" class="admin-only hidden bg-slate-900/80 hover:bg-slate-800 text-white p-1.5 rounded text-xs border border-slate-700 flex-shrink-0" title="Edit Subheadline">
+                                <button onclick="editHomeHeroSubheadline()" class="admin-only hidden bg-slate-900/90 hover:bg-slate-800 text-white p-1.5 rounded text-xs border border-slate-700 flex-shrink-0 shadow" title="Edit Subheadline">
                                     <i class="fas fa-pen"></i>
                                 </button>
                             </div>
@@ -140,15 +147,15 @@
                         <div class="flex flex-wrap items-center space-x-2 mt-4 sm:mt-0 gap-y-2">
                             <div id="heroDotIndicators" class="flex space-x-1.5 mr-2"></div>
                             
-                            <button onclick="prevSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-left"></i></button>
-                            <button onclick="nextSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-right"></i></button>
+                            <button onclick="prevSlide()" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700 transition-all shadow"><i class="fas fa-chevron-left"></i></button>
+                            <button onclick="nextSlide()" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700 transition-all shadow"><i class="fas fa-chevron-right"></i></button>
                             
                             <div id="addSlideBtnContainer" class="admin-only hidden flex items-center space-x-1">
                                 <button onclick="triggerImageUpload('heroSliderInput')" class="px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
                                     <i class="fas fa-upload"></i>
-                                    <span>+ Add Slide Photo</span>
+                                    <span>+ Add Slide (Up to 5)</span>
                                 </button>
-                                <button onclick="addHeroSlideByUrl()" class="px-2.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all" title="Add Slide via Web Link URL">
+                                <button onclick="addHeroSlideByUrl()" class="px-2.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all shadow" title="Add Slide via Web Link URL">
                                     <i class="fas fa-link"></i>
                                 </button>
                                 <input type="file" id="heroSliderInput" class="hidden" accept="image/*" onchange="handleHeroSlideUpload(event)">
@@ -163,9 +170,9 @@
                 <div class="grid md:grid-cols-2 gap-8">
                     
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-red-500/50 transition-all shadow-xl group">
-                        <div class="relative h-64 sm:h-72 w-full overflow-hidden">
-                            <img id="gabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Gabriel+TKD" alt="Gabriel" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                        <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img id="gabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Gabriel+TKD" alt="Gabriel" class="img-fit-contain group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                             
                             <button onclick="triggerImageUpload('gabProfileInput')" class="admin-only hidden absolute bottom-3 right-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center space-x-1">
                                 <i class="fas fa-camera"></i>
@@ -203,9 +210,9 @@
                     </div>
 
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all shadow-xl group">
-                        <div class="relative h-64 sm:h-72 w-full overflow-hidden">
-                            <img id="sabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Sabrina+TKD" alt="Sabrina" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                        <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img id="sabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Sabrina+TKD" alt="Sabrina" class="img-fit-contain group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                             
                             <button onclick="triggerImageUpload('sabProfileInput')" class="admin-only hidden absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg flex items-center space-x-1">
                                 <i class="fas fa-camera"></i>
@@ -301,8 +308,8 @@
 
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
-                        <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-red-500 shadow-xl flex-shrink-0">
-                            <img id="gabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Gabriel" alt="Gabriel" class="img-fit-full">
+                        <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-red-500 shadow-xl flex-shrink-0 bg-slate-950 flex items-center justify-center">
+                            <img id="gabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Gabriel" alt="Gabriel" class="img-fit-contain">
                             <button onclick="triggerImageUpload('gabProfileInput')" class="admin-only hidden absolute bottom-2 right-2 p-2 bg-black/70 rounded-full text-white hover:bg-black text-xs" title="Change Photo">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -415,8 +422,8 @@
 
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
-                        <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-xl flex-shrink-0">
-                            <img id="sabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Sabrina" alt="Sabrina" class="img-fit-full">
+                        <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-xl flex-shrink-0 bg-slate-950 flex items-center justify-center">
+                            <img id="sabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Sabrina" alt="Sabrina" class="img-fit-contain">
                             <button onclick="triggerImageUpload('sabProfileInput')" class="admin-only hidden absolute bottom-2 right-2 p-2 bg-black/70 rounded-full text-white hover:bg-black text-xs" title="Change Photo">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -634,7 +641,7 @@
             siteLogo: "https://placehold.co/100x100/1D3557/ffffff?text=TKD",
             homeHeadline: "Gabriel & Sabrina Tiburcio",
             homeSubheadline: "Tracking training milestones, competitive achievements, and national tournament journeys.",
-            // Supports up to 5 photos
+            // Supports up to 5 photos with object-contain display
             heroSlides: [
                 'https://placehold.co/1200x600/1D3557/ffffff?text=Gab+and+Sab+Taekwondo+National+Championships',
                 'https://placehold.co/1200x600/0B132B/ffffff?text=Olympic+Style+Taekwondo+Training',
@@ -728,7 +735,7 @@
             }).join('');
         }
 
-        // Hero Slideshow Supporting Up to 5 Slides
+        // Hero Slideshow Supporting Up to 5 Slides with object-contain (whole picture fits screen perfectly without cropping)
         function renderHeroSlides() {
             const container = document.getElementById('heroSliderContainer');
             const dotsContainer = document.getElementById('heroDotIndicators');
@@ -739,15 +746,17 @@
             }
 
             container.innerHTML = appData.heroSlides.map((src, i) => `
-                <div class="absolute inset-0 transition-opacity duration-700 ${i === currentSlideIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
-                    <img src="${src}" class="w-full h-full object-cover object-center">
+                <div class="absolute inset-0 transition-opacity duration-700 flex items-center justify-center ${i === currentSlideIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
+                    <!-- Blurred backdrop wrapper to ensure aesthetic presentation for any photo aspect ratio -->
+                    <div class="absolute inset-0 bg-cover bg-center filter blur-xl opacity-30 scale-105" style="background-image: url('${src}')"></div>
+                    <img src="${src}" class="relative w-full h-full object-contain object-center z-10 p-2">
                     ${isAdminLoggedIn ? `
-                        <div class="absolute top-4 right-4 flex space-x-2 z-20">
-                            <button onclick="editHeroSlideUrl(${i})" class="bg-black/70 hover:bg-slate-800 text-white p-2 rounded-full text-xs" title="Edit Slide URL">
+                        <div class="absolute top-4 right-4 flex space-x-2 z-30">
+                            <button onclick="editHeroSlideUrl(${i})" class="bg-black/80 hover:bg-slate-800 text-white p-2 rounded-full text-xs shadow" title="Edit Slide URL">
                                 <i class="fas fa-pen"></i>
                             </button>
                             ${appData.heroSlides.length > 1 ? `
-                                <button onclick="deleteHeroSlide(${i})" class="bg-black/70 hover:bg-red-600 text-white p-2 rounded-full text-xs" title="Delete Slide">
+                                <button onclick="deleteHeroSlide(${i})" class="bg-black/80 hover:bg-red-600 text-white p-2 rounded-full text-xs shadow" title="Delete Slide">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             ` : ''}
@@ -1124,8 +1133,8 @@
             if (!container) return;
 
             container.innerHTML = appData[athlete].photos.map((photoSrc, idx) => `
-                <div class="relative group rounded-xl overflow-hidden aspect-square border border-slate-800 bg-slate-900">
-                    <img src="${photoSrc}" class="img-fit-full group-hover:scale-105 transition-transform duration-300">
+                <div class="relative group rounded-xl overflow-hidden aspect-square border border-slate-800 bg-slate-950 flex items-center justify-center">
+                    <img src="${photoSrc}" class="img-fit-contain group-hover:scale-105 transition-transform duration-300 p-1">
                     <button onclick="deleteGalleryPhoto('${athlete}', ${idx})" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-2 right-2 p-1.5 bg-black/70 rounded-full text-red-400 hover:text-red-300 text-xs">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -1191,7 +1200,7 @@
 
         function saveData() {
             try {
-                localStorage.setItem('gab_sab_tkd_layout5_v1', JSON.stringify(appData));
+                localStorage.setItem('gab_sab_tkd_layout5_v2', JSON.stringify(appData));
             } catch(e) {
                 console.log('LocalStorage constrained');
             }
@@ -1199,7 +1208,7 @@
 
         function loadSavedData() {
             try {
-                const saved = localStorage.getItem('gab_sab_tkd_layout5_v1');
+                const saved = localStorage.getItem('gab_sab_tkd_layout5_v2');
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     appData = { ...appData, ...parsed };
