@@ -40,6 +40,13 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        /* Custom image auto-fit and centering styles */
+        .img-fit-full {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -61,8 +68,8 @@
                 
                 <!-- Top-Left Branding & Editable Logo -->
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
-                    <div class="relative group">
-                        <img id="siteLogo" src="https://placehold.co/100x100/1D3557/ffffff?text=TKD" alt="TKD Logo" class="w-12 h-12 object-cover rounded-full border-2 border-red-500 shadow-md transition-transform group-hover:scale-105">
+                    <div class="relative group w-12 h-12 flex-shrink-0">
+                        <img id="siteLogo" src="https://placehold.co/100x100/1D3557/ffffff?text=TKD" alt="TKD Logo" class="w-full h-full object-cover object-center rounded-full border-2 border-red-500 shadow-md transition-transform group-hover:scale-105">
                         <button id="logoEditBtn" onclick="event.stopPropagation(); triggerImageUpload('siteLogoInput')" class="admin-only hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center text-xs text-white hover:bg-black/90">
                             <i class="fas fa-camera"></i>
                         </button>
@@ -126,18 +133,24 @@
                                 Tracking training milestones, competitive achievements, and national tournament journeys.
                             </p>
                         </div>
-                        <div class="flex items-center space-x-2 mt-4 sm:mt-0">
+                        <div class="flex flex-wrap items-center space-x-2 mt-4 sm:mt-0 gap-y-2">
                             <!-- Slide Indicator Dots -->
                             <div id="heroDotIndicators" class="flex space-x-1.5 mr-2"></div>
                             
                             <button onclick="prevSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-left"></i></button>
                             <button onclick="nextSlide()" class="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 transition-all"><i class="fas fa-chevron-right"></i></button>
                             
-                            <!-- Add Slide (Up to 5) in Admin Mode -->
-                            <button id="addSlideBtn" onclick="triggerImageUpload('heroSliderInput')" class="admin-only hidden px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all flex items-center space-x-1">
-                                <i class="fas fa-plus"></i> <span>Add Slide (Max 5)</span>
-                            </button>
-                            <input type="file" id="heroSliderInput" class="hidden" accept="image/*" onchange="handleHeroSlideUpload(event)">
+                            <!-- Enhanced Direct Add Photo Button for Hero Slideshow -->
+                            <div id="addSlideBtnContainer" class="admin-only hidden flex items-center space-x-1">
+                                <button onclick="triggerImageUpload('heroSliderInput')" class="px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
+                                    <i class="fas fa-upload"></i>
+                                    <span>+ Add Slide Photo</span>
+                                </button>
+                                <button onclick="addHeroSlideByUrl()" class="px-2.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all" title="Add Slide via Web Link URL">
+                                    <i class="fas fa-link"></i>
+                                </button>
+                                <input type="file" id="heroSliderInput" class="hidden" accept="image/*" onchange="handleHeroSlideUpload(event)">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,8 +162,8 @@
                     
                     <!-- Gabriel Homepage Card -->
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-red-500/50 transition-all shadow-xl group">
-                        <div class="relative h-64 overflow-hidden">
-                            <img id="gabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Gabriel+TKD" alt="Gabriel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="relative h-64 sm:h-72 w-full overflow-hidden">
+                            <img id="gabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Gabriel+TKD" alt="Gabriel" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                             
                             <!-- Editable Photo Button for Admin Mode -->
@@ -190,10 +203,10 @@
                         </div>
                     </div>
 
-                    <!-- Ysabel Homepage Card -->
+                    <!-- Sabrina Homepage Card -->
                     <div class="glass-card rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all shadow-xl group">
-                        <div class="relative h-64 overflow-hidden">
-                            <img id="sabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Sabrina+TKD" alt="Sabrina" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="relative h-64 sm:h-72 w-full overflow-hidden">
+                            <img id="sabHomeImg" src="https://placehold.co/800x600/1D3557/ffffff?text=Sabrina+TKD" alt="Sabrina" class="img-fit-full group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                             
                             <!-- Editable Photo Button for Admin Mode -->
@@ -298,7 +311,7 @@
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
                         <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-red-500 shadow-xl flex-shrink-0">
-                            <img id="gabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Gabriel" alt="Gabriel" class="w-full h-full object-cover">
+                            <img id="gabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Gabriel" alt="Gabriel" class="img-fit-full">
                             <button onclick="triggerImageUpload('gabProfileInput')" class="admin-only hidden absolute bottom-2 right-2 p-2 bg-black/70 rounded-full text-white hover:bg-black text-xs" title="Change Photo">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -422,7 +435,7 @@
                 <section class="glass-card rounded-2xl overflow-hidden mb-8 border border-slate-800">
                     <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
                         <div class="relative w-44 h-44 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-xl flex-shrink-0">
-                            <img id="sabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Sabrina" alt="Sabrina" class="w-full h-full object-cover">
+                            <img id="sabProfileImg" src="https://placehold.co/400x400/1D3557/ffffff?text=Sabrina" alt="Sabrina" class="img-fit-full">
                             <button onclick="triggerImageUpload('sabProfileInput')" class="admin-only hidden absolute bottom-2 right-2 p-2 bg-black/70 rounded-full text-white hover:bg-black text-xs" title="Change Photo">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -752,7 +765,7 @@
 
             container.innerHTML = appData.heroSlides.map((src, i) => `
                 <div class="absolute inset-0 transition-opacity duration-700 ${i === currentSlideIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
-                    <img src="${src}" class="w-full h-full object-cover">
+                    <img src="${src}" class="img-fit-full">
                     ${isAdminLoggedIn ? `
                         <div class="absolute top-4 right-4 flex space-x-2 z-20">
                             <button onclick="editHeroSlideUrl(${i})" class="bg-black/70 hover:bg-slate-800 text-white p-2 rounded-full text-xs">
@@ -775,11 +788,14 @@
                 `).join('');
             }
 
-            // Hide add button if 5 slides reached
-            const addBtn = document.getElementById('addSlideBtn');
-            if (addBtn) {
-                if (appData.heroSlides.length >= 5) addBtn.classList.add('hidden');
-                else if (isAdminLoggedIn) addBtn.classList.remove('hidden');
+            // Hide add buttons if 5 slides limit is reached
+            const addBtnContainer = document.getElementById('addSlideBtnContainer');
+            if (addBtnContainer) {
+                if (appData.heroSlides.length >= 5) {
+                    addBtnContainer.classList.add('hidden');
+                } else if (isAdminLoggedIn) {
+                    addBtnContainer.classList.remove('hidden');
+                }
             }
         }
 
@@ -813,6 +829,21 @@
                     renderHeroSlides();
                 }
                 reader.readAsDataURL(file);
+            }
+        }
+
+        function addHeroSlideByUrl() {
+            if (!isAdminLoggedIn) return;
+            if (appData.heroSlides.length >= 5) {
+                alert('Maximum 5 slides supported.');
+                return;
+            }
+            const newUrl = prompt("Enter Web Image URL for the new slide:");
+            if (newUrl && newUrl.trim() !== '') {
+                appData.heroSlides.push(newUrl.trim());
+                currentSlideIdx = appData.heroSlides.length - 1;
+                saveData();
+                renderHeroSlides();
             }
         }
 
@@ -1100,7 +1131,7 @@
 
             container.innerHTML = appData[athlete].photos.map((photoSrc, idx) => `
                 <div class="relative group rounded-xl overflow-hidden aspect-square border border-slate-800 bg-slate-900">
-                    <img src="${photoSrc}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <img src="${photoSrc}" class="img-fit-full group-hover:scale-105 transition-transform duration-300">
                     <button onclick="deleteGalleryPhoto('${athlete}', ${idx})" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-2 right-2 p-1.5 bg-black/70 rounded-full text-red-400 hover:text-red-300 text-xs">
                         <i class="fas fa-trash"></i>
                     </button>
