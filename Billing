@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BillPulse - Modern SaaS Billing & Invoicing</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        brand: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-slate-50 font-sans text-slate-800 antialiased overflow-x-hidden">
+
+    <div id="app" class="min-h-full flex flex-col">
+        
+        <!-- ==================== AUTH & LOGIN SCREEN ==================== -->
+        <div id="auth-screen" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-slate-100">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-14 h-14 bg-brand-50 rounded-xl text-brand-600 text-2xl font-bold mb-3 shadow-inner">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-slate-900">BillPulse SaaS</h1>
+                    <p class="text-sm text-slate-500 mt-1">Professional billing & invoice management</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex rounded-xl bg-slate-100 p-1 mb-6">
+                    <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 text-sm font-semibold rounded-lg bg-white text-slate-800 shadow-sm transition">Sign In</button>
+                    <button id="tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-2 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition">Create Account</button>
+                </div>
+
+                <!-- Form -->
+                <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Email Address</label>
+                        <input type="email" id="auth-email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm" placeholder="you@company.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Password</label>
+                        <input type="password" id="auth-password" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm" placeholder="••••••••">
+                    </div>
+                    
+                    <div id="signup-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Company / Business Name</label>
+                            <input type="text" id="auth-company" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm" placeholder="Acme Corp">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="auth-submit-btn" class="w-full mt-2 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 transition">
+                        Sign In to Dashboard
+                    </button>
+                </form>
+
+                <div class="mt-6 pt-6 border-t border-slate-100 text-center">
+                    <button onclick="openAdminModal()" class="text-xs font-medium text-slate-500 hover:text-brand-600 transition inline-flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-brand-500"></i> Admin Access Override
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MAIN DASHBOARD LAYOUT ==================== -->
+        <div id="main-layout" class="hidden flex-1 flex h-full">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-64 bg-navy-900 text-slate-300 flex flex-col flex-shrink-0 border-r border-slate-800">
+                <div class="p-6 flex items-center justify-between border-b border-slate-800/80">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold text-lg shadow-lg shadow-brand-600/30">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <span class="font-bold text-white text-lg tracking-tight block">BillPulse</span>
+                            <span class="text-[10px] uppercase font-semibold text-brand-400 tracking-widest">Enterprise SaaS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="flex-1 px-4 py-6 space-y-1.5">
+                    <a href="#dashboard" onclick="switchNav('dashboard')" id="nav-dashboard" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-brand-600 text-white shadow-lg shadow-brand-600/20">
+                        <i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard
+                    </a>
+                    <a href="#invoices" onclick="switchNav('invoices')" id="nav-invoices" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white">
+                        <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> Invoices
+                    </a>
+                    <a href="#create-invoice" onclick="switchNav('create-invoice')" id="nav-create-invoice" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white">
+                        <i class="fa-solid fa-circle-plus w-5 text-center"></i> New Invoice
+                    </a>
+                    <a href="#clients" onclick="switchNav('clients')" id="nav-clients" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white">
+                        <i class="fa-solid fa-users w-5 text-center"></i> Clients
+                    </a>
+                    <a href="#payments" onclick="switchNav('payments')" id="nav-payments" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white">
+                        <i class="fa-solid fa-credit-card w-5 text-center"></i> Payments
+                    </a>
+                    <a href="#settings" onclick="switchNav('settings')" id="nav-settings" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white">
+                        <i class="fa-solid fa-gear w-5 text-center"></i> Settings
+                    </a>
+                </nav>
+
+                <!-- Sidebar Footer User Card -->
+                <div class="p-4 m-4 bg-navy-800/80 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div class="w-9 h-9 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm flex-shrink-0" id="user-avatar-initials">
+                            US
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs font-semibold text-white truncate" id="sidebar-user-name">User Account</p>
+                            <p class="text-[10px] text-slate-400 truncate" id="sidebar-user-email">user@domain.com</p>
+                        </div>
+                    </div>
+                    <button onclick="logoutUser()" title="Sign Out" class="text-slate-400 hover:text-rose-400 p-2 transition">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="flex-1 flex flex-col min-w-0 bg-slate-50">
+                
+                <!-- Top Header -->
+                <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+                    <div class="flex items-center gap-4">
+                        <h2 id="page-title" class="text-xl font-bold text-slate-800 tracking-tight">Dashboard Overview</h2>
+                        <span id="account-badge" class="px-2.5 py-1 bg-brand-50 text-brand-600 rounded-full text-xs font-semibold border border-brand-100">Live Account Scope</span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="relative hidden sm:block">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-search text-xs"></i>
+                            </span>
+                            <input type="text" placeholder="Search invoices, clients..." class="pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white w-64 transition">
+                        </div>
+                        
+                        <!-- Notifications -->
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition relative">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
+                        </button>
+
+                        <!-- Main Admin Log In Button top right -->
+                        <button onclick="openAdminModal()" class="px-4 py-2 bg-navy-900 hover:bg-navy-800 text-white rounded-xl text-sm font-semibold shadow-md flex items-center gap-2 transition">
+                            <i class="fa-solid fa-shield-halved text-brand-400"></i> Admin Log In
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Dynamic View Container -->
+                <main class="flex-1 overflow-y-auto p-8">
+                    
+                    <!-- ================= VIEW: DASHBOARD ================= -->
+                    <div id="view-dashboard" class="space-y-6">
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Revenue</span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800" id="stat-total-revenue">₱0.00</h3>
+                                <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrow-trend-up"></i> +12.4% from last month
+                                </p>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Pending Invoices</span>
+                                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800" id="stat-pending-invoices">0</h3>
+                                <p class="text-xs text-slate-500 mt-1">Awaiting client payment</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Paid Invoices</span>
+                                    <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800" id="stat-paid-invoices">0</h3>
+                                <p class="text-xs text-slate-500 mt-1">Successfully settled</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Clients</span>
+                                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800" id="stat-total-clients">0</h3>
+                                <p class="text-xs text-slate-500 mt-1">Active accounts</p>
+                            </div>
+                        </div>
+
+                        <!-- Recent Invoices & Quick Actions -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="font-bold text-slate-800 text-lg">Recent Invoices</h3>
+                                    <button onclick="switchNav('invoices')" class="text-xs font-semibold text-brand-600 hover:text-brand-700">View All</button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-100 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                                                <th class="pb-3">Invoice #</th>
+                                                <th class="pb-3">Client</th>
+                                                <th class="pb-3">Due Date</th>
+                                                <th class="pb-3">Amount</th>
+                                                <th class="pb-3">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-invoices-tbody" class="text-sm divide-y divide-slate-100">
+                                            <!-- Dynamically populated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Quick Launch Card -->
+                            <div class="bg-gradient-to-br from-navy-900 to-navy-800 text-white rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                                <div>
+                                    <span class="px-3 py-1 bg-brand-500/20 text-brand-400 rounded-full text-xs font-semibold border border-brand-500/30">Fast Workflow</span>
+                                    <h3 class="text-xl font-bold mt-4 mb-2">Create New Invoice</h3>
+                                    <p class="text-sm text-slate-300 leading-relaxed">Generate tax-compliant invoices with live 12% calculation and instant client assignment.</p>
+                                </div>
+                                <div class="mt-8">
+                                    <button onclick="switchNav('create-invoice')" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl shadow-lg shadow-brand-600/30 transition flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-plus"></i> New Invoice Builder
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= VIEW: INVOICES ================= -->
+                    <div id="view-invoices" class="hidden space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Invoice History</h3>
+                                <p class="text-sm text-slate-500">All invoices scoped securely to your account ID</p>
+                            </div>
+                            <button onclick="switchNav('create-invoice')" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Create Invoice
+                            </button>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                            <th class="py-4 px-6">Invoice #</th>
+                                            <th class="py-4 px-6">Client</th>
+                                            <th class="py-4 px-6">Issue Date</th>
+                                            <th class="py-4 px-6">Due Date</th>
+                                            <th class="py-4 px-6">Total Due</th>
+                                            <th class="py-4 px-6">Status</th>
+                                            <th class="py-4 px-6 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="full-invoices-tbody" class="text-sm divide-y divide-slate-100">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= VIEW: CREATE INVOICE (INTERACTIVE BUILDER) ================= -->
+                    <div id="view-create-invoice" class="hidden space-y-6 max-w-5xl mx-auto">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Interactive Invoice Builder</h3>
+                                <p class="text-sm text-slate-500">Build professional invoices with real-time computation & validation</p>
+                            </div>
+                            <button onclick="switchNav('invoices')" class="text-sm font-medium text-slate-500 hover:text-slate-800">Cancel</button>
+                        </div>
+
+                        <form id="invoice-builder-form" onsubmit="handleSaveAndSendInvoice(event)" class="space-y-6">
+                            <!-- Top Metadata Card -->
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Select Client *</label>
+                                    <div class="flex gap-2">
+                                        <select id="inv-client-select" required class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+                                            <option value="">-- Choose Client --</option>
+                                        </select>
+                                        <button type="button" onclick="openNewClientModal()" class="px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition" title="Add New Client">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </button>
+                                    </div>
+                                    <span id="err-client" class="text-xs text-rose-500 mt-1 hidden">Please select a valid client.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Issue Date *</label>
+                                    <input type="date" id="inv-issue-date" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Due Date *</label>
+                                    <input type="date" id="inv-due-date" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                                    <span id="err-duedate" class="text-xs text-rose-500 mt-1 hidden">Due date cannot be earlier than issue date.</span>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Items Table -->
+                            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
+                                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                                    <h4 class="font-bold text-slate-800 text-base">Invoice Line Items</h4>
+                                    <button type="button" onclick="addInvoiceLineItem()" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-600 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                                        <i class="fa-solid fa-plus"></i> Add Line Item
+                                    </button>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+                                                <th class="pb-3 w-5/12">Description</th>
+                                                <th class="pb-3 w-2/12">Quantity</th>
+                                                <th class="pb-3 w-2/12">Rate (₱)</th>
+                                                <th class="pb-3 w-2/12">Amount</th>
+                                                <th class="pb-3 w-1/12 text-right">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="line-items-tbody" class="divide-y divide-slate-100">
+                                            <!-- Line rows injected via JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <span id="err-items" class="text-xs text-rose-500 block hidden">At least one valid line item is required.</span>
+                            </div>
+
+                            <!-- Summary Calculation Card -->
+                            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+                                <div class="w-full md:w-1/2">
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Payment Terms & Notes</label>
+                                    <textarea id="inv-notes" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Thank you for your business. Please remit payment within 30 days."></textarea>
+                                </div>
+                                
+                                <div class="w-full md:w-1/2 bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-3">
+                                    <div class="flex justify-between text-sm text-slate-600">
+                                        <span>Subtotal:</span>
+                                        <span class="font-semibold text-slate-800" id="calc-subtotal">₱0.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm text-slate-600">
+                                        <span>Tax (12%):</span>
+                                        <span class="font-semibold text-slate-800" id="calc-tax">₱0.00</span>
+                                    </div>
+                                    <div class="pt-3 border-t border-slate-200 flex justify-between text-base font-bold text-slate-900">
+                                        <span>Total Due:</span>
+                                        <span class="text-brand-600 text-xl" id="calc-total">₱0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Bar -->
+                            <div class="flex items-center justify-end gap-4 pt-2">
+                                <button type="button" onclick="switchNav('invoices')" class="px-6 py-3 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-semibold rounded-xl text-sm transition">
+                                    Save as Draft
+                                </button>
+                                <button type="submit" class="px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Save and Send Invoice
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ================= VIEW: CLIENTS ================= -->
+                    <div id="view-clients" class="hidden space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Client Directory</h3>
+                                <p class="text-sm text-slate-500">Manage client organizations and contacts</p>
+                            </div>
+                            <button onclick="openNewClientModal()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-user-plus"></i> Add New Client
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="clients-grid">
+                            <!-- Dynamically populated client cards -->
+                        </div>
+                    </div>
+
+                    <!-- ================= VIEW: PAYMENTS ================= -->
+                    <div id="view-payments" class="hidden space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Payment Transactions</h3>
+                            <p class="text-sm text-slate-500">Incoming payments and settlement logs</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                            <th class="py-4 px-6">Transaction ID</th>
+                                            <th class="py-4 px-6">Invoice #</th>
+                                            <th class="py-4 px-6">Client</th>
+                                            <th class="py-4 px-6">Date</th>
+                                            <th class="py-4 px-6">Method</th>
+                                            <th class="py-4 px-6">Amount</th>
+                                            <th class="py-4 px-6">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payments-tbody" class="text-sm divide-y divide-slate-100">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= VIEW: SETTINGS ================= -->
+                    <div id="view-settings" class="hidden space-y-6 max-w-3xl mx-auto">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Account & Billing Settings</h3>
+                            <p class="text-sm text-slate-500">Configure your business profile and tax parameters</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 p-8 space-y-6 shadow-xs">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Business Name</label>
+                                    <input type="text" id="settings-company" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Account Email</label>
+                                    <input type="email" id="settings-email" disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Business Address / Tax ID</label>
+                                <textarea id="settings-address" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Suite 400, Makati CBD, Manila, PH | TIN: 000-123-456-000"></textarea>
+                            </div>
+
+                            <div class="pt-4 border-t border-slate-100 flex justify-end">
+                                <button onclick="saveSettings()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow-md transition">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </main>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= MODAL: ADMIN LOGIN OVERRIDE ================= -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-slate-100 text-center relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="w-12 h-12 bg-navy-900 text-brand-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                <i class="fa-solid fa-shield-halved text-xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-1">Admin Authorization</h3>
+            <p class="text-xs text-slate-500 mb-4">Enter master password to access admin mode.</p>
+            
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <input type="password" id="admin-pass-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm" placeholder="••••••••">
+                <button type="submit" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-semibold rounded-xl text-sm shadow-md transition">
+                    Authenticate Admin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: NEW CLIENT ================= -->
+    <div id="client-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-100 relative">
+            <button onclick="closeNewClientModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-lg font-bold text-slate-900 mb-1">Add New Client</h3>
+            <p class="text-xs text-slate-500 mb-4">Enter client details to store securely in your account.</p>
+            
+            <form onsubmit="handleSaveNewClient(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Company / Name *</label>
+                    <input type="text" id="new-client-name" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Stellar Tech Inc.">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Email Address *</label>
+                    <input type="email" id="new-client-email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="billing@stellar.io">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Phone / Address</label>
+                    <input type="text" id="new-client-phone" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="+63 912 345 6789">
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeNewClientModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition">Cancel</button>
+                    <button type="submit" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow-md transition">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= NOTIFICATION TOAST ================= -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-800">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-msg" class="text-sm font-medium">Notification message</span>
+    </div>
+
+    <!-- ================= APPLICATION LOGIC ================= -->
+    <script>
+        let currentUser = null;
+        let dbClients = [];
+        let dbInvoices = [];
+        let dbPayments = [];
+
+        // Sample initial data generator per user
+        function getStorageKey(key) {
+            return `billpulse_${currentUser.id}_${key}`;
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+            
+            const storedClients = localStorage.getItem(getStorageKey('clients'));
+            const storedInvoices = localStorage.getItem(getStorageKey('invoices'));
+            const storedPayments = localStorage.getItem(getStorageKey('payments'));
+
+            if (storedClients) {
+                dbClients = JSON.parse(storedClients);
+            } else {
+                dbClients = [
+                    { id: 'cli_1', name: 'Acme Global Corp', email: 'accounts@acmeglobal.com', phone: '+1 (555) 019-2834' },
+                    { id: 'cli_2', name: 'Apex Innovations', email: 'billing@apexinnovations.io', phone: '+63 917 888 9911' },
+                    { id: 'cli_3', name: 'Vertex Studios', email: 'finance@vertexstudio.net', phone: '+44 20 7946 0918' }
+                ];
+                saveClients();
+            }
+
+            if (storedInvoices) {
+                dbInvoices = JSON.parse(storedInvoices);
+            } else {
+                dbInvoices = [
+                    { 
+                        id: 'INV-2026-001', 
+                        clientId: 'cli_1', 
+                        clientName: 'Acme Global Corp', 
+                        issueDate: '2026-10-01', 
+                        dueDate: '2026-10-31', 
+                        items: [{ desc: 'Cloud Infrastructure Setup & Migration', qty: 1, rate: 45000, amount: 45000 }],
+                        subtotal: 45000, 
+                        tax: 5400, 
+                        total: 50400, 
+                        status: 'Paid',
+                        notes: 'Thank you for your business.'
+                    },
+                    { 
+                        id: 'INV-2026-002', 
+                        clientId: 'cli_2', 
+                        clientName: 'Apex Innovations', 
+                        issueDate: '2026-10-05', 
+                        dueDate: '2026-11-05', 
+                        items: [{ desc: 'SaaS Enterprise Subscription - Q4', qty: 5, rate: 7500, amount: 37500 }],
+                        subtotal: 37500, 
+                        tax: 4500, 
+                        total: 42000, 
+                        status: 'Pending',
+                        notes: 'Payable via bank transfer.'
+                    }
+                ];
+                saveInvoices();
+            }
+
+            if (storedPayments) {
+                dbPayments = JSON.parse(storedPayments);
+            } else {
+                dbPayments = [
+                    { id: 'PAY-88219', invoiceId: 'INV-2026-001', clientName: 'Acme Global Corp', date: '2026-10-02', method: 'Bank Wire Transfer', amount: 50400, status: 'Successful' }
+                ];
+                savePayments();
+            }
+        }
+
+        function saveClients() {
+            if (!currentUser) return;
+            localStorage.setItem(getStorageKey('clients'), JSON.stringify(dbClients));
+        }
+
+        function saveInvoices() {
+            if (!currentUser) return;
+            localStorage.setItem(getStorageKey('invoices'), JSON.stringify(dbInvoices));
+        }
+
+        function savePayments() {
+            if (!currentUser) return;
+            localStorage.setItem(getStorageKey('payments'), JSON.stringify(dbPayments));
+        }
+
+        function switchAuthTab(tab) {
+            const loginBtn = document.getElementById('tab-login');
+            const signupBtn = document.getElementById('tab-signup');
+            const signupFields = document.getElementById('signup-fields');
+            const submitBtn = document.getElementById('auth-submit-btn');
+
+            if (tab === 'login') {
+                loginBtn.className = "flex-1 py-2 text-sm font-semibold rounded-lg bg-white text-slate-800 shadow-sm transition";
+                signupBtn.className = "flex-1 py-2 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition";
+                signupFields.classList.add('hidden');
+                submitBtn.innerText = "Sign In to Dashboard";
+            } else {
+                signupBtn.className = "flex-1 py-2 text-sm font-semibold rounded-lg bg-white text-slate-800 shadow-sm transition";
+                loginBtn.className = "flex-1 py-2 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition";
+                signupFields.classList.remove('hidden');
+                submitBtn.innerText = "Create Account & Start";
+            }
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+            const company = document.getElementById('auth-company').value.trim() || 'My SaaS Business';
+
+            // Create or authenticate user session
+            currentUser = {
+                id: 'usr_' + btoa(email).substring(0, 10).toLowerCase().replace(/[^a-z0-9]/g, ''),
+                email: email,
+                name: company,
+                isAdmin: false
+            };
+
+            completeLogin();
+        }
+
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('admin-modal').classList.add('flex');
+            document.getElementById('admin-pass-input').value = '';
+            document.getElementById('admin-pass-input').focus();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-modal').classList.remove('flex');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass-input').value;
+            if (pass === 'cuteako') {
+                closeAdminModal();
+                currentUser = {
+                    id: 'usr_admin_master',
+                    email: 'admin@billpulse.io',
+                    name: 'Master Admin Hub',
+                    isAdmin: true
+                };
+                showToast('Admin override successful!', 'success');
+                completeLogin();
+            } else {
+                showToast('Incorrect master password!', 'error');
+            }
+        }
+
+        function completeLogin() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('main-layout').classList.remove('hidden');
+            
+            // Update UI elements
+            document.getElementById('sidebar-user-name').innerText = currentUser.name;
+            document.getElementById('sidebar-user-email').innerText = currentUser.email;
+            document.getElementById('user-avatar-initials').innerText = currentUser.name.substring(0, 2).toUpperCase();
+            
+            if (currentUser.isAdmin) {
+                document.getElementById('account-badge').innerText = 'Admin Master Scope';
+                document.getElementById('account-badge').className = 'px-2.5 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-semibold border border-amber-200';
+            }
+
+            loadUserData();
+            switchNav('dashboard');
+            showToast(`Welcome back, ${currentUser.name}!`, 'success');
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            document.getElementById('main-layout').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('auth-form').reset();
+            showToast('Signed out securely.', 'success');
+        }
+
+        function switchNav(viewId) {
+            // Update active nav styling
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.className = "nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-navy-800 hover:text-white";
+            });
+            const activeNav = document.getElementById('nav-' + viewId);
+            if (activeNav) {
+                activeNav.className = "nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-brand-600 text-white shadow-lg shadow-brand-600/20";
+            }
+
+            // Toggle view panels
+            const views = ['dashboard', 'invoices', 'create-invoice', 'clients', 'payments', 'settings'];
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                if (el) el.classList.add('hidden');
+            });
+
+            const targetView = document.getElementById('view-' + viewId);
+            if (targetView) targetView.classList.remove('hidden');
+
+            // Set Title
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'invoices': 'Invoice Management',
+                'create-invoice': 'Interactive Invoice Builder',
+                'clients': 'Client Directory',
+                'payments': 'Payment Transactions',
+                'settings': 'Account Settings'
+            };
+            document.getElementById('page-title').innerText = titles[viewId] || 'Dashboard';
+
+            // Trigger specific view loaders
+            if (viewId === 'dashboard') renderDashboard();
+            if (viewId === 'invoices') renderInvoicesList();
+            if (viewId === 'create-invoice') initInvoiceBuilder();
+            if (viewId === 'clients') renderClientsList();
+            if (viewId === 'payments') renderPaymentsList();
+            if (viewId === 'settings') initSettings();
+        }
+
+        function renderDashboard() {
+            const totalRev = dbInvoices.filter(i => i.status === 'Paid').reduce((acc, curr) => acc + curr.total, 0);
+            const pendingCount = dbInvoices.filter(i => i.status === 'Pending').length;
+            const paidCount = dbInvoices.filter(i => i.status === 'Paid').length;
+            
+            document.getElementById('stat-total-revenue').innerText = '₱' + totalRev.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('stat-pending-invoices').innerText = pendingCount;
+            document.getElementById('stat-paid-invoices').innerText = paidCount;
+            document.getElementById('stat-total-clients').innerText = dbClients.length;
+
+            // Recent invoices table
+            const tbody = document.getElementById('recent-invoices-tbody');
+            tbody.innerHTML = '';
+            
+            const recent = dbInvoices.slice(-5).reverse();
+            if (recent.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-sm">No invoices recorded yet.</td></tr>`;
+                return;
+            }
+
+            recent.forEach(inv => {
+                const statusBadge = inv.status === 'Paid' 
+                    ? `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-semibold">Paid</span>`
+                    : `<span class="px-2.5 py-1 bg-amber-50 text-amber-600 rounded-full text-xs font-semibold">Pending</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="py-3.5 font-semibold text-slate-800">${inv.id}</td>
+                        <td class="py-3.5 text-slate-600">${inv.clientName}</td>
+                        <td class="py-3.5 text-slate-500">${inv.dueDate}</td>
+                        <td class="py-3.5 font-bold text-slate-800">₱${inv.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td class="py-3.5">${statusBadge}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderInvoicesList() {
+            const tbody = document.getElementById('full-invoices-tbody');
+            tbody.innerHTML = '';
+
+            if (dbInvoices.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">No invoices found. Create your first invoice!</td></tr>`;
+                return;
+            }
+
+            dbInvoices.forEach(inv => {
+                const statusBadge = inv.status === 'Paid' 
+                    ? `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-semibold border border-emerald-100">Paid</span>`
+                    : `<span class="px-2.5 py-1 bg-amber-50 text-amber-600 rounded-full text-xs font-semibold border border-amber-100">Pending</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="py-4 px-6 font-semibold text-slate-800">${inv.id}</td>
+                        <td class="py-4 px-6 text-slate-700 font-medium">${inv.clientName}</td>
+                        <td class="py-4 px-6 text-slate-500">${inv.issueDate}</td>
+                        <td class="py-4 px-6 text-slate-500">${inv.dueDate}</td>
+                        <td class="py-4 px-6 font-bold text-slate-800">₱${inv.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td class="py-4 px-6">${statusBadge}</td>
+                        <td class="py-4 px-6 text-right space-x-2">
+                            <button onclick="markInvoicePaid('${inv.id}')" title="Toggle Status" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition"><i class="fa-solid fa-check text-xs"></i></button>
+                            <button onclick="deleteInvoice('${inv.id}')" title="Delete Invoice" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition"><i class="fa-solid fa-trash text-xs"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function markInvoicePaid(id) {
+            const inv = dbInvoices.find(i => i.id === id);
+            if (inv) {
+                inv.status = inv.status === 'Paid' ? 'Pending' : 'Paid';
+                saveInvoices();
+                renderInvoicesList();
+                showToast(`Invoice ${id} status updated to ${inv.status}`, 'success');
+            }
+        }
+
+        function deleteInvoice(id) {
+            if (confirm(`Are you sure you want to delete invoice ${id}?`)) {
+                dbInvoices = dbInvoices.filter(i => i.id !== id);
+                saveInvoices();
+                renderInvoicesList();
+                showToast(`Invoice ${id} deleted.`, 'success');
+            }
+        }
+
+        let invoiceLineItems = [];
+
+        function initInvoiceBuilder() {
+            // Populate client dropdown
+            const select = document.getElementById('inv-client-select');
+            select.innerHTML = '<option value="">-- Choose Client --</option>';
+            dbClients.forEach(c => {
+                select.innerHTML += `<option value="${c.id}">${c.name} (${c.email})</option>`;
+            });
+
+            // Set default dates
+            const today = new Date().toISOString().split('T')[0];
+            const nextMonth = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
+            document.getElementById('inv-issue-date').value = today;
+            document.getElementById('inv-due-date').value = nextMonth;
+
+            // Reset items & add one default row
+            invoiceLineItems = [
+                { id: Date.now(), desc: 'Professional SaaS Consulting Services', qty: 1, rate: 15000 }
+            ];
+            renderLineItemsTable();
+        }
+
+        function addInvoiceLineItem() {
+            invoiceLineItems.push({ id: Date.now() + Math.random(), desc: '', qty: 1, rate: 0 });
+            renderLineItemsTable();
+        }
+
+        function removeInvoiceLineItem(id) {
+            if (invoiceLineItems.length <= 1) {
+                showToast('Invoice must contain at least one line item.', 'error');
+                return;
+            }
+            invoiceLineItems = invoiceLineItems.filter(item => item.id !== id);
+            renderLineItemsTable();
+        }
+
+        function updateLineItemField(id, field, value) {
+            const item = invoiceLineItems.find(i => i.id === id);
+            if (item) {
+                if (field === 'qty' || field === 'rate') {
+                    item[field] = parseFloat(value) || 0;
+                } else {
+                    item[field] = value;
+                }
+                renderLineItemsTable(false); // redraw summaries without re-rendering inputs
+            }
+        }
+
+        function renderLineItemsTable(fullRedraw = true) {
+            const tbody = document.getElementById('line-items-tbody');
+            
+            if (fullRedraw) {
+                tbody.innerHTML = '';
+                invoiceLineItems.forEach(item => {
+                    const amount = item.qty * item.rate;
+                    tbody.innerHTML += `
+                        <tr class="item-row" data-id="${item.id}">
+                            <td class="py-3 pr-4">
+                                <input type="text" value="${item.desc}" oninput="updateLineItemField(${item.id}, 'desc', this.value)" placeholder="Item description or service..." required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </td>
+                            <td class="py-3 pr-4">
+                                <input type="number" min="1" value="${item.qty}" oninput="updateLineItemField(${item.id}, 'qty', this.value)" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 item-qty">
+                            </td>
+                            <td class="py-3 pr-4">
+                                <input type="number" min="0" step="0.01" value="${item.rate}" oninput="updateLineItemField(${item.id}, 'rate', this.value)" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 item-rate">
+                            </td>
+                            <td class="py-3 pr-4 font-semibold text-slate-800 item-amount" id="amount-${item.id}">
+                                ₱${(item.qty * item.rate).toLocaleString('en-US', {minimumFractionDigits: 2})}
+                            </td>
+                            <td class="py-3 text-right">
+                                <button type="button" onclick="removeInvoiceLineItem(${item.id})" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition">
+                                    <i class="fa-solid fa-trash text-xs"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                // Just update amounts dynamically without losing focus
+                invoiceLineItems.forEach(item => {
+                    const amountEl = document.getElementById(`amount-${item.id}`);
+                    if (amountEl) {
+                        amountEl.innerText = '₱' + (item.qty * item.rate).toLocaleString('en-US', {minimumFractionDigits: 2});
+                    }
+                });
+            }
+
+            // Live calculation summary
+            let subtotal = invoiceLineItems.reduce((acc, curr) => acc + (curr.qty * curr.rate), 0);
+            let tax = subtotal * 0.12; // 12% Tax
+            let total = subtotal + tax;
+
+            document.getElementById('calc-subtotal').innerText = '₱' + subtotal.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('calc-tax').innerText = '₱' + tax.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('calc-total').innerText = '₱' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
+        }
+
+        function handleSaveAndSendInvoice(e) {
+            e.preventDefault();
+            
+            // Real-time validation checks
+            const clientSelect = document.getElementById('inv-client-select').value;
+            const issueDate = document.getElementById('inv-issue-date').value;
+            const dueDate = document.getElementById('inv-due-date').value;
+
+            let hasError = false;
+
+            if (!clientSelect) {
+                document.getElementById('err-client').classList.remove('hidden');
+                hasError = true;
+            } else {
+                document.getElementById('err-client').classList.add('hidden');
+            }
+
+            if (dueDate < issueDate) {
+                document.getElementById('err-duedate').classList.remove('hidden');
+                hasError = true;
+            } else {
+                document.getElementById('err-duedate').classList.add('hidden');
+            }
+
+            // Validate line items
+            let validItems = [];
+            let itemError = false;
+            invoiceLineItems.forEach(item => {
+                if (!item.desc.trim() || item.qty <= 0 || item.rate < 0) {
+                    itemError = true;
+                }
+                validItems.push({
+                    desc: item.desc,
+                    qty: item.qty,
+                    rate: item.rate,
+                    amount: item.qty * item.rate
+                });
+            });
+
+            if (itemError || validItems.length === 0) {
+                document.getElementById('err-items').classList.remove('hidden');
+                hasError = true;
+            } else {
+                document.getElementById('err-items').classList.add('hidden');
+            }
+
+            if (hasError) {
+                showToast('Please correct validation errors before saving.', 'error');
+                return;
+            }
+
+            // Compute final
+            let subtotal = validItems.reduce((acc, curr) => acc + curr.amount, 0);
+            let tax = subtotal * 0.12;
+            let total = subtotal + tax;
+
+            const clientObj = dbClients.find(c => c.id === clientSelect);
+            const newInvoiceId = 'INV-2026-' + Math.floor(100 + Math.random() * 900);
+
+            const newInvoice = {
+                id: newInvoiceId,
+                clientId: clientSelect,
+                clientName: clientObj ? clientObj.name : 'Unknown Client',
+                issueDate: issueDate,
+                dueDate: dueDate,
+                items: validItems,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                status: 'Pending',
+                notes: document.getElementById('inv-notes').value
+            };
+
+            dbInvoices.push(newInvoice);
+            saveInvoices();
+
+            // Also record payment intent log
+            dbPayments.push({
+                id: 'PAY-' + Math.floor(10000 + Math.random() * 90000),
+                invoiceId: newInvoiceId,
+                clientName: newInvoice.clientName,
+                date: issueDate,
+                method: 'Pending Gateway',
+                amount: total,
+                status: 'Unpaid'
+            });
+            savePayments();
+
+            showToast(`Invoice ${newInvoiceId} successfully saved & sent!`, 'success');
+            switchNav('invoices');
+        }
+
+        function renderClientsList() {
+            const grid = document.getElementById('clients-grid');
+            grid.innerHTML = '';
+
+            if (dbClients.length === 0) {
+                grid.innerHTML = `<div class="col-span-3 text-center py-8 text-slate-400">No clients found.</div>`;
+                return;
+            }
+
+            dbClients.forEach(c => {
+                grid.innerHTML += `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+                                <button onclick="deleteClient('${c.id}')" class="text-slate-400 hover:text-rose-500 transition"><i class="fa-solid fa-trash text-xs"></i></button>
+                            </div>
+                            <h4 class="font-bold text-slate-800 text-lg">${c.name}</h4>
+                            <p class="text-sm text-slate-500 mt-1 flex items-center gap-1.5"><i class="fa-solid fa-envelope text-xs text-slate-400"></i> ${c.email}</p>
+                            <p class="text-sm text-slate-500 mt-1 flex items-center gap-1.5"><i class="fa-solid fa-phone text-xs text-slate-400"></i> ${c.phone || 'No phone'}</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs font-semibold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">Active Account</span>
+                            <button onclick="quickInvoiceForClient('${c.id}')" class="text-xs font-semibold text-slate-700 hover:text-brand-600 transition">Create Invoice →</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openNewClientModal() {
+            document.getElementById('client-modal').classList.remove('hidden');
+            document.getElementById('client-modal').classList.add('flex');
+            document.getElementById('new-client-name').value = '';
+            document.getElementById('new-client-email').value = '';
+            document.getElementById('new-client-phone').value = '';
+        }
+
+        function closeNewClientModal() {
+            document.getElementById('client-modal').classList.add('hidden');
+            document.getElementById('client-modal').classList.remove('flex');
+        }
+
+        function handleSaveNewClient(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-client-name').value.trim();
+            const email = document.getElementById('new-client-email').value.trim();
+            const phone = document.getElementById('new-client-phone').value.trim();
+
+            const newClient = {
+                id: 'cli_' + Date.now(),
+                name,
+                email,
+                phone
+            };
+
+            dbClients.push(newClient);
+            saveClients();
+            closeNewClientModal();
+            renderClientsList();
+            showToast(`Client ${name} added successfully!`, 'success');
+        }
+
+        function deleteClient(id) {
+            if (confirm('Are you sure you want to delete this client?')) {
+                dbClients = dbClients.filter(c => c.id !== id);
+                saveClients();
+                renderClientsList();
+                showToast('Client deleted.', 'success');
+            }
+        }
+
+        function quickInvoiceForClient(clientId) {
+            switchNav('create-invoice');
+            setTimeout(() => {
+                document.getElementById('inv-client-select').value = clientId;
+            }, 50);
+        }
+
+        function renderPaymentsList() {
+            const tbody = document.getElementById('payments-tbody');
+            tbody.innerHTML = '';
+
+            if (dbPayments.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">No payment transactions recorded.</td></tr>`;
+                return;
+            }
+
+            dbPayments.forEach(p => {
+                const statusBadge = p.status === 'Successful' || p.status === 'Paid'
+                    ? `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-semibold border border-emerald-100">Successful</span>`
+                    : `<span class="px-2.5 py-1 bg-amber-50 text-amber-600 rounded-full text-xs font-semibold border border-amber-100">Pending</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="py-4 px-6 font-semibold text-slate-800">${p.id}</td>
+                        <td class="py-4 px-6 text-brand-600 font-medium">${p.invoiceId}</td>
+                        <td class="py-4 px-6 text-slate-700">${p.clientName}</td>
+                        <td class="py-4 px-6 text-slate-500">${p.date}</td>
+                        <td class="py-4 px-6 text-slate-600">${p.method}</td>
+                        <td class="py-4 px-6 font-bold text-slate-800">₱${p.amount.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td class="py-4 px-6">${statusBadge}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function initSettings() {
+            if (currentUser) {
+                document.getElementById('settings-company').value = currentUser.name;
+                document.getElementById('settings-email').value = currentUser.email;
+            }
+        }
+
+        function saveSettings() {
+            const comp = document.getElementById('settings-company').value.trim();
+            if (comp && currentUser) {
+                currentUser.name = comp;
+                document.getElementById('sidebar-user-name').innerText = comp;
+                document.getElementById('user-avatar-initials').innerText = comp.substring(0, 2).toUpperCase();
+                showToast('Settings updated successfully!', 'success');
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = message;
+            if (type === 'success') {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            } else {
+                toastIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
+            }
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        // Window load check
+        window.onload = function() {
+            // Default focus
+            document.getElementById('auth-email').focus();
+        };
+    </script>
+</body>
+</html>
