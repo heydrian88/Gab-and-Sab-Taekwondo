@@ -210,7 +210,7 @@
                 <div class="flex items-center justify-between flex-wrap gap-4">
                     <div>
                         <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-1">Action & Sparring</h3>
-                        <h2 class="text-2xl font-black text-white">Featured Video Highlights (Facebook & Uploads)</h2>
+                        <h2 class="text-2xl font-black text-white">Featured Video Highlights (Facebook & Embeds)</h2>
                     </div>
                     <div class="admin-edit-only hidden flex space-x-3">
                         <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-red-600/30 flex items-center space-x-2 transition">
@@ -675,7 +675,8 @@
                     await signInAnonymously(auth);
                 }
 
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portal_state');
+                // Correct Firestore path with an even number of segments (collection, document)
+                const docRef = doc(db, 'artifacts', appId);
                 
                 onSnapshot(docRef, (docSnap) => {
                     if (docSnap.exists()) {
@@ -701,17 +702,17 @@
 
         async function saveCloudData() {
             try {
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portal_state');
+                const docRef = doc(db, 'artifacts', appId);
                 await setDoc(docRef, cloudData);
                 document.getElementById('sync-status').textContent = 'Cloud Connected (Synced)';
             } catch (err) {
                 console.error("Failed to save cloud data (size limit or network):", err);
                 document.getElementById('sync-status').textContent = 'Cloud Sync Note (Saved locally)';
-                // If cloud fails due to Firestore document size limits (>1MB with huge videos), save light version to cloud without heavy base64 video data
                 try {
                     const lightData = JSON.parse(JSON.stringify(cloudData));
                     if (lightData.gab && lightData.gab.videoData) lightData.gab.videoData = '';
                     if (lightData.sab && lightData.sab.videoData) lightData.sab.videoData = '';
+                    const docRef = doc(db, 'artifacts', appId);
                     await setDoc(docRef, lightData);
                 } catch (e2) {
                     console.error("Fallback light sync failed:", e2);
@@ -1063,7 +1064,7 @@
                 const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                 ath.videoType = 'embed';
                 ath.videoUrl = finalUrl;
-                ath.videoData = ''; // clear heavy local file data so cloud sync succeeds instantly
+                ath.videoData = '';
                 cloudData[key] = ath;
                 saveCloudData();
                 closeVideoUploadModal();
