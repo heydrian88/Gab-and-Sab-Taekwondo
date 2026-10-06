@@ -703,9 +703,10 @@
             try {
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portal_state');
                 await setDoc(docRef, cloudData);
+                document.getElementById('sync-status').textContent = 'Cloud Connected (Synced)';
             } catch (err) {
                 console.error("Failed to save cloud data:", err);
-                alert("Cloud sync warning: Changes saved locally but failed to sync to cloud.");
+                document.getElementById('sync-status').textContent = 'Cloud Sync Warning (Local Updated)';
             }
         }
 
