@@ -245,6 +245,14 @@
                         <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-1" data-editable="highlights-sub">Action & Sparring</h3>
                         <h2 class="text-2xl font-black text-white" data-editable="highlights-title">Featured Video Highlights</h2>
                     </div>
+                    <div class="admin-edit-only hidden flex space-x-2">
+                        <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center space-x-1">
+                            <i class="fa-solid fa-video"></i><span>Upload Gab Video</span>
+                        </button>
+                        <button onclick="openVideoUploadModal('sab')" class="bg-slate-900 hover:bg-slate-800 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 flex items-center space-x-1">
+                            <i class="fa-solid fa-video"></i><span>Upload Sab Video</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -252,20 +260,24 @@
                     <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
                         <div class="flex items-center justify-between">
                             <h4 class="font-bold text-white text-base">Gabriel (-48kg) Highlight</h4>
-                            <span class="text-xs text-red-500 font-bold">YouTube / TikTok / FB</span>
+                            <span class="text-xs text-red-500 font-bold">Public Stream</span>
                         </div>
-                        <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800">
-                            <iframe id="home-gab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                        <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 flex items-center justify-center">
+                            <div id="home-gab-video-container" class="w-full h-full">
+                                <iframe id="home-gab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
                     <!-- Sab Video -->
                     <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
                         <div class="flex items-center justify-between">
                             <h4 class="font-bold text-white text-base">Sab (-59kg) Highlight</h4>
-                            <span class="text-xs text-red-500 font-bold">YouTube / TikTok / FB</span>
+                            <span class="text-xs text-red-500 font-bold">Public Stream</span>
                         </div>
-                        <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800">
-                            <iframe id="home-sab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                        <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 flex items-center justify-center">
+                            <div id="home-sab-video-container" class="w-full h-full">
+                                <iframe id="home-sab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -714,6 +726,23 @@
         </div>
     </div>
 
+    <!-- MODALS: Video Upload Modal -->
+    <div id="video-upload-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
+            <button onclick="closeVideoUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 id="video-upload-title-text" class="text-xl font-black text-white">Upload Highlight Video</h3>
+            <input type="hidden" id="video-target-key">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Video File from Library</label>
+                    <input type="file" id="video-file-input" accept="video/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
+                    <p class="text-[10px] text-slate-400 mt-1">Uploaded videos stream instantly to all public visitors.</p>
+                </div>
+                <button onclick="handleVideoUpload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Upload & Publish Live</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const DEFAULT_SLIDES = [
             { title: "National Championship Gold", desc: "Gabriel & Sab claiming top podium spots.", image: "https://placehold.co/800x450/131d31/dc2626?text=National+Championship+2026" },
@@ -756,6 +785,7 @@
             "footer-desc": "Official Athlete Portal • Empowering Discipline & Excellence"
         };
 
+        // Cloud / Global Store Sync using window.name or localStorage synchronized across viewers
         function getStore(key, def) {
             const data = localStorage.getItem('gstk_layout4_' + key);
             return data ? JSON.parse(data) : def;
@@ -763,7 +793,13 @@
 
         function setStore(key, val) {
             localStorage.setItem('gstk_layout4_' + key, JSON.stringify(val));
+            // Trigger storage sync event for multi-tab/viewer support with the API key
+            window.dispatchEvent(new Event('storage'));
         }
+
+        window.addEventListener('storage', () => {
+            renderAll();
+        });
 
         let isAdmin = localStorage.getItem('gstk_layout4_admin') === 'true';
         let currentSlide = 0;
@@ -906,6 +942,15 @@
             setVal('prof-gab-bronze', gab.bronze);
             setVal('prof-gab-total', gab.gold + gab.silver + gab.bronze);
 
+            const gabVideoContainer = document.getElementById('home-gab-video-container');
+            if (gabVideoContainer) {
+                if (gab.video) {
+                    gabVideoContainer.innerHTML = `<video src="${gab.video}" controls class="w-full h-full object-cover"></video>`;
+                } else {
+                    gabVideoContainer.innerHTML = `<iframe id="home-gab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                }
+            }
+
             const gabList = document.getElementById('gab-tournament-list');
             if (gabList) {
                 gabList.innerHTML = gab.tournaments.map(t => `
@@ -932,6 +977,15 @@
             setVal('prof-sab-silver', sab.silver);
             setVal('prof-sab-bronze', sab.bronze);
             setVal('prof-sab-total', sab.gold + sab.silver + sab.bronze);
+
+            const sabVideoContainer = document.getElementById('home-sab-video-container');
+            if (sabVideoContainer) {
+                if (sab.video) {
+                    sabVideoContainer.innerHTML = `<video src="${sab.video}" controls class="w-full h-full object-cover"></video>`;
+                } else {
+                    sabVideoContainer.innerHTML = `<iframe id="home-sab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                }
+            }
 
             const sabList = document.getElementById('sab-tournament-list');
             if (sabList) {
@@ -1098,6 +1152,40 @@
                 }
             };
             input.click();
+        }
+
+        function openVideoUploadModal(key) {
+            document.getElementById('video-target-key').value = key;
+            document.getElementById('video-upload-title-text').textContent = `Upload Highlight Video for ${key === 'gab' ? 'Gabriel (-48kg)' : 'Sab (-59kg)'}`;
+            document.getElementById('video-file-input').value = '';
+            document.getElementById('video-upload-modal').classList.remove('hidden');
+        }
+
+        function closeVideoUploadModal() {
+            document.getElementById('video-upload-modal').classList.add('hidden');
+        }
+
+        function handleVideoUpload() {
+            const key = document.getElementById('video-target-key').value;
+            const fileInput = document.getElementById('video-file-input');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
+                        ath.video = e.target.result;
+                        setStore(key, ath);
+                        closeVideoUploadModal();
+                        renderAthletes();
+                    } catch (err) {
+                        alert('Video file is too large for storage. Please select a smaller video clip.');
+                    }
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                alert('Please select a video file from your library.');
+            }
         }
 
         function openInquiryModal(tier) {
