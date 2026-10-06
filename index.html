@@ -785,7 +785,6 @@
             "footer-desc": "Official Athlete Portal • Empowering Discipline & Excellence"
         };
 
-        // Cloud / Global Store Sync using window.name or localStorage synchronized across viewers
         function getStore(key, def) {
             const data = localStorage.getItem('gstk_layout4_' + key);
             return data ? JSON.parse(data) : def;
@@ -793,7 +792,6 @@
 
         function setStore(key, val) {
             localStorage.setItem('gstk_layout4_' + key, JSON.stringify(val));
-            // Trigger storage sync event for multi-tab/viewer support with the API key
             window.dispatchEvent(new Event('storage'));
         }
 
@@ -1141,7 +1139,7 @@
                 if (e.target.files && e.target.files[0]) {
                     compressImage(e.target.files[0], 400, 400, 0.7, function(compressedDataUrl) {
                         try {
-                            const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
+                            const ath = getStore(key, key === 'gab' ? DEFAULT_SAB : DEFAULT_SAB);
                             ath.image = compressedDataUrl;
                             setStore(key, ath);
                             renderAthletes();
