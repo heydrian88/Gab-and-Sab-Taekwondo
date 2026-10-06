@@ -74,7 +74,6 @@
 
     <main class="flex-grow">
         
-        <!-- HOME SECTION -->
         <section id="sec-home" class="space-y-16 py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="relative rounded-3xl overflow-hidden glass-card p-6 md:p-12 hero-glow border border-slate-800">
@@ -127,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- Meet the Athletes -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-12">
                     <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2" data-editable="meet-athletes-sub">Meet The Athletes</h3>
@@ -238,7 +236,6 @@
                 </div>
             </div>
 
-            <!-- Video Highlights -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -247,10 +244,10 @@
                     </div>
                     <div class="admin-edit-only hidden flex space-x-2">
                         <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center space-x-1">
-                            <i class="fa-solid fa-video"></i><span>Upload Gab Video</span>
+                            <i class="fa-solid fa-video"></i><span>Manage Gab Video</span>
                         </button>
                         <button onclick="openVideoUploadModal('sab')" class="bg-slate-900 hover:bg-slate-800 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 flex items-center space-x-1">
-                            <i class="fa-solid fa-video"></i><span>Upload Sab Video</span>
+                            <i class="fa-solid fa-video"></i><span>Manage Sab Video</span>
                         </button>
                     </div>
                 </div>
@@ -283,7 +280,6 @@
                 </div>
             </div>
 
-            <!-- Partnership Opportunities (Aligned Grid) -->
             <div id="partnerships" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
                 <div class="text-center max-w-2xl mx-auto">
                     <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2" data-editable="partnership-sec-sub">Support Their Journey</h3>
@@ -368,7 +364,6 @@
             </div>
         </section>
 
-        <!-- Gabriel Profile Section -->
         <section id="sec-gab" class="hidden py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div class="flex items-center justify-between">
                 <div>
@@ -455,7 +450,6 @@
             </div>
         </section>
 
-        <!-- Sab Profile Section -->
         <section id="sec-sab" class="hidden py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div class="flex items-center justify-between">
                 <div>
@@ -563,7 +557,7 @@
     </footer>
 
 
-    <!-- MODALS: Admin Login (Password Masked) -->
+    <!-- Admin Login Modal -->
     <div id="login-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -582,7 +576,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Edit Site Texts -->
+    <!-- Edit Site Texts Modal -->
     <div id="edit-texts-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-xl w-full border border-slate-800 space-y-6 relative shadow-2xl max-h-[85vh] flex flex-col">
             <button onclick="closeEditTextsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -594,7 +588,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Slideshow Library Photo Upload -->
+    <!-- Slideshow Library Photo Upload Modal -->
     <div id="slide-library-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeSlideLibraryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -617,7 +611,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Manage / View All Slides Info (Admin Mode) -->
+    <!-- Manage Slides Modal -->
     <div id="manage-slides-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-2xl w-full border border-slate-800 space-y-6 relative shadow-2xl max-h-[85vh] flex flex-col">
             <button onclick="closeManageSlidesModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -633,7 +627,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Athlete Edit Modal -->
+    <!-- Athlete Edit Modal -->
     <div id="athlete-edit-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeEditAthleteModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -667,7 +661,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Partnership Inquiry Modal -->
+    <!-- Partnership Inquiry Modal -->
     <div id="inquiry-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeInquiryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -690,7 +684,7 @@
         </div>
     </div>
 
-    <!-- MODALS: Admin Analytics -->
+    <!-- Admin Analytics Modal -->
     <div id="analytics-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-lg w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeAnalyticsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -726,19 +720,34 @@
         </div>
     </div>
 
-    <!-- MODALS: Video Upload Modal -->
+    <!-- Video Upload & Embed Modal -->
     <div id="video-upload-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeVideoUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 id="video-upload-title-text" class="text-xl font-black text-white">Upload Highlight Video</h3>
+            <h3 id="video-upload-title-text" class="text-xl font-black text-white">Manage Highlight Video</h3>
             <input type="hidden" id="video-target-key">
-            <div class="space-y-4">
+            
+            <div class="flex border-b border-slate-800 pb-2 space-x-4">
+                <button type="button" onclick="switchVideoTab('upload')" id="v-tab-upload" class="text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1">Upload File</button>
+                <button type="button" onclick="switchVideoTab('embed')" id="v-tab-embed" class="text-xs font-bold text-slate-400 pb-1">Embed URL (YouTube/MP4)</button>
+            </div>
+
+            <div id="video-tab-upload-content" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Video File from Library</label>
                     <input type="file" id="video-file-input" accept="video/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
                     <p class="text-[10px] text-slate-400 mt-1">Uploaded videos stream instantly to all public visitors.</p>
                 </div>
-                <button onclick="handleVideoUpload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Upload & Publish Live</button>
+                <button onclick="handleVideoUploadFile()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Upload & Publish Live</button>
+            </div>
+
+            <div id="video-tab-embed-content" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Embed URL / YouTube Link</label>
+                    <input type="text" id="video-embed-input" placeholder="https://www.youtube.com/embed/... or direct MP4 URL" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
+                    <p class="text-[10px] text-slate-400 mt-1">Paste any embed or video URL for public streaming.</p>
+                </div>
+                <button onclick="handleVideoEmbedUrl()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Save Embed Link</button>
             </div>
         </div>
     </div>
@@ -754,6 +763,8 @@
             bio: "Gabriel has established himself as a premier -48kg competitor through rigorous conditioning and relentless tactical aggression.",
             gold: 14, silver: 4, bronze: 2,
             image: "https://placehold.co/600x450/131d31/dc2626?text=Gabriel+(-48kg)",
+            videoType: 'embed',
+            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Men's -48kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Men's -48kg", result: "Silver Medal" }
@@ -765,6 +776,8 @@
             bio: "Sab brings technical mastery and exceptional spatial awareness to the -59kg featherweight division.",
             gold: 18, silver: 3, bronze: 1,
             image: "https://placehold.co/600x450/131d31/dc2626?text=Sab+(-59kg)",
+            videoType: 'embed',
+            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Women's -59kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Women's -59kg", result: "Gold Medal" }
@@ -942,10 +955,11 @@
 
             const gabVideoContainer = document.getElementById('home-gab-video-container');
             if (gabVideoContainer) {
-                if (gab.video) {
-                    gabVideoContainer.innerHTML = `<video src="${gab.video}" controls class="w-full h-full object-cover"></video>`;
+                if (gab.videoType === 'upload' && gab.videoData) {
+                    gabVideoContainer.innerHTML = `<video src="${gab.videoData}" controls class="w-full h-full object-cover"></video>`;
                 } else {
-                    gabVideoContainer.innerHTML = `<iframe id="home-gab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                    const embedUrl = gab.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+                    gabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
@@ -978,10 +992,11 @@
 
             const sabVideoContainer = document.getElementById('home-sab-video-container');
             if (sabVideoContainer) {
-                if (sab.video) {
-                    sabVideoContainer.innerHTML = `<video src="${sab.video}" controls class="w-full h-full object-cover"></video>`;
+                if (sab.videoType === 'upload' && sab.videoData) {
+                    sabVideoContainer.innerHTML = `<video src="${sab.videoData}" controls class="w-full h-full object-cover"></video>`;
                 } else {
-                    sabVideoContainer.innerHTML = `<iframe id="home-sab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                    const embedUrl = sab.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+                    sabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
 
@@ -1139,7 +1154,7 @@
                 if (e.target.files && e.target.files[0]) {
                     compressImage(e.target.files[0], 400, 400, 0.7, function(compressedDataUrl) {
                         try {
-                            const ath = getStore(key, key === 'gab' ? DEFAULT_SAB : DEFAULT_SAB);
+                            const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                             ath.image = compressedDataUrl;
                             setStore(key, ath);
                             renderAthletes();
@@ -1154,8 +1169,10 @@
 
         function openVideoUploadModal(key) {
             document.getElementById('video-target-key').value = key;
-            document.getElementById('video-upload-title-text').textContent = `Upload Highlight Video for ${key === 'gab' ? 'Gabriel (-48kg)' : 'Sab (-59kg)'}`;
+            document.getElementById('video-upload-title-text').textContent = `Manage Highlight Video for ${key === 'gab' ? 'Gabriel (-48kg)' : 'Sab (-59kg)'}`;
             document.getElementById('video-file-input').value = '';
+            document.getElementById('video-embed-input').value = '';
+            switchVideoTab('upload');
             document.getElementById('video-upload-modal').classList.remove('hidden');
         }
 
@@ -1163,26 +1180,67 @@
             document.getElementById('video-upload-modal').classList.add('hidden');
         }
 
-        function handleVideoUpload() {
+        function switchVideoTab(tab) {
+            const btnUpload = document.getElementById('v-tab-upload');
+            const btnEmbed = document.getElementById('v-tab-embed');
+            const contentUpload = document.getElementById('video-tab-upload-content');
+            const contentEmbed = document.getElementById('video-tab-embed-content');
+
+            if (tab === 'upload') {
+                btnUpload.className = "text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1";
+                btnEmbed.className = "text-xs font-bold text-slate-400 pb-1";
+                contentUpload.classList.remove('hidden');
+                contentEmbed.classList.add('hidden');
+            } else {
+                btnEmbed.className = "text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1";
+                btnUpload.className = "text-xs font-bold text-slate-400 pb-1";
+                contentEmbed.classList.remove('hidden');
+                contentUpload.classList.add('hidden');
+            }
+        }
+
+        function handleVideoUploadFile() {
             const key = document.getElementById('video-target-key').value;
             const fileInput = document.getElementById('video-file-input');
 
             if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.size > 15 * 1024 * 1024) {
+                    alert('Video file is too large (>15MB). Please select a smaller video clip or use the Embed URL option.');
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     try {
                         const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
-                        ath.video = e.target.result;
+                        ath.videoType = 'upload';
+                        ath.videoData = e.target.result;
                         setStore(key, ath);
                         closeVideoUploadModal();
                         renderAthletes();
                     } catch (err) {
-                        alert('Video file is too large for storage. Please select a smaller video clip.');
+                        alert('Storage quota exceeded. Please select a smaller video file or use video embedding.');
                     }
                 };
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
             } else {
                 alert('Please select a video file from your library.');
+            }
+        }
+
+        function handleVideoEmbedUrl() {
+            const key = document.getElementById('video-target-key').value;
+            const url = document.getElementById('video-embed-input').value.trim();
+
+            if (url) {
+                const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
+                ath.videoType = 'embed';
+                ath.videoUrl = url;
+                setStore(key, ath);
+                closeVideoUploadModal();
+                renderAthletes();
+            } else {
+                alert('Please enter a valid embed or video URL.');
             }
         }
 
