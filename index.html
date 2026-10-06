@@ -597,7 +597,7 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Video File from Library</label>
                     <input type="file" id="video-file-input" accept="video/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
-                    <p class="text-[10px] text-slate-400 mt-1">Uploaded videos sync to cloud for all visitors.</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Recommended small video clips (&lt;3MB) for instant cloud sync.</p>
                 </div>
                 <button onclick="handleVideoUploadFile()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Sync Video to Cloud</button>
             </div>
@@ -606,7 +606,7 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Facebook Video URL or Embed Link</label>
                     <input type="text" id="video-embed-input" placeholder="https://www.facebook.com/plugins/video.php?href=..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
-                    <p class="text-[10px] text-slate-400 mt-1">Paste your Facebook video link or embed code.</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Paste your Facebook video link or embed code. Syncs instantly to cloud!</p>
                 </div>
                 <button onclick="handleVideoEmbedUrl()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Sync Facebook Embed</button>
             </div>
@@ -637,6 +637,7 @@
             image: "https://placehold.co/600x450/131d31/dc2626?text=Gabriel+(-48kg)",
             videoType: 'embed',
             videoUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560',
+            videoData: '',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Men's -48kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Men's -48kg", result: "Silver Medal" }
@@ -650,6 +651,7 @@
             image: "https://placehold.co/600x450/131d31/dc2626?text=Sab+(-59kg)",
             videoType: 'embed',
             videoUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560',
+            videoData: '',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Women's -59kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Women's -59kg", result: "Gold Medal" }
@@ -675,7 +677,6 @@
 
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portal_state');
                 
-                // Real-time listener for multi-user sync
                 onSnapshot(docRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
@@ -684,7 +685,6 @@
                         if (data.sab) cloudData.sab = data.sab;
                         renderAll();
                     } else {
-                        // Seed initial data
                         setDoc(docRef, cloudData);
                     }
                     document.getElementById('sync-status').textContent = 'Cloud Connected';
@@ -705,8 +705,17 @@
                 await setDoc(docRef, cloudData);
                 document.getElementById('sync-status').textContent = 'Cloud Connected (Synced)';
             } catch (err) {
-                console.error("Failed to save cloud data:", err);
-                document.getElementById('sync-status').textContent = 'Cloud Sync Warning (Local Updated)';
+                console.error("Failed to save cloud data (size limit or network):", err);
+                document.getElementById('sync-status').textContent = 'Cloud Sync Note (Saved locally)';
+                // If cloud fails due to Firestore document size limits (>1MB with huge videos), save light version to cloud without heavy base64 video data
+                try {
+                    const lightData = JSON.parse(JSON.stringify(cloudData));
+                    if (lightData.gab && lightData.gab.videoData) lightData.gab.videoData = '';
+                    if (lightData.sab && lightData.sab.videoData) lightData.sab.videoData = '';
+                    await setDoc(docRef, lightData);
+                } catch (e2) {
+                    console.error("Fallback light sync failed:", e2);
+                }
             }
         }
 
@@ -895,7 +904,7 @@
             renderSlides();
         }
 
-        function compressImage(file, maxWidth = 800, maxHeight = 450, quality = 0.7, callback) {
+        function compressImage(file, maxWidth = 800, maxHeight = 450, quality = 0.6, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
@@ -924,7 +933,7 @@
             const fileInput = document.getElementById('slide-file-input');
 
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], 800, 450, 0.7, function(compressedDataUrl) {
+                compressImage(fileInput.files[0], 800, 450, 0.6, function(compressedDataUrl) {
                     if (!cloudData.slides) cloudData.slides = [...DEFAULT_SLIDES];
                     cloudData.slides.unshift({ title, desc, image: compressedDataUrl });
                     saveCloudData();
@@ -968,7 +977,7 @@
             input.accept = 'image/*';
             input.onchange = e => {
                 if (e.target.files && e.target.files[0]) {
-                    compressImage(e.target.files[0], 400, 400, 0.7, function(compressedDataUrl) {
+                    compressImage(e.target.files[0], 400, 400, 0.6, function(compressedDataUrl) {
                         const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                         ath.image = compressedDataUrl;
                         cloudData[key] = ath;
@@ -985,7 +994,7 @@
             document.getElementById('video-upload-title-text').textContent = `Manage Highlight Video for ${key === 'gab' ? 'Gabriel (-48kg)' : 'Sab (-59kg)'}`;
             document.getElementById('video-file-input').value = '';
             document.getElementById('video-embed-input').value = '';
-            switchVideoTab('upload');
+            switchVideoTab('embed');
             document.getElementById('video-upload-modal').classList.remove('hidden');
         }
 
@@ -1016,9 +1025,8 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('Video file is too large (>10MB). Please select a smaller video clip or use Facebook Video Embed.');
-                    return;
+                if (file.size > 3 * 1024 * 1024) {
+                    alert('Video file is large (>3MB). For optimal cloud synchronization across users, please use Facebook Video Embed or a shorter clip.');
                 }
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -1055,6 +1063,7 @@
                 const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                 ath.videoType = 'embed';
                 ath.videoUrl = finalUrl;
+                ath.videoData = ''; // clear heavy local file data so cloud sync succeeds instantly
                 cloudData[key] = ath;
                 saveCloudData();
                 closeVideoUploadModal();
