@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gab & Sab Taekwondo Portal | Layout 4</title>
+    <title>Gab & Sab Taekwondo Portal | Layout 6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,15 +36,14 @@
     <header class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('home')">
-                <div id="logo-container" class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-600/30 overflow-hidden">
-                    <img id="nav-logo-img" src="https://placehold.co/100x100/dc2626/ffffff?text=GS" alt="Logo" class="w-full h-full object-cover hidden">
-                    <i id="nav-logo-icon" class="fa-solid fa-fire text-white text-xl"></i>
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-600/30 overflow-hidden">
+                    <i class="fa-solid fa-fire text-white text-xl"></i>
                 </div>
                 <div>
                     <h1 class="font-extrabold text-base sm:text-lg tracking-wider text-white uppercase flex items-center space-x-2">
                         <span>Gab and Sab Taekwondo</span>
                     </h1>
-                    <p class="text-[10px] text-red-500 font-bold tracking-widest uppercase">Official Athlete Portal</p>
+                    <p class="text-[10px] text-red-500 font-bold tracking-widest uppercase">Layout 6 • Official Athlete Portal</p>
                 </div>
             </div>
 
@@ -78,9 +77,6 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="relative rounded-3xl overflow-hidden glass-card p-6 md:p-12 hero-glow border border-slate-800">
                     <div class="absolute top-4 right-4 z-20 flex space-x-2">
-                        <button onclick="openEditHeroModal()" class="bg-slate-900/90 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center space-x-1 border border-slate-700 admin-edit-only hidden">
-                            <i class="fa-solid fa-pen"></i><span>Edit Hero Text</span>
-                        </button>
                         <button onclick="openSlideLibraryModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center space-x-1 admin-edit-only hidden">
                             <i class="fa-solid fa-images"></i><span>Upload Slide Photo</span>
                         </button>
@@ -93,12 +89,12 @@
                         <div class="space-y-6">
                             <div class="inline-flex items-center space-x-2 bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full text-red-500 text-xs font-bold uppercase tracking-wider">
                                 <i class="fa-solid fa-fire"></i>
-                                <span class="text-red-500 font-black" data-editable="hero-badge">Elite Martial Artists</span>
+                                <span class="text-red-500 font-black">Elite Martial Artists</span>
                             </div>
-                            <h2 id="home-hero-title" class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-none">
+                            <h2 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-none">
                                 GAB & SAB <span class="text-red-600">TAEKWONDO</span>
                             </h2>
-                            <p id="home-hero-desc" class="text-slate-400 text-base sm:text-lg leading-relaxed">
+                            <p class="text-slate-400 text-base sm:text-lg leading-relaxed">
                                 Official athlete portal tracking training milestones, competitive achievements, and national tournament journeys.
                             </p>
                             <div class="flex flex-wrap gap-4 pt-2">
@@ -118,8 +114,8 @@
                             </div>
                             <div class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 border border-slate-800 flex items-center space-x-2">
                                 <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-                                <span class="text-red-500 font-bold" data-editable="slide-badge">Elite Martial Artists</span>
-                                <span>(<span id="slide-current">1</span>/<span id="slide-total">3</span>)</span>
+                                <span class="text-red-500 font-bold">Elite Martial Artists</span>
+                                <span>(<span id="slide-current">1</span>/<span id="slide-total">2</span>)</span>
                             </div>
                         </div>
                     </div>
@@ -128,8 +124,8 @@
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2" data-editable="meet-athletes-sub">Meet The Athletes</h3>
-                    <h2 class="text-3xl font-extrabold text-white" data-editable="meet-athletes-title">Side-by-Side Champions</h2>
+                    <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2">Meet The Athletes</h3>
+                    <h2 class="text-3xl font-extrabold text-white">Side-by-Side Champions</h2>
                     <div class="w-16 h-1 bg-red-600 mx-auto mt-4 rounded-full"></div>
                 </div>
 
@@ -152,28 +148,15 @@
                             <div>
                                 <h3 id="home-gab-name" class="text-2xl font-black text-white">Gabriel (Gab)</h3>
                                 <p id="home-gab-tag" class="text-red-500 text-sm font-semibold">Dedicated athlete pursuing excellence in speed sparring and tactical counters.</p>
-                                <p id="home-gab-snippet" class="text-slate-400 text-sm mt-3 leading-relaxed">
+                                <p class="text-slate-400 text-sm mt-3 leading-relaxed">
                                     Focused on precision head kicks, footwork agility, and national tournament dominance.
                                 </p>
                             </div>
-                            <!-- Medal Count Breakdown -->
                             <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 text-center">
-                                <div>
-                                    <span id="home-gab-gold" class="text-amber-400 font-black text-lg block">14</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Gold</span>
-                                </div>
-                                <div>
-                                    <span id="home-gab-silver" class="text-slate-300 font-black text-lg block">4</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Silver</span>
-                                </div>
-                                <div>
-                                    <span id="home-gab-bronze" class="text-amber-600 font-black text-lg block">2</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Bronze</span>
-                                </div>
-                                <div>
-                                    <span id="home-gab-total" class="text-white font-black text-lg block">20</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Total</span>
-                                </div>
+                                <div><span id="home-gab-gold" class="text-amber-400 font-black text-lg block">14</span><span class="text-[10px] text-slate-400 font-bold uppercase">Gold</span></div>
+                                <div><span id="home-gab-silver" class="text-slate-300 font-black text-lg block">4</span><span class="text-[10px] text-slate-400 font-bold uppercase">Silver</span></div>
+                                <div><span id="home-gab-bronze" class="text-amber-600 font-black text-lg block">2</span><span class="text-[10px] text-slate-400 font-bold uppercase">Bronze</span></div>
+                                <div><span id="home-gab-total" class="text-white font-black text-lg block">20</span><span class="text-[10px] text-slate-400 font-bold uppercase">Total</span></div>
                             </div>
                         </div>
                         <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-end relative z-10">
@@ -202,28 +185,15 @@
                             <div>
                                 <h3 id="home-sab-name" class="text-2xl font-black text-white">Sab (Anne Ysabel)</h3>
                                 <p id="home-sab-tag" class="text-red-500 text-sm font-semibold">Known for technical form execution, precision kicks, and tournament focus.</p>
-                                <p id="home-sab-snippet" class="text-slate-400 text-sm mt-3 leading-relaxed">
+                                <p class="text-slate-400 text-sm mt-3 leading-relaxed">
                                     Elite featherweight competitor committed to tactical brilliance and unwavering discipline.
                                 </p>
                             </div>
-                            <!-- Medal Count Breakdown -->
                             <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 text-center">
-                                <div>
-                                    <span id="home-sab-gold" class="text-amber-400 font-black text-lg block">18</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Gold</span>
-                                </div>
-                                <div>
-                                    <span id="home-sab-silver" class="text-slate-300 font-black text-lg block">3</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Silver</span>
-                                </div>
-                                <div>
-                                    <span id="home-sab-bronze" class="text-amber-600 font-black text-lg block">1</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Bronze</span>
-                                </div>
-                                <div>
-                                    <span id="home-sab-total" class="text-white font-black text-lg block">22</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Total</span>
-                                </div>
+                                <div><span id="home-sab-gold" class="text-amber-400 font-black text-lg block">18</span><span class="text-[10px] text-slate-400 font-bold uppercase">Gold</span></div>
+                                <div><span id="home-sab-silver" class="text-slate-300 font-black text-lg block">3</span><span class="text-[10px] text-slate-400 font-bold uppercase">Bronze</span></div>
+                                <div><span id="home-sab-bronze" class="text-amber-600 font-black text-lg block">1</span><span class="text-[10px] text-slate-400 font-bold uppercase">Bronze</span></div>
+                                <div><span id="home-sab-total" class="text-white font-black text-lg block">22</span><span class="text-[10px] text-slate-400 font-bold uppercase">Total</span></div>
                             </div>
                         </div>
                         <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-end relative z-10">
@@ -237,43 +207,44 @@
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between flex-wrap gap-4">
                     <div>
-                        <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-1" data-editable="highlights-sub">Action & Sparring</h3>
-                        <h2 class="text-2xl font-black text-white" data-editable="highlights-title">Featured Video Highlights</h2>
+                        <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-1">Action & Sparring</h3>
+                        <h2 class="text-2xl font-black text-white">Featured Video Highlights</h2>
                     </div>
-                    <div class="admin-edit-only hidden flex space-x-2">
-                        <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center space-x-1">
-                            <i class="fa-solid fa-video"></i><span>Manage Gab Video</span>
+                    <!-- Prominent Admin Upload / Embed Video Controls -->
+                    <div class="admin-edit-only hidden flex space-x-3">
+                        <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-red-600/30 flex items-center space-x-2 transition">
+                            <i class="fa-solid fa-video"></i><span>Manage Gabriel Video (Upload / FB Embed)</span>
                         </button>
-                        <button onclick="openVideoUploadModal('sab')" class="bg-slate-900 hover:bg-slate-800 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 flex items-center space-x-1">
-                            <i class="fa-solid fa-video"></i><span>Manage Sab Video</span>
+                        <button onclick="openVideoUploadModal('sab')" class="bg-slate-900 hover:bg-slate-800 text-red-400 px-4 py-2 rounded-xl text-xs font-bold border border-red-500/30 flex items-center space-x-2 transition">
+                            <i class="fa-solid fa-video"></i><span>Manage Sab Video (Upload / FB Embed)</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Gabriel Video -->
+                    <!-- Gabriel Video Card -->
                     <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
                         <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-white text-base">Gabriel (-48kg) Highlight</h4>
-                            <span class="text-xs text-red-500 font-bold">Public Stream</span>
+                            <h4 class="font-bold text-white text-base">Gabriel (-48kg) Highlight Stream</h4>
+                            <span class="text-xs text-red-500 font-bold bg-red-500/10 px-2.5 py-1 rounded-full border border-red-500/20">Public Viewer Stream</span>
                         </div>
                         <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 flex items-center justify-center">
-                            <div id="home-gab-video-container" class="w-full h-full">
-                                <iframe id="home-gab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                            <div id="home-gab-video-container" class="w-full h-full flex items-center justify-center">
+                                <!-- Injected dynamically -->
                             </div>
                         </div>
                     </div>
-                    <!-- Sab Video -->
+                    <!-- Sab Video Card -->
                     <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
                         <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-white text-base">Sab (-59kg) Highlight</h4>
-                            <span class="text-xs text-red-500 font-bold">Public Stream</span>
+                            <h4 class="font-bold text-white text-base">Sab (-59kg) Highlight Stream</h4>
+                            <span class="text-xs text-red-500 font-bold bg-red-500/10 px-2.5 py-1 rounded-full border border-red-500/20">Public Viewer Stream</span>
                         </div>
                         <div class="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 flex items-center justify-center">
-                            <div id="home-sab-video-container" class="w-full h-full">
-                                <iframe id="home-sab-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>
+                            <div id="home-sab-video-container" class="w-full h-full flex items-center justify-center">
+                                <!-- Injected dynamically -->
                             </div>
                         </div>
                     </div>
@@ -282,12 +253,11 @@
 
             <div id="partnerships" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
                 <div class="text-center max-w-2xl mx-auto">
-                    <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2" data-editable="partnership-sec-sub">Support Their Journey</h3>
-                    <h2 class="text-3xl font-extrabold text-white" data-editable="partnership-sec-title">Partnership Opportunities</h2>
-                    <p class="text-slate-400 text-sm mt-2" data-editable="partnership-sec-desc">Join Gabriel and Sab on their quest for national and international championships.</p>
+                    <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-2">Support Their Journey</h3>
+                    <h2 class="text-3xl font-extrabold text-white">Partnership Opportunities</h2>
+                    <p class="text-slate-400 text-sm mt-2">Join Gabriel and Sab on their quest for national and international championships.</p>
                 </div>
 
-                <!-- Aligned Grid for Partnership Tiers -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
                     <!-- Bronze Partner -->
                     <div class="glass-card rounded-3xl p-8 border border-slate-800 flex flex-col justify-between space-y-6 h-full">
@@ -304,10 +274,6 @@
                                 <li class="flex items-start space-x-2">
                                     <i class="fa-solid fa-check text-red-500 mt-0.5"></i>
                                     <span><strong>Digital & Social Media:</strong> Collective acknowledgment post thanking all Bronze sponsors.</span>
-                                </li>
-                                <li class="flex items-start space-x-2">
-                                    <i class="fa-solid fa-check text-red-500 mt-0.5"></i>
-                                    <span><strong>Updates:</strong> Regular newsletters on training progress and tournament results.</span>
                                 </li>
                             </ul>
                         </div>
@@ -352,10 +318,6 @@
                                     <i class="fa-solid fa-check text-red-500 mt-0.5"></i>
                                     <span><strong>Digital & Social Media:</strong> Dedicated spotlight feature posts on Facebook, Instagram, and TikTok with reels.</span>
                                 </li>
-                                <li class="flex items-start space-x-2">
-                                    <i class="fa-solid fa-check text-red-500 mt-0.5"></i>
-                                    <span><strong>Exclusivity:</strong> Category exclusivity (sole supplement/apparel partner in their specific tier).</span>
-                                </li>
                             </ul>
                         </div>
                         <button onclick="openInquiryModal('Gold Partner (30,000 PHP)')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Inquire for Gold</button>
@@ -391,24 +353,11 @@
                         <h3 class="text-2xl font-black text-white">Gabriel Tiburcio</h3>
                         <p class="text-red-500 font-bold text-sm">Men's -48kg Division</p>
                     </div>
-                    <!-- Medal breakdown -->
                     <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center">
-                        <div>
-                            <span id="prof-gab-gold" class="text-amber-400 font-black text-base block">14</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Gold</span>
-                        </div>
-                        <div>
-                            <span id="prof-gab-silver" class="text-slate-300 font-black text-base block">4</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Silver</span>
-                        </div>
-                        <div>
-                            <span id="prof-gab-bronze" class="text-amber-600 font-black text-base block">2</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Bronze</span>
-                        </div>
-                        <div>
-                            <span id="prof-gab-total" class="text-white font-black text-base block">20</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Total</span>
-                        </div>
+                        <div><span id="prof-gab-gold" class="text-amber-400 font-black text-base block">14</span><span class="text-[9px] text-slate-400 font-bold uppercase">Gold</span></div>
+                        <div><span id="prof-gab-silver" class="text-slate-300 font-black text-base block">4</span><span class="text-[9px] text-slate-400 font-bold uppercase">Silver</span></div>
+                        <div><span id="prof-gab-bronze" class="text-amber-600 font-black text-base block">2</span><span class="text-[9px] text-slate-400 font-bold uppercase">Bronze</span></div>
+                        <div><span id="prof-gab-total" class="text-white font-black text-base block">20</span><span class="text-[9px] text-slate-400 font-bold uppercase">Total</span></div>
                     </div>
                 </div>
 
@@ -422,26 +371,8 @@
                             Dedicated athlete pursuing excellence in speed sparring and tactical counters.
                         </p>
                     </div>
-
-                    <!-- Belt Journey (Red Belt Highlighted) -->
-                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
-                        <h4 class="text-sm font-bold text-white uppercase tracking-wider">Belt Progression Journey</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 text-center">
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-white mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">White</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-yellow-400 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Yellow</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-blue-600 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Blue</span></div>
-                            <!-- Highlighted Red Belt -->
-                            <div class="p-3 rounded-xl bg-red-600/20 border-2 border-red-600 relative shadow-md shadow-red-600/20"><div class="w-8 h-2.5 bg-red-600 mx-auto rounded mb-1"></div><span class="text-[10px] font-black text-white">Red Belt</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-amber-800 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Brown</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-slate-950 border border-slate-700 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Black</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Tournament History -->
                     <div class="glass-card rounded-3xl p-8 border border-slate-800 space-y-6">
-                        <div class="flex items-center justify-between">
-                            <h4 class="text-xl font-bold text-white">Tournament History</h4>
-                        </div>
+                        <h4 class="text-xl font-bold text-white">Tournament History</h4>
                         <div id="gab-tournament-list" class="space-y-3">
                             <!-- Injected via JS -->
                         </div>
@@ -477,24 +408,11 @@
                         <h3 class="text-2xl font-black text-white">Anne Ysabel "Sab" Tiburcio</h3>
                         <p class="text-red-500 font-bold text-sm">Women's -59kg Division</p>
                     </div>
-                    <!-- Medal breakdown -->
                     <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center">
-                        <div>
-                            <span id="prof-sab-gold" class="text-amber-400 font-black text-base block">18</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Gold</span>
-                        </div>
-                        <div>
-                            <span id="prof-sab-silver" class="text-slate-300 font-black text-base block">3</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Silver</span>
-                        </div>
-                        <div>
-                            <span id="prof-sab-bronze" class="text-amber-600 font-black text-base block">1</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Bronze</span>
-                        </div>
-                        <div>
-                            <span id="prof-sab-total" class="text-white font-black text-base block">22</span>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase">Total</span>
-                        </div>
+                        <div><span id="prof-sab-gold" class="text-amber-400 font-black text-base block">18</span><span class="text-[9px] text-slate-400 font-bold uppercase">Gold</span></div>
+                        <div><span id="prof-sab-silver" class="text-slate-300 font-black text-base block">3</span><span class="text-[9px] text-slate-400 font-bold uppercase">Silver</span></div>
+                        <div><span id="prof-sab-bronze" class="text-amber-600 font-black text-base block">1</span><span class="text-[9px] text-slate-400 font-bold uppercase">Bronze</span></div>
+                        <div><span id="prof-sab-total" class="text-white font-black text-base block">22</span><span class="text-[9px] text-slate-400 font-bold uppercase">Total</span></div>
                     </div>
                 </div>
 
@@ -508,26 +426,8 @@
                             Known for technical form execution, precision kicks, and tournament focus.
                         </p>
                     </div>
-
-                    <!-- Belt Journey (Red Belt Highlighted) -->
-                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
-                        <h4 class="text-sm font-bold text-white uppercase tracking-wider">Belt Progression Journey</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-6 gap-3 text-center">
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-white mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">White</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-yellow-400 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Yellow</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-blue-600 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Blue</span></div>
-                            <!-- Highlighted Red Belt -->
-                            <div class="p-3 rounded-xl bg-red-600/20 border-2 border-red-600 relative shadow-md shadow-red-600/20"><div class="w-8 h-2.5 bg-red-600 mx-auto rounded mb-1"></div><span class="text-[10px] font-black text-white">Red Belt</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-amber-800 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Brown</span></div>
-                            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800"><div class="w-8 h-2.5 bg-slate-950 border border-slate-700 mx-auto rounded mb-1"></div><span class="text-[10px] font-bold text-slate-400">Black</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Tournament History -->
                     <div class="glass-card rounded-3xl p-8 border border-slate-800 space-y-6">
-                        <div class="flex items-center justify-between">
-                            <h4 class="text-xl font-bold text-white">Tournament History</h4>
-                        </div>
+                        <h4 class="text-xl font-bold text-white">Tournament History</h4>
                         <div id="sab-tournament-list" class="space-y-3">
                             <!-- Injected via JS -->
                         </div>
@@ -540,22 +440,16 @@
 
     <footer class="bg-slate-950 border-t border-slate-800 py-12 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-            <h3 class="font-bold text-sm text-white uppercase tracking-wider" data-editable="footer-title">Gab and Sab Taekwondo</h3>
-            <p id="footer-text" class="text-xs text-slate-400" data-editable="footer-desc">Official Athlete Portal • Empowering Discipline & Excellence</p>
+            <h3 class="font-bold text-sm text-white uppercase tracking-wider">Gab and Sab Taekwondo Layout 6</h3>
+            <p class="text-xs text-slate-400">Official Athlete Portal • Empowering Discipline & Excellence</p>
             <div class="flex justify-center space-x-6 text-slate-400 text-sm pt-2">
                 <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-facebook"></i></a>
                 <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-tiktok"></i></a>
             </div>
             <p class="text-[10px] text-slate-600 pt-4">Google Analytics Stream ID: 15942151392 | Measurement ID: G-FSDL1TFBY7</p>
-            <div class="admin-edit-only hidden pt-2">
-                <button onclick="openEditTextsModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow">
-                    <i class="fa-solid fa-pen-to-square mr-1"></i> Edit Site Texts
-                </button>
-            </div>
         </div>
     </footer>
-
 
     <!-- Admin Login Modal -->
     <div id="login-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -576,19 +470,7 @@
         </div>
     </div>
 
-    <!-- Edit Site Texts Modal -->
-    <div id="edit-texts-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="glass-card rounded-3xl p-8 max-w-xl w-full border border-slate-800 space-y-6 relative shadow-2xl max-h-[85vh] flex flex-col">
-            <button onclick="closeEditTextsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 class="text-xl font-black text-white">Edit Site Texts</h3>
-            <div id="edit-texts-form-container" class="space-y-4 overflow-y-auto flex-grow pr-2">
-                <!-- Dynamically populated fields -->
-            </div>
-            <button onclick="saveSiteTexts()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Save Texts</button>
-        </div>
-    </div>
-
-    <!-- Slideshow Library Photo Upload Modal -->
+    <!-- Slideshow Photo Upload Modal -->
     <div id="slide-library-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeSlideLibraryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -606,7 +488,7 @@
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Photo from Library</label>
                     <input type="file" id="slide-file-input" accept="image/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
                 </div>
-                <button onclick="handleSlideUpload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Add Slide Live (Public View)</button>
+                <button onclick="handleSlideUpload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Add Slide Live</button>
             </div>
         </div>
     </div>
@@ -615,12 +497,7 @@
     <div id="manage-slides-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-2xl w-full border border-slate-800 space-y-6 relative shadow-2xl max-h-[85vh] flex flex-col">
             <button onclick="closeManageSlidesModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="text-xl font-black text-white">Manage Slideshow Photos</h3>
-                    <p class="text-xs text-slate-400">View and inspect title, description, and details for every uploaded slide visible to the public.</p>
-                </div>
-            </div>
+            <h3 class="text-xl font-black text-white">Manage Slideshow Photos</h3>
             <div id="manage-slides-list" class="space-y-4 overflow-y-auto flex-grow pr-2">
                 <!-- Populated dynamically -->
             </div>
@@ -694,33 +571,18 @@
             </div>
             <div class="grid grid-cols-2 gap-4 text-center">
                 <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                    <span id="stat-daily" class="text-2xl font-black text-red-500 block">342</span>
+                    <span class="text-2xl font-black text-red-500 block">342</span>
                     <span class="text-[10px] text-slate-400 font-bold uppercase">Daily Visitors</span>
                 </div>
                 <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                    <span id="stat-weekly" class="text-2xl font-black text-white block">2,180</span>
+                    <span class="text-2xl font-black text-white block">2,180</span>
                     <span class="text-[10px] text-slate-400 font-bold uppercase">Weekly Visitors</span>
                 </div>
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                    <span id="stat-monthly" class="text-2xl font-black text-white block">9,450</span>
-                    <span class="text-[10px] text-slate-400 font-bold uppercase">Monthly Visitors</span>
-                </div>
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                    <span id="stat-yearly" class="text-2xl font-black text-white block">48,200</span>
-                    <span class="text-[10px] text-slate-400 font-bold uppercase">Yearly Visitors</span>
-                </div>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
-                <div>
-                    <span class="text-xs font-bold text-white block">Partnership Inquiries Received</span>
-                    <span class="text-[10px] text-slate-400">Tracked in real time</span>
-                </div>
-                <span id="stat-inquiries" class="text-xl font-black text-red-500">5</span>
             </div>
         </div>
     </div>
 
-    <!-- Video Upload & Embed Modal -->
+    <!-- Featured Video Upload & Facebook Embed Modal -->
     <div id="video-upload-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 max-w-md w-full border border-slate-800 space-y-6 relative shadow-2xl">
             <button onclick="closeVideoUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -728,8 +590,8 @@
             <input type="hidden" id="video-target-key">
             
             <div class="flex border-b border-slate-800 pb-2 space-x-4">
-                <button type="button" onclick="switchVideoTab('upload')" id="v-tab-upload" class="text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1">Upload File</button>
-                <button type="button" onclick="switchVideoTab('embed')" id="v-tab-embed" class="text-xs font-bold text-slate-400 pb-1">Embed URL (YouTube/MP4)</button>
+                <button type="button" onclick="switchVideoTab('upload')" id="v-tab-upload" class="text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1">Upload Video File</button>
+                <button type="button" onclick="switchVideoTab('embed')" id="v-tab-embed" class="text-xs font-bold text-slate-400 pb-1">Facebook Video Embed</button>
             </div>
 
             <div id="video-tab-upload-content" class="space-y-4">
@@ -743,11 +605,11 @@
 
             <div id="video-tab-embed-content" class="space-y-4 hidden">
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Embed URL / YouTube Link</label>
-                    <input type="text" id="video-embed-input" placeholder="https://www.youtube.com/embed/... or direct MP4 URL" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
-                    <p class="text-[10px] text-slate-400 mt-1">Paste any embed or video URL for public streaming.</p>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Facebook Video URL or Embed Link</label>
+                    <input type="text" id="video-embed-input" placeholder="https://www.facebook.com/plugins/video.php?href=..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
+                    <p class="text-[10px] text-slate-400 mt-1">Paste your Facebook video link or Facebook embed iframe code/URL.</p>
                 </div>
-                <button onclick="handleVideoEmbedUrl()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Save Embed Link</button>
+                <button onclick="handleVideoEmbedUrl()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Save Facebook Embed</button>
             </div>
         </div>
     </div>
@@ -764,7 +626,7 @@
             gold: 14, silver: 4, bronze: 2,
             image: "https://placehold.co/600x450/131d31/dc2626?text=Gabriel+(-48kg)",
             videoType: 'embed',
-            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            videoUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Men's -48kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Men's -48kg", result: "Silver Medal" }
@@ -777,42 +639,26 @@
             gold: 18, silver: 3, bronze: 1,
             image: "https://placehold.co/600x450/131d31/dc2626?text=Sab+(-59kg)",
             videoType: 'embed',
-            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            videoUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560',
             tournaments: [
                 { date: "March 2026", name: "National Taekwondo Championship", division: "Women's -59kg", result: "Gold Medal" },
                 { date: "Jan 2026", name: "International Open Cup", division: "Women's -59kg", result: "Gold Medal" }
             ]
         };
 
-        const DEFAULT_TEXTS = {
-            "hero-badge": "Elite Martial Artists",
-            "slide-badge": "Elite Martial Artists",
-            "meet-athletes-sub": "Meet The Athletes",
-            "meet-athletes-title": "Side-by-Side Champions",
-            "highlights-sub": "Action & Sparring",
-            "highlights-title": "Featured Video Highlights",
-            "partnership-sec-sub": "Support Their Journey",
-            "partnership-sec-title": "Partnership Opportunities",
-            "partnership-sec-desc": "Join Gabriel and Sab on their quest for national and international championships.",
-            "footer-title": "Gab and Sab Taekwondo",
-            "footer-desc": "Official Athlete Portal • Empowering Discipline & Excellence"
-        };
-
         function getStore(key, def) {
-            const data = localStorage.getItem('gstk_layout4_' + key);
+            const data = localStorage.getItem('gstk_layout6_' + key);
             return data ? JSON.parse(data) : def;
         }
 
         function setStore(key, val) {
-            localStorage.setItem('gstk_layout4_' + key, JSON.stringify(val));
+            localStorage.setItem('gstk_layout6_' + key, JSON.stringify(val));
             window.dispatchEvent(new Event('storage'));
         }
 
-        window.addEventListener('storage', () => {
-            renderAll();
-        });
+        window.addEventListener('storage', () => { renderAll(); });
 
-        let isAdmin = localStorage.getItem('gstk_layout4_admin') === 'true';
+        let isAdmin = localStorage.getItem('gstk_layout6_admin') === 'true';
         let currentSlide = 0;
 
         function showSection(id) {
@@ -829,7 +675,7 @@
             if (isAdmin) {
                 if (confirm('Logout from Admin session?')) {
                     isAdmin = false;
-                    localStorage.setItem('gstk_layout4_admin', 'false');
+                    localStorage.setItem('gstk_layout6_admin', 'false');
                     updateAuthUI();
                 }
             } else {
@@ -843,13 +689,14 @@
             const pass = document.getElementById('admin-pass-input').value;
             if (pass === 'Beaisthebest88@') {
                 isAdmin = true;
-                localStorage.setItem('gstk_layout4_admin', 'true');
+                localStorage.setItem('gstk_layout6_admin', 'true');
                 closeLoginModal();
                 updateAuthUI();
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
             }
         }
+
         function updateAuthUI() {
             const edits = document.querySelectorAll('.admin-edit-only');
             const analytics = document.getElementById('admin-analytics-container');
@@ -868,45 +715,7 @@
         function renderAll() {
             renderSlides();
             renderAthletes();
-            renderTexts();
             updateAuthUI();
-        }
-
-        function renderTexts() {
-            const texts = getStore('site_texts', DEFAULT_TEXTS);
-            document.querySelectorAll('[data-editable]').forEach(el => {
-                const key = el.getAttribute('data-editable');
-                if (texts[key]) {
-                    el.textContent = texts[key];
-                }
-            });
-        }
-
-        function openEditTextsModal() {
-            const texts = getStore('site_texts', DEFAULT_TEXTS);
-            const container = document.getElementById('edit-texts-form-container');
-            container.innerHTML = Object.keys(texts).map(key => `
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">${key.replace(/-/g, ' ')}</label>
-                    <input type="text" data-text-key="${key}" value="${texts[key]}" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
-                </div>
-            `).join('');
-            document.getElementById('edit-texts-modal').classList.remove('hidden');
-        }
-
-        function closeEditTextsModal() {
-            document.getElementById('edit-texts-modal').classList.add('hidden');
-        }
-
-        function saveSiteTexts() {
-            const texts = getStore('site_texts', DEFAULT_TEXTS);
-            document.querySelectorAll('#edit-texts-form-container input').forEach(input => {
-                const key = input.getAttribute('data-text-key');
-                texts[key] = input.value;
-            });
-            setStore('site_texts', texts);
-            closeEditTextsModal();
-            renderTexts();
         }
 
         function renderSlides() {
@@ -958,8 +767,8 @@
                 if (gab.videoType === 'upload' && gab.videoData) {
                     gabVideoContainer.innerHTML = `<video src="${gab.videoData}" controls class="w-full h-full object-cover"></video>`;
                 } else {
-                    const embedUrl = gab.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
-                    gabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                    const embedUrl = gab.videoUrl || 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560';
+                    gabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full border-0" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
                 }
             }
 
@@ -967,10 +776,7 @@
             if (gabList) {
                 gabList.innerHTML = gab.tournaments.map(t => `
                     <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex justify-between items-center text-xs">
-                        <div>
-                            <span class="text-red-500 font-bold">${t.division} - ${t.result}</span>
-                            <h5 class="text-white font-bold mt-1">${t.name}</h5>
-                        </div>
+                        <div><span class="text-red-500 font-bold">${t.division} - ${t.result}</span><h5 class="text-white font-bold mt-1">${t.name}</h5></div>
                         <span class="text-slate-400">${t.date}</span>
                     </div>
                 `).join('');
@@ -995,8 +801,8 @@
                 if (sab.videoType === 'upload' && sab.videoData) {
                     sabVideoContainer.innerHTML = `<video src="${sab.videoData}" controls class="w-full h-full object-cover"></video>`;
                 } else {
-                    const embedUrl = sab.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
-                    sabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full object-cover" frameborder="0" allowfullscreen></iframe>`;
+                    const embedUrl = sab.videoUrl || 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fzuck%2Fvideos%2F10102599578135871%2F&show_text=false&width=560';
+                    sabVideoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full border-0" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
                 }
             }
 
@@ -1004,29 +810,15 @@
             if (sabList) {
                 sabList.innerHTML = sab.tournaments.map(t => `
                     <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex justify-between items-center text-xs">
-                        <div>
-                            <span class="text-red-500 font-bold">${t.division} - ${t.result}</span>
-                            <h5 class="text-white font-bold mt-1">${t.name}</h5>
-                        </div>
+                        <div><span class="text-red-500 font-bold">${t.division} - ${t.result}</span><h5 class="text-white font-bold mt-1">${t.name}</h5></div>
                         <span class="text-slate-400">${t.date}</span>
                     </div>
                 `).join('');
             }
-
-            const inquiries = getStore('inquiries_count', 5);
-            setVal('stat-inquiries', inquiries);
         }
 
-        function openSlideLibraryModal() {
-            document.getElementById('slide-library-modal').classList.remove('hidden');
-        }
-        function closeSlideLibraryModal() {
-            document.getElementById('slide-library-modal').classList.add('hidden');
-        }
-        
-        function openEditHeroModal() {
-            openSlideLibraryModal();
-        }
+        function openSlideLibraryModal() { document.getElementById('slide-library-modal').classList.remove('hidden'); }
+        function closeSlideLibraryModal() { document.getElementById('slide-library-modal').classList.add('hidden'); }
 
         function openManageSlidesModal() {
             const slides = getStore('slides', DEFAULT_SLIDES);
@@ -1035,29 +827,18 @@
                 <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between space-x-4">
                     <div class="flex items-center space-x-4">
                         <img src="${s.image}" class="w-16 h-12 object-cover rounded-lg border border-slate-700" alt="Slide">
-                        <div>
-                            <h4 class="text-white font-bold text-sm">${s.title}</h4>
-                            <p class="text-slate-400 text-xs">${s.desc}</p>
-                        </div>
+                        <div><h4 class="text-white font-bold text-sm">${s.title}</h4><p class="text-slate-400 text-xs">${s.desc}</p></div>
                     </div>
-                    <button onclick="deleteSlide(${idx})" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 transition">
-                        Delete
-                    </button>
+                    <button onclick="deleteSlide(${idx})" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 transition">Delete</button>
                 </div>
             `).join('');
             document.getElementById('manage-slides-modal').classList.remove('hidden');
         }
-
-        function closeManageSlidesModal() {
-            document.getElementById('manage-slides-modal').classList.add('hidden');
-        }
+        function closeManageSlidesModal() { document.getElementById('manage-slides-modal').classList.add('hidden'); }
 
         function deleteSlide(idx) {
             const slides = getStore('slides', DEFAULT_SLIDES);
-            if (slides.length <= 1) {
-                alert('You must keep at least one slide in the slideshow.');
-                return;
-            }
+            if (slides.length <= 1) { alert('You must keep at least one slide in the slideshow.'); return; }
             slides.splice(idx, 1);
             setStore('slides', slides);
             openManageSlidesModal();
@@ -1072,21 +853,12 @@
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-
                     if (width > height) {
-                        if (width > maxWidth) {
-                            height *= maxWidth / width;
-                            width = maxWidth;
-                        }
+                        if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
                     } else {
-                        if (height > maxHeight) {
-                            width *= maxHeight / height;
-                            height = maxHeight;
-                        }
+                        if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
                     }
-
-                    canvas.width = width;
-                    canvas.height = height;
+                    canvas.width = width; canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     callback(canvas.toDataURL('image/jpeg', quality));
@@ -1129,9 +901,7 @@
             document.getElementById('edit-ath-bronze').value = ath.bronze;
             document.getElementById('athlete-edit-modal').classList.remove('hidden');
         }
-        function closeEditAthleteModal() { 
-            document.getElementById('athlete-edit-modal').classList.add('hidden'); 
-        }
+        function closeEditAthleteModal() { document.getElementById('athlete-edit-modal').classList.add('hidden'); }
         function saveAthlete() {
             const key = document.getElementById('edit-athlete-key').value;
             const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
@@ -1140,7 +910,6 @@
             ath.gold = parseInt(document.getElementById('edit-ath-gold').value) || 0;
             ath.silver = parseInt(document.getElementById('edit-ath-silver').value) || 0;
             ath.bronze = parseInt(document.getElementById('edit-ath-bronze').value) || 0;
-            
             setStore(key, ath);
             closeEditAthleteModal();
             renderAthletes();
@@ -1159,7 +928,7 @@
                             setStore(key, ath);
                             renderAthletes();
                         } catch (err) {
-                            alert('Storage quota exceeded. Please choose a smaller photo.');
+                            alert('Storage quota exceeded.');
                         }
                     });
                 }
@@ -1176,9 +945,7 @@
             document.getElementById('video-upload-modal').classList.remove('hidden');
         }
 
-        function closeVideoUploadModal() {
-            document.getElementById('video-upload-modal').classList.add('hidden');
-        }
+        function closeVideoUploadModal() { document.getElementById('video-upload-modal').classList.add('hidden'); }
 
         function switchVideoTab(tab) {
             const btnUpload = document.getElementById('v-tab-upload');
@@ -1206,7 +973,7 @@
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
                 if (file.size > 15 * 1024 * 1024) {
-                    alert('Video file is too large (>15MB). Please select a smaller video clip or use the Embed URL option.');
+                    alert('Video file is too large (>15MB). Please select a smaller video clip or use the Facebook Video Embed option.');
                     return;
                 }
                 const reader = new FileReader();
@@ -1219,7 +986,7 @@
                         closeVideoUploadModal();
                         renderAthletes();
                     } catch (err) {
-                        alert('Storage quota exceeded. Please select a smaller video file or use video embedding.');
+                        alert('Storage quota exceeded. Please select a smaller video file or use Facebook video embedding.');
                     }
                 };
                 reader.readAsDataURL(file);
@@ -1230,17 +997,30 @@
 
         function handleVideoEmbedUrl() {
             const key = document.getElementById('video-target-key').value;
-            const url = document.getElementById('video-embed-input').value.trim();
+            let val = document.getElementById('video-embed-input').value.trim();
 
-            if (url) {
+            if (val) {
+                let finalUrl = val;
+                // If user pasted an iframe tag, extract the src
+                if (val.includes('<iframe')) {
+                    const srcMatch = val.match(/src="([^"]+)"/);
+                    if (srcMatch && srcMatch[1]) {
+                        finalUrl = srcMatch[1];
+                    }
+                } else if (!val.includes('facebook.com/plugins/video.php')) {
+                    // Convert standard Facebook watch URL to plugin video embed format
+                    const encodedUrl = encodeURIComponent(val);
+                    finalUrl = `https://www.facebook.com/plugins/video.php?href=${encodedUrl}&show_text=false&width=560`;
+                }
+
                 const ath = getStore(key, key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                 ath.videoType = 'embed';
-                ath.videoUrl = url;
+                ath.videoUrl = finalUrl;
                 setStore(key, ath);
                 closeVideoUploadModal();
                 renderAthletes();
             } else {
-                alert('Please enter a valid embed or video URL.');
+                alert('Please enter a valid Facebook video link or embed code.');
             }
         }
 
@@ -1253,11 +1033,8 @@
         function closeInquiryModal() { document.getElementById('inquiry-modal').classList.add('hidden'); }
         function submitInquiryForm(e) {
             e.preventDefault();
-            let count = getStore('inquiries_count', 5) + 1;
-            setStore('inquiries_count', count);
             alert('Partnership inquiry successfully submitted! Management will contact you shortly.');
             closeInquiryModal();
-            renderAthletes();
         }
 
         function openAnalyticsModal() { document.getElementById('analytics-modal').classList.remove('hidden'); }
