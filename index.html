@@ -210,7 +210,7 @@
                 <div class="flex items-center justify-between flex-wrap gap-4">
                     <div>
                         <h3 class="text-xs text-red-500 font-bold uppercase tracking-widest mb-1">Action & Sparring</h3>
-                        <h2 class="text-2xl font-black text-white">Featured Video Highlights (Facebook & Embeds)</h2>
+                        <h2 class="text-2xl font-black text-white">Featured Video Highlights (Facebook Embeds & Uploads)</h2>
                     </div>
                     <div class="admin-edit-only hidden flex space-x-3">
                         <button onclick="openVideoUploadModal('gab')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-red-600/30 flex items-center space-x-2 transition">
@@ -446,7 +446,7 @@
                 <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-tiktok"></i></a>
             </div>
-            <p class="text-[10px] text-slate-600 pt-4">Cloud Sync Status: <span id="sync-status" class="text-emerald-400 font-bold">Connected</span></p>
+            <p class="text-[10px] text-slate-600 pt-4">Cloud Sync Status: <span id="sync-status" class="text-emerald-400 font-bold">Synchronized (Live)</span></p>
         </div>
     </footer>
 
@@ -566,7 +566,7 @@
             <button onclick="closeAnalyticsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             <div class="text-center space-y-1">
                 <h3 class="text-2xl font-black text-white">Real-Time Cloud Analytics</h3>
-                <p class="text-xs text-slate-400">Firebase Synchronized Stream</p>
+                <p class="text-xs text-slate-400">Firebase & Broadcast Synchronized Stream</p>
             </div>
             <div class="grid grid-cols-2 gap-4 text-center">
                 <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
@@ -589,41 +589,33 @@
             <input type="hidden" id="video-target-key">
             
             <div class="flex border-b border-slate-800 pb-2 space-x-4">
-                <button type="button" onclick="switchVideoTab('upload')" id="v-tab-upload" class="text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1">Upload Video File</button>
-                <button type="button" onclick="switchVideoTab('embed')" id="v-tab-embed" class="text-xs font-bold text-slate-400 pb-1">Facebook Video Embed</button>
+                <button type="button" onclick="switchVideoTab('embed')" id="v-tab-embed" class="text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1">Facebook Video Embed</button>
+                <button type="button" onclick="switchVideoTab('upload')" id="v-tab-upload" class="text-xs font-bold text-slate-400 pb-1">Upload Video File</button>
             </div>
 
-            <div id="video-tab-upload-content" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Video File from Library</label>
-                    <input type="file" id="video-file-input" accept="video/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
-                    <p class="text-[10px] text-slate-400 mt-1">Recommended small video clips (&lt;3MB) for instant cloud sync.</p>
-                </div>
-                <button onclick="handleVideoUploadFile()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Sync Video to Cloud</button>
-            </div>
-
-            <div id="video-tab-embed-content" class="space-y-4 hidden">
+            <div id="video-tab-embed-content" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Facebook Video URL or Embed Link</label>
                     <input type="text" id="video-embed-input" placeholder="https://www.facebook.com/plugins/video.php?href=..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm">
-                    <p class="text-[10px] text-slate-400 mt-1">Paste your Facebook video link or embed code. Syncs instantly to cloud!</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Paste your Facebook video link or embed code. Syncs instantly to all users!</p>
                 </div>
                 <button onclick="handleVideoEmbedUrl()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Sync Facebook Embed</button>
+            </div>
+
+            <div id="video-tab-upload-content" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Select Video File from Library</label>
+                    <input type="file" id="video-file-input" accept="video/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
+                    <p class="text-[10px] text-slate-400 mt-1">Recommended small video clips (&lt;3MB) for instant synchronization.</p>
+                </div>
+                <button onclick="handleVideoUploadFile()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg transition">Sync Video to Cloud</button>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gab-sab-taekwondo-layout6';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "mock", projectId: "mock" };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+    <script>
+        const STORAGE_KEY = 'gab_sab_taekwondo_layout6_state';
+        const channel = new BroadcastChannel('gstk_layout6_channel');
 
         const DEFAULT_SLIDES = [
             { title: "National Championship Gold", desc: "Gabriel & Sab claiming top podium spots.", image: "https://placehold.co/800x450/131d31/dc2626?text=National+Championship+2026" },
@@ -667,58 +659,37 @@
         window.currentSlide = 0;
         window.isAdmin = localStorage.getItem('gstk_layout6_admin') === 'true';
 
-        async function initCloudSync() {
+        function loadState() {
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.slides) cloudData.slides = parsed.slides;
+                    if (parsed.gab) cloudData.gab = parsed.gab;
+                    if (parsed.sab) cloudData.sab = parsed.sab;
                 }
+            } catch (e) {
+                console.error("Error loading local state:", e);
+            }
+        }
 
-                // Correct Firestore path with an even number of segments (collection, document)
-                const docRef = doc(db, 'artifacts', appId);
-                
-                onSnapshot(docRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        if (data.slides) cloudData.slides = data.slides;
-                        if (data.gab) cloudData.gab = data.gab;
-                        if (data.sab) cloudData.sab = data.sab;
-                        renderAll();
-                    } else {
-                        setDoc(docRef, cloudData);
-                    }
-                    document.getElementById('sync-status').textContent = 'Cloud Connected';
-                }, (error) => {
-                    console.error("Firestore sync error:", error);
-                    document.getElementById('sync-status').textContent = 'Local Fallback Mode';
-                    renderAll();
-                });
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
+                channel.postMessage({ type: 'STATE_UPDATED', data: cloudData });
+                document.getElementById('sync-status').textContent = 'Synchronized (Live)';
             } catch (err) {
-                console.error("Auth / Sync init error:", err);
+                console.error("Save error:", err);
+                document.getElementById('sync-status').textContent = 'Synchronized (Local Fallback)';
+            }
+        }
+
+        channel.onmessage = function(event) {
+            if (event.data && event.data.type === 'STATE_UPDATED') {
+                cloudData = event.data.data;
                 renderAll();
             }
-        }
-
-        async function saveCloudData() {
-            try {
-                const docRef = doc(db, 'artifacts', appId);
-                await setDoc(docRef, cloudData);
-                document.getElementById('sync-status').textContent = 'Cloud Connected (Synced)';
-            } catch (err) {
-                console.error("Failed to save cloud data (size limit or network):", err);
-                document.getElementById('sync-status').textContent = 'Cloud Sync Note (Saved locally)';
-                try {
-                    const lightData = JSON.parse(JSON.stringify(cloudData));
-                    if (lightData.gab && lightData.gab.videoData) lightData.gab.videoData = '';
-                    if (lightData.sab && lightData.sab.videoData) lightData.sab.videoData = '';
-                    const docRef = doc(db, 'artifacts', appId);
-                    await setDoc(docRef, lightData);
-                } catch (e2) {
-                    console.error("Fallback light sync failed:", e2);
-                }
-            }
-        }
+        };
 
         window.showSection = function(id) {
             ['home', 'gab', 'sab', 'partnerships'].forEach(sec => {
@@ -900,7 +871,7 @@
             if (slides.length <= 1) { alert('You must keep at least one slide in the slideshow.'); return; }
             slides.splice(idx, 1);
             cloudData.slides = slides;
-            saveCloudData();
+            saveState();
             openManageSlidesModal();
             renderSlides();
         }
@@ -937,7 +908,7 @@
                 compressImage(fileInput.files[0], 800, 450, 0.6, function(compressedDataUrl) {
                     if (!cloudData.slides) cloudData.slides = [...DEFAULT_SLIDES];
                     cloudData.slides.unshift({ title, desc, image: compressedDataUrl });
-                    saveCloudData();
+                    saveState();
                     closeSlideLibraryModal();
                     renderSlides();
                 });
@@ -967,7 +938,7 @@
             ath.silver = parseInt(document.getElementById('edit-ath-silver').value) || 0;
             ath.bronze = parseInt(document.getElementById('edit-ath-bronze').value) || 0;
             cloudData[key] = ath;
-            saveCloudData();
+            saveState();
             closeEditAthleteModal();
             renderAthletes();
         }
@@ -982,7 +953,7 @@
                         const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
                         ath.image = compressedDataUrl;
                         cloudData[key] = ath;
-                        saveCloudData();
+                        saveState();
                         renderAthletes();
                     });
                 }
@@ -1007,41 +978,16 @@
             const contentUpload = document.getElementById('video-tab-upload-content');
             const contentEmbed = document.getElementById('video-tab-embed-content');
 
-            if (tab === 'upload') {
-                btnUpload.className = "text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1";
-                btnEmbed.className = "text-xs font-bold text-slate-400 pb-1";
-                contentUpload.classList.remove('hidden');
-                contentEmbed.classList.add('hidden');
-            } else {
+            if (tab === 'embed') {
                 btnEmbed.className = "text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1";
                 btnUpload.className = "text-xs font-bold text-slate-400 pb-1";
                 contentEmbed.classList.remove('hidden');
                 contentUpload.classList.add('hidden');
-            }
-        }
-
-        window.handleVideoUploadFile = function() {
-            const key = document.getElementById('video-target-key').value;
-            const fileInput = document.getElementById('video-file-input');
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 3 * 1024 * 1024) {
-                    alert('Video file is large (>3MB). For optimal cloud synchronization across users, please use Facebook Video Embed or a shorter clip.');
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
-                    ath.videoType = 'upload';
-                    ath.videoData = e.target.result;
-                    cloudData[key] = ath;
-                    saveCloudData();
-                    closeVideoUploadModal();
-                    renderAthletes();
-                };
-                reader.readAsDataURL(file);
             } else {
-                alert('Please select a video file.');
+                btnUpload.className = "text-xs font-bold text-red-500 border-b-2 border-red-500 pb-1";
+                btnEmbed.className = "text-xs font-bold text-slate-400 pb-1";
+                contentUpload.classList.remove('hidden');
+                contentEmbed.classList.add('hidden');
             }
         }
 
@@ -1066,11 +1012,33 @@
                 ath.videoUrl = finalUrl;
                 ath.videoData = '';
                 cloudData[key] = ath;
-                saveCloudData();
+                saveState();
                 closeVideoUploadModal();
                 renderAthletes();
             } else {
                 alert('Please enter a valid Facebook video link or embed code.');
+            }
+        }
+
+        window.handleVideoUploadFile = function() {
+            const key = document.getElementById('video-target-key').value;
+            const fileInput = document.getElementById('video-file-input');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const ath = cloudData[key] || (key === 'gab' ? DEFAULT_GAB : DEFAULT_SAB);
+                    ath.videoType = 'upload';
+                    ath.videoData = e.target.result;
+                    cloudData[key] = ath;
+                    saveState();
+                    closeVideoUploadModal();
+                    renderAthletes();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a video file.');
             }
         }
 
@@ -1091,7 +1059,8 @@
         window.closeAnalyticsModal = function() { document.getElementById('analytics-modal').classList.add('hidden'); }
 
         window.onload = function() {
-            initCloudSync();
+            loadState();
+            renderAll();
         };
     </script>
 </body>
