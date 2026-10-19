@@ -1,458 +1,294 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiburcio Taekwondo Champions | GAB & SAB</title>
-
-  <!-- Google Analytics snippet with specified Key/ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=cf29171a183b9d2cc60e34e103009809"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'cf29171a183b9d2cc60e34e103009809');
-  </script>
-
+  <title>Tiburcio Taekwondo Champions | Gab & Sab</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            charcoal: {
-              900: '#0c0c0e',
-              800: '#121214',
-              700: '#1a1a1e',
-              600: '#242429',
-              500: '#32323a',
-            },
-            gold: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d4af37',
-              700: '#b48a1d'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Cinzel', 'serif']
+            charcoal: '#121212',
+            cardBg: '#1e1e1e',
+            gold: '#D4AF37',
+            goldHover: '#AA820A'
           }
         }
       }
     }
   </script>
-
-  <!-- Google Fonts & FontAwesome Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Firebase Integration Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Global variables & Firebase Initialization
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'tkd-tiburcio-portfolio';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-      apiKey: "demo-api-key",
-      authDomain: "demo.firebaseapp.com",
-      projectId: "demo-project",
-      storageBucket: "demo.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:123456"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.db = db;
-    window.appId = appId;
-    window.doc = doc;
-    window.setDoc = setDoc;
-
-    // Authenticate user before performing Firestore Listeners
-    async function initFirebase() {
-      try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
-        }
-        setupFirestoreRealtimeListeners();
-      } catch (err) {
-        console.error("Firebase auth error:", err);
-      }
-    }
-
-    function setupFirestoreRealtimeListeners() {
-      const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'portfolio_data', 'main_store');
-
-      onSnapshot(publicDocRef, (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.data();
-          if (data.slides) window.globalData.slides = data.slides;
-          if (data.athletes) window.globalData.athletes = data.athletes;
-          if (data.tournaments) window.globalData.tournaments = data.tournaments;
-          if (data.gallery) window.globalData.gallery = data.gallery;
-          if (data.videos) window.globalData.videos = data.videos;
-          if (data.fblink) window.globalData.fblink = data.fblink;
-
-          window.renderAllSections();
-        } else {
-          // Initialize empty cloud store with defaults if not already present
-          window.syncToFirestore();
-        }
-      }, (error) => {
-        console.error("Firestore sync error:", error);
-      });
-    }
-
-    window.syncToFirestore = async function() {
-      try {
-        const publicDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'portfolio_data', 'main_store');
-        await setDoc(publicDocRef, window.globalData, { merge: true });
-      } catch (err) {
-        console.error("Error saving data to Firestore:", err);
-        if (window.showToast) window.showToast('Failed to sync changes with cloud store', 'error');
-      }
-    };
-
-    window.addEventListener('DOMContentLoaded', initFirebase);
-  </script>
-
   <style>
     body {
-      background-color: #0c0c0e;
-      color: #e4e4e7;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
+      background-color: #121212;
+      color: #e5e5e5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
-    
-    /* Martial Arts Concrete Texture Background */
-    .bg-concrete {
-      background-color: #121214;
-      background-image: 
-        radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 35%),
-        linear-gradient(to bottom, rgba(12, 12, 14, 0.8), rgba(12, 12, 14, 0.95));
+    .hero-bg {
+      background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, rgba(18, 18, 18, 0.95) 70%),
+                  linear-gradient(to bottom, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 1));
     }
-
-    /* Glassmorphism Card Style */
-    .glass-card {
-      background: rgba(26, 26, 30, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
     }
-    
-    .glass-card-gold {
-      background: rgba(26, 26, 30, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(212, 175, 55, 0.25);
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1a1a1a;
     }
-
-    /* Gold Gradient Text */
-    .text-gold-gradient {
-      background: linear-gradient(135deg, #fff 0%, #f59e0b 50%, #d4af37 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
     }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
     }
-    ::-webkit-scrollbar-track {
-      background: #0c0c0e;
+    .admin-only {
+      display: none;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #242429;
-      border-radius: 4px;
+    body.is-admin .admin-only {
+      display: block !important;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #d4af37;
+    body.is-admin .admin-only-flex {
+      display: flex !important;
     }
   </style>
 </head>
-<body class="bg-concrete min-h-screen flex flex-col justify-between selection:bg-gold-600 selection:text-black">
+<body class="min-h-screen flex flex-col justify-between hero-bg relative">
 
-  <!-- Toast Notification Container -->
-  <div id="toastContainer" class="fixed top-24 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-20 right-5 z-50 transform translate-x-full transition-transform duration-300 bg-gold text-black font-semibold px-4 py-3 rounded-lg shadow-2xl flex items-center gap-2">
+    <i data-lucide="check-circle" class="w-5 h-5"></i>
+    <span id="toast-message">Action completed successfully</span>
+  </div>
 
-  <!-- ================= HEADER & NAVIGATION ================= -->
-  <header class="sticky top-0 z-40 bg-charcoal-900/90 backdrop-blur-md border-b border-white/10">
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <!-- Brand Logo -->
-      <a href="#home" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-full border border-gold-600/50 flex items-center justify-center bg-charcoal-800 text-gold-500 group-hover:scale-105 transition">
-          <i class="fa-solid me-0 fa-hand-fist text-xl"></i>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gold/20 border border-gold flex items-center justify-center text-gold font-bold text-xl">
+          <i data-lucide="shield" class="w-6 h-6"></i>
         </div>
         <div>
-          <span class="font-serif font-bold tracking-wider text-xl text-white block leading-tight">TIBURCIO</span>
-          <span class="text-[10px] tracking-widest text-gold-500 uppercase font-semibold">TKD Champions</span>
+          <h1 class="text-xl font-black tracking-wider text-white uppercase">Tiburcio</h1>
+          <p class="text-xs text-gold tracking-widest uppercase">TKD Champions</p>
         </div>
-      </a>
+      </div>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
-        <a href="#home" class="hover:text-gold-500 transition py-1">Home</a>
-        <a href="#athletes" class="hover:text-gold-500 transition py-1">Athletes</a>
-        <a href="#tournaments" class="hover:text-gold-500 transition py-1">Tournaments</a>
-        <a href="#gallery" class="hover:text-gold-500 transition py-1">Gallery</a>
-        <a href="#videos" class="hover:text-gold-500 transition py-1">Videos</a>
-        <a href="#partner" class="hover:text-gold-500 transition py-1">Sponsor Us</a>
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <a href="#home" class="hover:text-gold transition-colors">Home</a>
+        <a href="#athletes" class="hover:text-gold transition-colors">Athletes</a>
+        <a href="#tournaments" class="hover:text-gold transition-colors">Tournaments</a>
+        <a href="#gallery" class="hover:text-gold transition-colors">Gallery</a>
+        <a href="#videos" class="hover:text-gold transition-colors">Videos</a>
+        <a href="#sponsor" class="hover:text-gold transition-colors">Sponsor Us</a>
       </nav>
 
-      <!-- Admin Status & Login Button -->
+      <!-- Admin Controls -->
       <div class="flex items-center gap-3">
-        <div id="adminBadge" class="hidden text-xs bg-gold-600/20 text-gold-400 border border-gold-600/40 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-          ADMIN MODE
-        </div>
-        <button id="adminBtn" onclick="toggleAdminModal()" class="px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition duration-300 border border-gold-600/30 text-gold-400 hover:bg-gold-600 hover:text-black flex items-center gap-2">
-          <i class="fa-solid fa-user-shield"></i>
-          <span id="adminBtnText">Admin Login</span>
+        <button id="admin-login-btn" onclick="toggleAdminModal()" class="flex items-center gap-2 text-xs uppercase tracking-wider bg-white/5 border border-white/20 hover:border-gold hover:text-gold px-3 py-2 rounded-md transition">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+          <span id="admin-btn-text">Admin</span>
         </button>
+        <div id="admin-badge" class="hidden items-center gap-1 text-xs bg-gold/20 text-gold border border-gold/40 px-2 py-1 rounded">
+          <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+          Admin Mode
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- MAIN CONTENT AREA -->
   <main class="flex-grow">
+    <!-- SECTION 1: HOME SLIDESHOW -->
+    <section id="home" class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="relative w-full h-[650px] rounded-2xl overflow-hidden border border-white/10 bg-black/90 group">
+        <!-- Backdrop Blur for Vertical Poster Artwork -->
+        <div id="slide-bg-blur" class="absolute inset-0 bg-cover bg-center blur-2xl opacity-25 scale-110 transition-all duration-700"></div>
 
-    <!-- ================= 2. HERO SLIDESHOW SECTION ================= -->
-    <section id="home" class="relative w-full h-[85vh] min-h-[550px] overflow-hidden border-b border-white/10 bg-charcoal-900">
-      <!-- Slides Container -->
-      <div id="sliderContainer" class="relative w-full h-full">
-        <!-- Rendered dynamically via JS -->
-      </div>
+        <!-- Slide Media Display -->
+        <div class="relative w-full h-full flex items-center justify-center p-2 md:p-6">
+          <img id="slide-img" src="" alt="Slide Image" class="max-h-full max-w-full object-contain rounded-lg z-10 shadow-2xl transition-all duration-500">
+        </div>
 
-      <!-- Slide Navigation Controls -->
-      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-charcoal-900/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-        <button onclick="prevSlide()" class="text-white/70 hover:text-gold-500 transition px-2 py-1"><i class="fa-solid fa-chevron-left text-sm"></i></button>
-        <div id="slideIndicators" class="flex gap-2"></div>
-        <button onclick="nextSlide()" class="text-white/70 hover:text-gold-500 transition px-2 py-1"><i class="fa-solid fa-chevron-right text-sm"></i></button>
-      </div>
-    </section>
+        <!-- Slide Content Overlay PINNED TO BOTTOM -->
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end p-6 md:p-8 z-20 pointer-events-none pt-16">
+          <div class="max-w-3xl pointer-events-auto">
+            <span class="inline-block px-3 py-1 bg-gold/20 border border-gold/40 text-gold text-xs font-semibold rounded-full uppercase tracking-widest mb-2">
+              Official Athlete Showcase
+            </span>
+            <h2 id="slide-title" class="text-2xl md:text-4xl font-extrabold text-white mb-2 tracking-tight"></h2>
+            <p id="slide-desc" class="text-gray-300 text-xs md:text-sm leading-relaxed mb-3 line-clamp-2"></p>
 
-    <!-- ================= 3. MEET THE ATHLETES SECTION ================= -->
-    <section id="athletes" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="text-gold-500 font-semibold tracking-widest text-xs uppercase">Elite Martial Artists</span>
-        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">MEET THE ATHLETES</h2>
-        <div class="w-16 h-1 bg-gold-600 mx-auto mt-4 rounded-full"></div>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <!-- Athlete 1: Keane Gabriel Tiburcio (GAB) -->
-        <div class="glass-card rounded-2xl overflow-hidden group hover:border-gold-600/40 transition duration-500 flex flex-col">
-          <div class="relative h-96 sm:h-[450px] overflow-hidden bg-charcoal-800 flex items-center justify-center">
-            <!-- Blurred Background for Poster Fit -->
-            <img id="gab-card-img-bg" src="" alt="GAB Blur BG" class="absolute inset-0 w-full h-full object-cover filter blur-md opacity-40 scale-110">
-            <img id="gab-card-img" src="" alt="Keane Gabriel Tiburcio" class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition duration-700">
-            <div class="absolute inset-0 z-10 bg-gradient-to-t from-charcoal-900 via-charcoal-900/10 to-transparent pointer-events-none"></div>
-            
-            <!-- Admin Change Photo Overlay -->
-            <div class="admin-only hidden absolute top-4 right-4 z-20 bg-charcoal-900/90 border border-gold-600/50 p-2 rounded-lg shadow-xl">
-              <label class="cursor-pointer text-xs text-gold-400 hover:text-gold-300 flex items-center gap-2">
-                <i class="fa-solid fa-camera"></i> Change Photo
-                <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadAthletePhoto('gab', event)">
-              </label>
-            </div>
-
-            <div class="absolute bottom-6 left-6 right-6 z-20">
-              <span class="text-xs uppercase font-bold tracking-widest text-gold-500 bg-gold-600/10 border border-gold-600/30 px-3 py-1 rounded-full">National Team / Elite</span>
-              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-2">Keane Gabriel Tiburcio</h3>
-              <p class="text-gray-400 font-medium text-sm">"GAB"</p>
-            </div>
-          </div>
-
-          <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
-            <div>
-              <p id="gab-card-bio" class="text-gray-300 text-sm line-clamp-3 mb-6 leading-relaxed">
-                Loading biography...
-              </p>
-              
-              <!-- Quick Stats Bar -->
-              <div class="grid grid-cols-3 gap-2 py-3 px-4 bg-charcoal-800/80 rounded-xl border border-white/5 text-center mb-6">
-                <div>
-                  <div id="gab-gold-count" class="text-gold-500 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Gold</div>
-                </div>
-                <div>
-                  <div id="gab-silver-count" class="text-gray-300 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Silver</div>
-                </div>
-                <div>
-                  <div id="gab-bronze-count" class="text-amber-700 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Bronze</div>
-                </div>
-              </div>
-            </div>
-
-            <button onclick="openAthleteModal('gab')" class="w-full py-3 bg-charcoal-700 hover:bg-gold-600 hover:text-black text-white font-semibold text-sm rounded-xl transition duration-300 flex items-center justify-center gap-2 border border-white/10 hover:border-gold-500">
-              <span>View Full Profile & Medals</span>
-              <i class="fa-solid fa-arrow-right text-xs"></i>
+            <!-- Admin Edit Button -->
+            <button onclick="openSlideEditModal()" class="admin-only inline-flex items-center gap-2 bg-gold hover:bg-goldHover text-black font-bold text-xs uppercase px-4 py-2 rounded-md transition shadow-lg">
+              <i data-lucide="sliders" class="w-4 h-4"></i> Manage All 5 Slides
             </button>
           </div>
         </div>
 
-        <!-- Athlete 2: Anne Ysabel Tiburcio (SAB) -->
-        <div class="glass-card rounded-2xl overflow-hidden group hover:border-gold-600/40 transition duration-500 flex flex-col">
-          <div class="relative h-96 sm:h-[450px] overflow-hidden bg-charcoal-800 flex items-center justify-center">
-            <!-- Blurred Background for Poster Fit -->
-            <img id="sab-card-img-bg" src="" alt="SAB Blur BG" class="absolute inset-0 w-full h-full object-cover filter blur-md opacity-40 scale-110">
-            <img id="sab-card-img" src="" alt="Anne Ysabel Tiburcio" class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition duration-700">
-            <div class="absolute inset-0 z-10 bg-gradient-to-t from-charcoal-900 via-charcoal-900/10 to-transparent pointer-events-none"></div>
-            
-            <!-- Admin Change Photo Overlay -->
-            <div class="admin-only hidden absolute top-4 right-4 z-20 bg-charcoal-900/90 border border-gold-600/50 p-2 rounded-lg shadow-xl">
-              <label class="cursor-pointer text-xs text-gold-400 hover:text-gold-300 flex items-center gap-2">
-                <i class="fa-solid fa-camera"></i> Change Photo
-                <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadAthletePhoto('sab', event)">
-              </label>
-            </div>
+        <!-- Slider Arrow Controls -->
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-black/60 text-white hover:bg-gold hover:text-black border border-white/10 transition">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-black/60 text-white hover:bg-gold hover:text-black border border-white/10 transition">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
 
-            <div class="absolute bottom-6 left-6 right-6 z-20">
-              <span class="text-xs uppercase font-bold tracking-widest text-gold-500 bg-gold-600/10 border border-gold-600/30 px-3 py-1 rounded-full">National Competitor / Elite</span>
-              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-2">Anne Ysabel Tiburcio</h3>
-              <p class="text-gray-400 font-medium text-sm">"SAB"</p>
+        <!-- Slide Indicators -->
+        <div id="slide-dots" class="absolute bottom-3 right-6 z-30 flex gap-2"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MEET THE ATHLETES -->
+    <section id="athletes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+      <div class="text-center mb-12">
+        <h2 class="text-xs uppercase tracking-widest text-gold font-bold mb-2">The Champions</h2>
+        <p class="text-3xl md:text-4xl font-extrabold text-white">MEET THE ATHLETES</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- GAB CARD -->
+        <div onclick="openAthleteModal('gab')" class="bg-cardBg rounded-2xl border border-white/10 overflow-hidden hover:border-gold/50 transition duration-300 cursor-pointer group flex flex-col justify-between">
+          <div class="relative h-96 overflow-hidden bg-black/40">
+            <img id="gab-card-photo" src="" alt="Keane Gabriel Tiburcio" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+            <div class="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-gold/30 text-gold text-xs font-bold uppercase">
+              Red Belt
             </div>
           </div>
-
-          <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
-            <div>
-              <p id="sab-card-bio" class="text-gray-300 text-sm line-clamp-3 mb-6 leading-relaxed">
-                Loading biography...
-              </p>
-
-              <!-- Quick Stats Bar -->
-              <div class="grid grid-cols-3 gap-2 py-3 px-4 bg-charcoal-800/80 rounded-xl border border-white/5 text-center mb-6">
-                <div>
-                  <div id="sab-gold-count" class="text-gold-500 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Gold</div>
-                </div>
-                <div>
-                  <div id="sab-silver-count" class="text-gray-300 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Silver</div>
-                </div>
-                <div>
-                  <div id="sab-bronze-count" class="text-amber-700 font-bold text-xl">0</div>
-                  <div class="text-[10px] text-gray-400 uppercase">Bronze</div>
-                </div>
-              </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-black text-white group-hover:text-gold transition">KEANE GABRIEL TIBURCIO</h3>
+            <p class="text-xs text-gold uppercase tracking-wider font-semibold mb-3">Nickname: GAB</p>
+            <p id="gab-short-bio" class="text-gray-400 text-sm line-clamp-2 mb-4"></p>
+            <div class="flex items-center justify-between text-xs text-gray-300 border-t border-white/10 pt-4">
+              <span>View Profile & Tournament History</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-gold group-hover:translate-x-1 transition"></i>
             </div>
+          </div>
+        </div>
 
-            <button onclick="openAthleteModal('sab')" class="w-full py-3 bg-charcoal-700 hover:bg-gold-600 hover:text-black text-white font-semibold text-sm rounded-xl transition duration-300 flex items-center justify-center gap-2 border border-white/10 hover:border-gold-500">
-              <span>View Full Profile & Medals</span>
-              <i class="fa-solid fa-arrow-right text-xs"></i>
-            </button>
+        <!-- SAB CARD -->
+        <div onclick="openAthleteModal('sab')" class="bg-cardBg rounded-2xl border border-white/10 overflow-hidden hover:border-gold/50 transition duration-300 cursor-pointer group flex flex-col justify-between">
+          <div class="relative h-96 overflow-hidden bg-black/40">
+            <img id="sab-card-photo" src="" alt="Anne Ysabel Tiburcio" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-transparent to-transparent"></div>
+            <div class="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-gold/30 text-gold text-xs font-bold uppercase">
+              Red Belt
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-black text-white group-hover:text-gold transition">ANNE YSABEL TIBURCIO</h3>
+            <p class="text-xs text-gold uppercase tracking-wider font-semibold mb-3">Nickname: SAB</p>
+            <p id="sab-short-bio" class="text-gray-400 text-sm line-clamp-2 mb-4"></p>
+            <div class="flex items-center justify-between text-xs text-gray-300 border-t border-white/10 pt-4">
+              <span>View Profile & Tournament History</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-gold group-hover:translate-x-1 transition"></i>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 4. TOURNAMENT HISTORY SECTION ================= -->
-    <section id="tournaments" class="py-20 bg-charcoal-800/50 border-y border-white/5">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-          <span class="text-gold-500 font-semibold tracking-widest text-xs uppercase">Track Record & Trophies</span>
-          <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">TOURNAMENT HISTORY</h2>
-          <p class="text-gray-400 text-sm max-w-xl mx-auto mt-2">Combined and individual achievements across Local, National, and International events.</p>
-        </div>
+    <!-- SECTION 3: TOURNAMENT HISTORY -->
+    <section id="tournaments" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+      <div class="text-center mb-12">
+        <h2 class="text-xs uppercase tracking-widest text-gold font-bold mb-2">Track Record</h2>
+        <p class="text-3xl md:text-4xl font-extrabold text-white">TOURNAMENT HISTORY</p>
+      </div>
 
-        <!-- Separate Medals Summary Cards -->
-        <div class="grid md:grid-cols-2 gap-6 mb-12">
-          <!-- GAB Medal Breakdown -->
-          <div class="glass-card-gold rounded-2xl p-6 relative overflow-hidden">
-            <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-              <div>
-                <h3 class="font-serif text-xl font-bold text-white">GAB Medal Tally</h3>
-                <p class="text-xs text-gray-400">Keane Gabriel Tiburcio</p>
-              </div>
-              <i class="fa-solid fa-trophy text-2xl text-gold-500 opacity-80"></i>
+      <!-- PUBLIC MEDAL TALLY SHOWCASE -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <!-- GAB MEDALS -->
+        <div class="bg-cardBg border border-white/10 rounded-2xl p-6 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 text-white/5 text-9xl font-black pointer-events-none">GAB</div>
+          <h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2 flex items-center justify-between">
+            <span>Keane Gabriel (GAB)</span>
+            <span class="text-xs text-gold font-normal">Medal Standings</span>
+          </h3>
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="bg-black/40 border border-yellow-500/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-yellow-400 mx-auto mb-1"></i>
+              <span id="gab-gold-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Gold</p>
             </div>
-            <div class="grid grid-cols-3 gap-4 text-center">
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-gold-500/20">
-                <span class="text-2xl font-black text-gold-400 block" id="summary-gab-gold">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Gold</span>
-              </div>
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-gray-400/20">
-                <span class="text-2xl font-black text-gray-300 block" id="summary-gab-silver">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Silver</span>
-              </div>
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-amber-700/20">
-                <span class="text-2xl font-black text-amber-600 block" id="summary-gab-bronze">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Bronze</span>
-              </div>
+            <div class="bg-black/40 border border-gray-400/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-gray-300 mx-auto mb-1"></i>
+              <span id="gab-silver-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Silver</p>
             </div>
-          </div>
-
-          <!-- SAB Medal Breakdown -->
-          <div class="glass-card-gold rounded-2xl p-6 relative overflow-hidden">
-            <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-              <div>
-                <h3 class="font-serif text-xl font-bold text-white">SAB Medal Tally</h3>
-                <p class="text-xs text-gray-400">Anne Ysabel Tiburcio</p>
-              </div>
-              <i class="fa-solid fa-medal text-2xl text-gold-500 opacity-80"></i>
-            </div>
-            <div class="grid grid-cols-3 gap-4 text-center">
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-gold-500/20">
-                <span class="text-2xl font-black text-gold-400 block" id="summary-sab-gold">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Gold</span>
-              </div>
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-gray-400/20">
-                <span class="text-2xl font-black text-gray-300 block" id="summary-sab-silver">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Silver</span>
-              </div>
-              <div class="p-3 bg-charcoal-900/60 rounded-xl border border-amber-700/20">
-                <span class="text-2xl font-black text-amber-600 block" id="summary-sab-bronze">0</span>
-                <span class="text-xs text-gray-400 uppercase font-semibold">Bronze</span>
-              </div>
+            <div class="bg-black/40 border border-amber-600/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-amber-600 mx-auto mb-1"></i>
+              <span id="gab-bronze-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Bronze</p>
             </div>
           </div>
         </div>
 
-        <!-- Filter Controls & Add Button -->
-        <div class="admin-only hidden flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-          <div class="flex items-center gap-2 bg-charcoal-900 p-1.5 rounded-xl border border-white/10 w-full sm:w-auto">
-            <button onclick="filterTournaments('all')" id="filter-all" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold text-white bg-gold-600">All</button>
-            <button onclick="filterTournaments('gab')" id="filter-gab" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:text-white">GAB Only</button>
-            <button onclick="filterTournaments('sab')" id="filter-sab" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:text-white">SAB Only</button>
-          </div>
-
-          <div>
-            <button onclick="openAddTournamentModal()" class="px-5 py-2.5 bg-gold-600 hover:bg-gold-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-2">
-              <i class="fa-solid fa-plus"></i> Add Tournament Record
-            </button>
+        <!-- SAB MEDALS -->
+        <div class="bg-cardBg border border-white/10 rounded-2xl p-6 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 text-white/5 text-9xl font-black pointer-events-none">SAB</div>
+          <h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2 flex items-center justify-between">
+            <span>Anne Ysabel (SAB)</span>
+            <span class="text-xs text-gold font-normal">Medal Standings</span>
+          </h3>
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="bg-black/40 border border-yellow-500/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-yellow-400 mx-auto mb-1"></i>
+              <span id="sab-gold-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Gold</p>
+            </div>
+            <div class="bg-black/40 border border-gray-400/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-gray-300 mx-auto mb-1"></i>
+              <span id="sab-silver-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Silver</p>
+            </div>
+            <div class="bg-black/40 border border-amber-600/30 p-4 rounded-xl">
+              <i data-lucide="award" class="w-8 h-8 text-amber-600 mx-auto mb-1"></i>
+              <span id="sab-bronze-count" class="text-2xl font-black text-white">0</span>
+              <p class="text-[10px] text-gray-400 uppercase font-bold">Bronze</p>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Tournament History Table/List (Admin Only) -->
-        <div class="admin-only hidden glass-card rounded-2xl overflow-hidden border border-white/10">
+      <!-- ADMIN ONLY TOURNAMENT HISTORY TABLE -->
+      <div class="admin-only">
+        <div class="bg-cardBg border border-gold/30 rounded-2xl p-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-2">
+              <i data-lucide="lock" class="w-5 h-5 text-gold"></i>
+              <h3 class="text-lg font-bold text-white">Master Tournament Records (Admin Only)</h3>
+            </div>
+            <div class="flex items-center gap-3">
+              <select id="tourney-filter-athlete" onchange="renderTournaments()" class="bg-black/60 border border-white/20 text-xs rounded-lg px-3 py-2 text-white">
+                <option value="all">All Athletes</option>
+                <option value="gab">GAB Only</option>
+                <option value="sab">SAB Only</option>
+              </select>
+              <button onclick="openAddTourneyModal()" class="bg-gold hover:bg-goldHover text-black text-xs font-bold uppercase px-4 py-2 rounded-lg transition flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i> Add Tournament Record
+              </button>
+            </div>
+          </div>
+
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-300">
-              <thead class="bg-charcoal-900/80 text-xs uppercase tracking-wider text-gray-400 border-b border-white/10">
+              <thead class="bg-black/50 text-xs uppercase text-gold">
                 <tr>
-                  <th class="py-4 px-6">Athlete</th>
-                  <th class="py-4 px-6">Tournament Name</th>
-                  <th class="py-4 px-6">Date</th>
-                  <th class="py-4 px-6">Venue</th>
-                  <th class="py-4 px-6">Type</th>
-                  <th class="py-4 px-6">Result</th>
-                  <th class="py-4 px-6 text-right">Actions</th>
+                  <th class="p-3">Athlete</th>
+                  <th class="p-3">Tournament Name</th>
+                  <th class="p-3">Date</th>
+                  <th class="p-3">Venue</th>
+                  <th class="p-3">Type</th>
+                  <th class="p-3">Medal Won</th>
+                  <th class="p-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody id="tournamentTableBody" class="divide-y divide-white/5">
-                <!-- Dynamically Populated -->
+              <tbody id="tourney-table-body" class="divide-y divide-white/5">
+                <!-- Dynamically Rendered -->
               </tbody>
             </table>
           </div>
@@ -460,408 +296,342 @@
       </div>
     </section>
 
-    <!-- ================= 5. GALLERY SECTION ================= -->
-    <section id="gallery" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
+    <!-- SECTION 4: GALLERY -->
+    <section id="gallery" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <span class="text-gold-500 font-semibold tracking-widest text-xs uppercase">Action Shots & Moments</span>
-          <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">PHOTO GALLERY</h2>
+          <h2 class="text-xs uppercase tracking-widest text-gold font-bold mb-2">Action Shots & Moments</h2>
+          <p class="text-3xl md:text-4xl font-extrabold text-white">PHOTO GALLERY</p>
         </div>
-
-        <div class="admin-only hidden">
-          <label class="cursor-pointer px-5 py-2.5 bg-gold-600 hover:bg-gold-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl transition inline-flex items-center gap-2">
-            <i class="fa-solid fa-upload"></i> Upload Gallery Photo
-            <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadGalleryPhoto(event)">
-          </label>
-        </div>
+        <button onclick="openGalleryUploadModal()" class="admin-only bg-gold hover:bg-goldHover text-black text-xs font-bold uppercase px-4 py-2.5 rounded-lg transition flex items-center gap-2 self-start md:self-auto">
+          <i data-lucide="upload-cloud" class="w-4 h-4"></i> Add Photo
+        </button>
       </div>
 
-      <!-- Gallery Grid -->
-      <div id="galleryGrid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <!-- Dynamically rendered -->
+      <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- Dynamically Populated Photos -->
       </div>
     </section>
 
-    <!-- ================= 6. VIDEO SECTION ================= -->
-    <section id="videos" class="py-20 bg-charcoal-800/50 border-y border-white/5">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
-          <div>
-            <span class="text-gold-500 font-semibold tracking-widest text-xs uppercase">Highlights & Matches</span>
-            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">VIDEO HIGHLIGHTS</h2>
-          </div>
-
-          <div class="admin-only hidden">
-            <button onclick="openVideoModal()" class="px-5 py-2.5 bg-gold-600 hover:bg-gold-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-2">
-              <i class="fa-solid fa-video"></i> Add / Upload Video
-            </button>
-          </div>
+    <!-- SECTION 5: VIDEO -->
+    <section id="videos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <h2 class="text-xs uppercase tracking-widest text-gold font-bold mb-2">Highlights & Sparring</h2>
+          <p class="text-3xl md:text-4xl font-extrabold text-white">VIDEO SHOWCASE</p>
         </div>
+        <button onclick="openVideoUploadModal()" class="admin-only bg-gold hover:bg-goldHover text-black text-xs font-bold uppercase px-4 py-2.5 rounded-lg transition flex items-center gap-2 self-start md:self-auto">
+          <i data-lucide="video" class="w-4 h-4"></i> Add Video
+        </button>
+      </div>
 
-        <!-- Video Grid -->
-        <div id="videoGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Dynamically rendered -->
-        </div>
+      <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Dynamically Populated Videos -->
       </div>
     </section>
 
-    <!-- ================= 7. PARTNER WITH THE TEAM ================= -->
-    <section id="partner" class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="glass-card-gold rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
-        <div class="text-center mb-10">
-          <span class="text-gold-500 font-semibold tracking-widest text-xs uppercase">Sponsorship Opportunities</span>
-          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">PARTNER WITH THE CHAMPIONS</h2>
-          <p class="text-gray-300 text-sm mt-3 leading-relaxed max-w-xl mx-auto">
-            Support Keane Gabriel and Anne Ysabel in their journey to international martial arts excellence. Join our team as an official sponsor!
+    <!-- SECTION 6: PARTNER WITH THE TEAM -->
+    <section id="sponsor" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+      <div class="bg-cardBg border border-gold/20 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+        <div class="max-w-3xl">
+          <span class="text-gold text-xs font-bold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">Sponsorship Opportunities</span>
+          <h2 class="text-3xl md:text-5xl font-black text-white mt-4 mb-4">PARTNER WITH THE TEAM</h2>
+          <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-8">
+            Support Keane Gabriel and Anne Ysabel on their journey to national and international championships. Your sponsorship fuels training gear, travel logistics, and tournament entry fees.
           </p>
+
+          <form id="sponsor-form" onsubmit="handleSponsorSubmit(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" id="sponsor-name" placeholder="Your Name / Organization" required class="bg-black/60 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold">
+              <input type="email" id="sponsor-email" placeholder="Email Address" required class="bg-black/60 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold">
+            </div>
+            <textarea id="sponsor-msg" rows="4" placeholder="How would you like to partner with Gab & Sab?" required class="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold"></textarea>
+            <button type="submit" class="bg-gold hover:bg-goldHover text-black font-extrabold text-sm uppercase px-8 py-4 rounded-lg transition shadow-xl flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i> Submit Sponsorship Inquiry
+            </button>
+          </form>
         </div>
-
-        <form id="sponsorshipForm" onsubmit="submitSponsorship(event)" class="space-y-6">
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold uppercase text-gray-300 mb-2">Full Name / Representative *</label>
-              <input type="text" required class="w-full bg-charcoal-900/90 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500" placeholder="e.g. John Doe">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold uppercase text-gray-300 mb-2">Email Address *</label>
-              <input type="email" required class="w-full bg-charcoal-900/90 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500" placeholder="john@company.com">
-            </div>
-          </div>
-
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold uppercase text-gray-300 mb-2">Organization / Brand</label>
-              <input type="text" class="w-full bg-charcoal-900/90 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500" placeholder="Company Name Inc.">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold uppercase text-gray-300 mb-2">Sponsorship Tier</label>
-              <select class="w-full bg-charcoal-900/90 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500">
-                <option value="Title Sponsor">Gold Partner / Title Sponsor</option>
-                <option value="Equipment Sponsor">Equipment & Apparel Sponsor</option>
-                <option value="Tournament Travel Sponsor">Tournament & Travel Sponsor</option>
-                <option value="Official Supporter">Official Supporter</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold uppercase text-gray-300 mb-2">Inquiry Details / Message *</label>
-            <textarea required rows="4" class="w-full bg-charcoal-900/90 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500" placeholder="Let us know how you would like to partner with Team Tiburcio..."></textarea>
-          </div>
-
-          <button type="submit" class="w-full py-4 bg-gradient-to-r from-gold-600 to-gold-500 text-black font-bold uppercase tracking-wider text-sm rounded-xl hover:brightness-110 transition shadow-lg shadow-gold-600/20">
-            Submit Sponsorship Inquiry
-          </button>
-        </form>
       </div>
     </section>
-
   </main>
 
-  <!-- ================= 8. FOOTER ================= -->
-  <footer class="bg-charcoal-900 border-t border-white/10 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-      <div class="text-center sm:text-left">
-        <p class="font-serif text-lg font-bold text-white">TIBURCIO TAEKWONDO CHAMPIONS</p>
-        <p class="text-xs text-gray-500 mt-1">© 2026 Keane Gabriel & Anne Ysabel Tiburcio. All Rights Reserved.</p>
-      </div>
-
-      <!-- Editable Facebook Link Button -->
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-black/90 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-gray-500">&copy; 2026 Tiburcio Taekwondo Champions. All rights reserved.</p>
       <div class="flex items-center gap-4">
-        <a id="facebookBtn" href="https://facebook.com" target="_blank" class="px-5 py-2.5 rounded-full bg-charcoal-800 border border-white/10 hover:border-gold-500 text-gray-300 hover:text-white text-xs font-semibold flex items-center gap-2 transition">
-          <i class="fa-brands fa-facebook-f text-blue-500 text-sm"></i>
-          <span id="fbBtnText">Follow on Facebook</span>
+        <a id="footer-fb-link" href="https://facebook.com" target="_blank" class="flex items-center gap-2 text-xs text-gray-300 hover:text-gold transition bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+          <i data-lucide="facebook" class="w-4 h-4 text-blue-500"></i>
+          <span id="footer-fb-text">Follow on Facebook</span>
         </a>
-
-        <button onclick="openEditFbModal()" class="admin-only hidden p-2 rounded-lg bg-charcoal-800 text-gold-400 hover:text-gold-300 border border-gold-600/30 text-xs">
-          <i class="fa-solid fa-pen"></i> Edit Link
+        <button onclick="openFooterEditModal()" class="admin-only text-xs text-gold border border-gold/40 px-3 py-1.5 rounded-full hover:bg-gold/10">
+          Edit Link
         </button>
       </div>
     </div>
   </footer>
 
-  <!-- ================= MODALS & OVERLAYS ================= -->
+  <!-- MODALS CONTAINER -->
 
-  <!-- ADMIN LOGIN MODAL -->
-  <div id="adminModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-gold-600/30">
-      <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-        <h3 class="font-serif text-xl font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-lock text-gold-500"></i> Admin Access
-        </h3>
-        <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+  <!-- 1. ADMIN LOGIN MODAL -->
+  <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="toggleAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div class="text-center mb-6">
+        <i data-lucide="lock" class="w-10 h-10 text-gold mx-auto mb-2"></i>
+        <h3 class="text-xl font-bold text-white">Admin Authentication</h3>
+        <p class="text-xs text-gray-400">Enter password to enable administrative editing mode</p>
       </div>
-      <form onsubmit="handleAdminAuth(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-2">Enter Admin Password</label>
-          <input type="password" id="adminPasswordInput" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500" placeholder="••••••••">
-        </div>
-        <p id="adminAuthError" class="text-xs text-red-400 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Incorrect password. Please try again.</p>
-        <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition">
+      <form onsubmit="handleAdminAuth(event)">
+        <input type="password" id="admin-pass-input" placeholder="Enter Admin Password" required class="w-full bg-black/60 border border-white/20 rounded-lg px-4 py-3 text-sm text-white mb-4 focus:outline-none focus:border-gold">
+        <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-bold text-sm uppercase py-3 rounded-lg transition">
           Authenticate
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ATHLETE PROFILE DETAIL MODAL -->
-  <div id="athleteModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md overflow-y-auto p-4 sm:p-6 flex justify-center">
-    <div class="glass-card rounded-3xl max-w-3xl w-full my-auto p-6 sm:p-8 border border-gold-600/30 relative">
-      <button onclick="closeAthleteModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div id="athleteModalContent">
-        <!-- Dynamically rendered -->
+  <!-- 2. MULTI-SLIDE EDIT MODAL -->
+  <div id="slide-edit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-3xl relative max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-lucide="sliders" class="w-5 h-5 text-gold"></i> Manage Slideshow (All 5 Slides)
+        </h3>
+        <button onclick="closeSlideEditModal()" class="text-gray-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="saveAllSlides(event)" class="flex-grow overflow-y-auto custom-scrollbar my-4 pr-2 space-y-6">
+        <div id="slides-editor-list" class="space-y-6"></div>
+        <div class="sticky bottom-0 bg-cardBg pt-4 border-t border-white/10">
+          <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-extrabold text-sm uppercase py-3 rounded-lg transition shadow-xl">
+            Save All Slides
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. ATHLETE PROFILE & HISTORY MODAL -->
+  <div id="athlete-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 md:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar relative">
+      <button onclick="closeAthleteModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="relative group">
+          <img id="athlete-modal-photo" src="" class="w-full h-72 object-cover rounded-xl border border-white/10">
+          <div class="admin-only absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition rounded-xl">
+            <label class="cursor-pointer bg-gold text-black text-xs font-bold uppercase px-3 py-2 rounded-md">
+              Change Photo
+              <input type="file" id="athlete-photo-input" accept=".png,.jpg,.jpeg,.webp,.gif,image/*" onchange="uploadAthletePhoto(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+        <div class="md:col-span-2 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <h2 id="athlete-modal-name" class="text-3xl font-black text-white"></h2>
+              <button onclick="openEditBioModal()" class="admin-only text-xs text-gold border border-gold/40 px-2.5 py-1 rounded">Edit Bio</button>
+            </div>
+            <p id="athlete-modal-nickname" class="text-xs text-gold uppercase tracking-wider font-bold mb-4"></p>
+            <div class="bg-black/40 border border-white/5 rounded-xl p-4 mb-4">
+              <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Biography</h4>
+              <p id="athlete-modal-bio" class="text-sm text-gray-300 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="bg-black/60 border border-yellow-500/20 p-2.5 rounded-lg">
+              <span id="athlete-modal-gold" class="text-lg font-bold text-yellow-400">0</span>
+              <p class="text-[10px] text-gray-400 uppercase">Gold</p>
+            </div>
+            <div class="bg-black/60 border border-gray-400/20 p-2.5 rounded-lg">
+              <span id="athlete-modal-silver" class="text-lg font-bold text-gray-300">0</span>
+              <p class="text-[10px] text-gray-400 uppercase">Silver</p>
+            </div>
+            <div class="bg-black/60 border border-amber-600/20 p-2.5 rounded-lg">
+              <span id="athlete-modal-bronze" class="text-lg font-bold text-amber-600">0</span>
+              <p class="text-[10px] text-gray-400 uppercase">Bronze</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-white">Tournament History</h3>
+          <button onclick="openAddTourneyModalForCurrent()" class="admin-only bg-gold text-black text-xs font-bold uppercase px-3 py-1.5 rounded">
+            + Add Tournament
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-gray-300">
+            <thead class="bg-black/50 text-xs uppercase text-gold">
+              <tr>
+                <th class="p-3">Tournament Name</th>
+                <th class="p-3">Date</th>
+                <th class="p-3">Venue</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">Medal</th>
+              </tr>
+            </thead>
+            <tbody id="athlete-tourney-list" class="divide-y divide-white/5"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ADD TOURNAMENT MODAL -->
-  <div id="tournamentModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-gold-600/30">
-      <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-3">
-        <h3 class="font-serif text-xl font-bold text-white">Add Tournament Record</h3>
-        <button onclick="closeTournamentModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
+  <!-- 4. EDIT ATHLETE BIO MODAL -->
+  <div id="bio-edit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="closeEditBioModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-4">Edit Athlete Bio</h3>
+      <form onsubmit="saveAthleteBio(event)">
+        <textarea id="athlete-bio-input" rows="5" required class="w-full bg-black/60 border border-white/20 rounded-lg p-3 text-sm text-white mb-4 focus:outline-none focus:border-gold"></textarea>
+        <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-bold text-sm uppercase py-2.5 rounded-lg">Save Biography</button>
+      </form>
+    </div>
+  </div>
 
-      <form onsubmit="saveTournament(event)" class="space-y-4">
+  <!-- 5. ADD TOURNAMENT RECORD MODAL -->
+  <div id="tourney-add-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="closeAddTourneyModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-4">Add Tournament Record</h3>
+      <form onsubmit="saveTournamentRecord(event)" class="space-y-4">
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Athlete</label>
-          <select id="tournAthlete" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm">
-            <option value="gab">Keane Gabriel Tiburcio (GAB)</option>
-            <option value="sab">Anne Ysabel Tiburcio (SAB)</option>
+          <label class="block text-xs uppercase text-gray-400 mb-1">Athlete</label>
+          <select id="tourney-athlete-select" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
+            <option value="gab">Keane Gabriel (GAB)</option>
+            <option value="sab">Anne Ysabel (SAB)</option>
           </select>
         </div>
-
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Tournament Name *</label>
-          <input type="text" id="tournName" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm" placeholder="e.g. National Taekwondo Championships">
+          <label class="block text-xs uppercase text-gray-400 mb-1">Tournament Name</label>
+          <input type="text" id="tourney-name-input" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Date *</label>
-            <input type="date" id="tournDate" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm">
+            <label class="block text-xs uppercase text-gray-400 mb-1">Date</label>
+            <input type="date" id="tourney-date-input" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
           </div>
           <div>
-            <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Type *</label>
-            <select id="tournType" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm">
+            <label class="block text-xs uppercase text-gray-400 mb-1">Type</label>
+            <select id="tourney-type-select" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
+              <option value="Local">Local</option>
               <option value="National">National</option>
               <option value="International">International</option>
-              <option value="Local">Local</option>
             </select>
           </div>
         </div>
-
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Venue *</label>
-          <input type="text" id="tournVenue" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm" placeholder="e.g. Ninoy Aquino Stadium, Manila">
+          <label class="block text-xs uppercase text-gray-400 mb-1">Venue</label>
+          <input type="text" id="tourney-venue-input" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Result Medal / Standing *</label>
-          <select id="tournResult" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm">
-            <option value="Gold">🥇 Gold Medalist</option>
-            <option value="Silver">🥈 Silver Medalist</option>
-            <option value="Bronze">🥉 Bronze Medalist</option>
-            <option value="Participant">Participant / Finalist</option>
+          <label class="block text-xs uppercase text-gray-400 mb-1">Medal Result</label>
+          <select id="tourney-medal-select" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
+            <option value="Gold">Gold Medal</option>
+            <option value="Silver">Silver Medal</option>
+            <option value="Bronze">Bronze Medal</option>
+            <option value="Participant">Participant / None</option>
           </select>
         </div>
-
-        <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition mt-4">
+        <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-bold text-sm uppercase py-3 rounded-lg transition mt-2">
           Save Tournament
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ADD VIDEO MODAL -->
-  <div id="videoModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-gold-600/30">
-      <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-        <h3 class="font-serif text-xl font-bold text-white">Add Video</h3>
-        <button onclick="closeVideoModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-
-      <form onsubmit="saveVideo(event)" class="space-y-4">
+  <!-- 6. GALLERY UPLOAD MODAL -->
+  <div id="gallery-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="closeGalleryUploadModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-4">Add Photo to Gallery</h3>
+      <form onsubmit="saveGalleryPhoto(event)" class="space-y-4">
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Video Title *</label>
-          <input type="text" id="vidTitle" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm" placeholder="e.g. Gold Medal Final Match">
+          <label class="block text-xs uppercase text-gray-400 mb-1">Photo Title / Caption</label>
+          <input type="text" id="gallery-caption-input" placeholder="e.g. Batang Pinoy Gold Round" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">YouTube Embed / Video URL *</label>
-          <input type="text" id="vidUrl" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm" placeholder="e.g. https://www.youtube.com/embed/...">
-          <span class="text-[10px] text-gray-400 mt-1 block">Supports YouTube embed links or MP4 video URLs.</span>
+          <label class="block text-xs uppercase text-gray-400 mb-1">Choose Photo (.png, .jpg, image/*)</label>
+          <input type="file" id="gallery-file-input" accept=".png,.jpg,.jpeg,.webp,.gif,image/*" required class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-gold file:text-black hover:file:bg-goldHover">
         </div>
-
-        <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition">
-          Add Video
+        <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-bold text-sm uppercase py-3 rounded-lg transition">
+          Upload Photo
         </button>
       </form>
     </div>
   </div>
 
-  <!-- EDIT HERO SLIDE MODAL -->
-  <div id="editSlideModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-lg w-full p-6 border border-gold-600/30">
-      <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-        <h3 class="font-serif text-xl font-bold text-white">Edit Hero Slide <span id="editSlideNum"></span></h3>
-        <button onclick="closeEditSlideModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-
-      <form onsubmit="saveSlideDetails(event)" class="space-y-4">
-        <input type="hidden" id="editSlideIndex">
-        
+  <!-- 7. VIDEO UPLOAD MODAL -->
+  <div id="video-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="closeVideoUploadModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-4">Add Video Highlight</h3>
+      <form onsubmit="saveVideoHighlight(event)" class="space-y-4">
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Headline Title</label>
-          <input type="text" id="editSlideTitle" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm">
+          <label class="block text-xs uppercase text-gray-400 mb-1">Video Title</label>
+          <input type="text" id="video-title-input" placeholder="e.g. Championship Final Sparring" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Description</label>
-          <textarea id="editSlideDesc" rows="3" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm"></textarea>
+          <label class="block text-xs uppercase text-gray-400 mb-1">YouTube Embed / MP4 URL</label>
+          <input type="text" id="video-url-input" placeholder="https://www.youtube.com/embed/..." required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-
-        <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Upload New Slide Photo</label>
-          <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" onchange="handleSlidePhotoUpload(event)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-600 file:text-black hover:file:bg-gold-500 cursor-pointer">
-        </div>
-
-        <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition">
-          Save Changes
+        <button type="submit" class="w-full bg-gold hover:bg-goldHover text-black font-bold text-sm uppercase py-3 rounded-lg transition">
+          Save Video
         </button>
       </form>
     </div>
   </div>
 
-  <!-- EDIT FACEBOOK LINK MODAL -->
-  <div id="editFbModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-gold-600/30">
-      <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
-        <h3 class="font-serif text-xl font-bold text-white">Edit Facebook Link</h3>
-        <button onclick="closeEditFbModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-
-      <form onsubmit="saveFbLink(event)" class="space-y-4">
+  <!-- 8. FOOTER EDIT MODAL -->
+  <div id="footer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-cardBg border border-white/10 rounded-2xl p-6 w-full max-w-md relative">
+      <button onclick="closeFooterEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-4">Edit Facebook Link</h3>
+      <form onsubmit="saveFooterLink(event)" class="space-y-4">
         <div>
-          <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Facebook URL</label>
-          <input type="url" id="fbUrlInput" required class="w-full bg-charcoal-900 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm" placeholder="https://facebook.com/yourpage">
+          <label class="block text-xs uppercase text-gray-400 mb-1">Facebook Profile/Page URL</label>
+          <input type="url" id="footer-url-input" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-sm text-white">
         </div>
-        <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition">
-          Update Facebook Link
-        </button>
+        <button type="submit" class="w-full bg-gold text-black font-bold text-sm uppercase py-2.5 rounded-lg">Save Link</button>
       </form>
     </div>
   </div>
 
-  <!-- IMAGE LIGHTBOX -->
-  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4" onclick="closeLightbox()">
-    <button class="absolute top-6 right-6 text-white text-3xl"><i class="fa-solid fa-xmark"></i></button>
-    <img id="lightboxImg" src="" alt="Full View" class="max-w-full max-h-[90vh] object-contain rounded-lg border border-white/10" onclick="event.stopPropagation()">
-  </div>
-
-
-  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <!-- APPLICATION SCRIPT LOGIC -->
   <script>
-    // GLOBAL STATE & DATA STORAGE SETUP
+    const ADMIN_PASS = 'cuteako';
     let isAdmin = false;
     let currentSlide = 0;
-    let slideTimer = null;
-    let tempSlideImage = null;
+    let currentAthleteModal = 'gab';
 
-    // Default Fallback Data Structure
-    window.globalData = {
-      slides: [
-        {
-          image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1600&q=80',
-          title: 'PRECISION, DISCIPLINE & EXCELLENCE',
-          desc: 'Official athletic portfolio of Keane Gabriel & Anne Ysabel Tiburcio - Philippine Taekwondo Competitors.'
-        },
-        {
-          image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1600&q=80',
-          title: 'NATIONAL CHAMPIONSHIPS 2026',
-          desc: 'Dominating local and national martial arts arenas with relentless dedication.'
-        },
-        {
-          image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1600&q=80',
-          title: 'INTERNATIONAL EXPERIENCE',
-          desc: 'Representing peak sportsmanship and technique on the international stage.'
-        }
-      ],
-      athletes: {
-        gab: {
-          name: 'Keane Gabriel Tiburcio',
-          nickname: 'GAB',
-          photo: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
-          bio: 'Keane Gabriel Tiburcio (GAB) is a fierce competitor known for his swift high kicks and defensive counter-attacks. Training rigorously since childhood, Gab has consistently represented his team in major national events.'
-        },
-        sab: {
-          name: 'Anne Ysabel Tiburcio',
-          nickname: 'SAB',
-          photo: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80',
-          bio: 'Anne Ysabel Tiburcio (SAB) is a disciplined and technique-focused taekwondo athlete. Her precision in Poomsae and agility in Kyorugi sparring have earned her multiple podium finishes across competitive circuits.'
-        }
-      },
-      tournaments: [
-        { id: 1, athlete: 'gab', name: 'National Taekwondo Championships', date: '2026-02-15', venue: 'Ninoy Aquino Stadium, Manila', type: 'National', result: 'Gold' },
-        { id: 2, athlete: 'sab', name: 'National Taekwondo Championships', date: '2026-02-15', venue: 'Ninoy Aquino Stadium, Manila', type: 'National', result: 'Gold' },
-        { id: 3, athlete: 'gab', name: 'Asian Junior Open Sparring', date: '2025-11-10', venue: 'Bangkok, Thailand', type: 'International', result: 'Silver' },
-        { id: 4, athlete: 'sab', name: 'Metro Regional Taekwondo Cup', date: '2025-08-20', venue: 'Quezon City Sports Complex', type: 'Local', result: 'Gold' }
-      ],
-      gallery: [
-        'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80'
-      ],
-      videos: [
-        { id: 1, title: 'Gab - Gold Medal Match Highlights', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
-        { id: 2, title: 'Sab - National Championship Poomsae Routine', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
-      ],
-      fblink: 'https://facebook.com'
-    };
-
-    // Global Render Trigger
-    window.renderAllSections = function() {
-      renderSlides();
-      renderAthletes();
-      renderTournaments();
-      renderGallery();
-      renderVideos();
-      renderFacebookLink();
-    };
-
-    // TOAST NOTIFICATION UTILITY
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      const bg = type === 'error' ? 'bg-red-900/90 border-red-500 text-red-200' : 'bg-gold-600/90 border-gold-400 text-black font-semibold';
-      toast.className = `px-4 py-3 rounded-xl border backdrop-blur-md text-xs shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${bg}`;
-      toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> <span>${message}</span>`;
-      container.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-      }, 50);
-
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
-    }
-
-    // IMAGE COMPRESSION ENGINE (CANVAS DOWN-SCALING)
-    function processAndCompressImage(file, maxWidth = 1000, maxHeight = 1000, quality = 0.75) {
+    function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
       return new Promise((resolve, reject) => {
-        if (!file || !file.type.startsWith('image/')) {
-          reject(new Error('Selected file is not a valid image format.'));
-          return;
-        }
-
         const reader = new FileReader();
-        reader.onerror = () => reject(new Error('Failed to read image file.'));
-        reader.onload = (event) => {
+        reader.onerror = error => reject(error);
+        reader.onload = event => {
           const img = new Image();
-          img.onerror = () => reject(new Error('Corrupted or unreadable image.'));
+          img.onerror = error => reject(error);
           img.onload = () => {
             let width = img.width;
             let height = img.height;
@@ -891,544 +661,543 @@
       });
     }
 
-    // INITIALIZATION ON LOAD
-    window.addEventListener('DOMContentLoaded', () => {
-      renderAllSections();
-      startSlideTimer();
-    });
+    const defaultData = {
+      slides: [
+        { title: "NATIONAL CHAMPIONSHIPS 2026", desc: "Dominating local and national martial arts arenas with relentless dedication.", img: "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1200&q=80" },
+        { title: "BATANG PINOY BOUND", desc: "Representing pride, discipline, and excellence in Bacolod City.", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80" },
+        { title: "PRECISION & POWER", desc: "Mastering form, speed, and continuous self-improvement in Taekwondo.", img: "https://images.unsplash.com/photo-1509563839001-b5420716ab35?auto=format&fit=crop&w=1200&q=80" },
+        { title: "THE RED BELT JOURNEY", desc: "Every sparring session brings us closer to elite black belt mastery.", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1200&q=80" },
+        { title: "FUTURE INTERNATIONAL STARS", desc: "Built on family support, hard training, and unwavering determination.", img: "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=1200&q=80" }
+      ],
+      athletes: {
+        gab: {
+          name: "KEANE GABRIEL TIBURCIO",
+          nickname: "GAB",
+          photo: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
+          bio: "Keane Gabriel (Gab) is a dedicated red belt athlete known for explosive roundhouse kicks, tactical counter-attacks, and exceptional tournament composure."
+        },
+        sab: {
+          name: "ANNE YSABEL TIBURCIO",
+          nickname: "SAB",
+          photo: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+          bio: "Anne Ysabel (Sab) is a fierce competitor exhibiting outstanding agility, sharp head-kick precision, and a stellar record across regional tournaments."
+        }
+      },
+      tournaments: [
+        { id: 't1', athlete: 'gab', name: 'Batang Pinoy National Qualifier', date: '2026-08-15', venue: 'Bacolod City Sports Complex', type: 'National', medal: 'Gold' },
+        { id: 't2', athlete: 'gab', name: 'Regional Taekwondo Meet', date: '2026-05-10', venue: 'Santa Rosa Sports Coliseum', type: 'Local', medal: 'Gold' },
+        { id: 't3', athlete: 'sab', name: 'National Taekwondo Championships', date: '2026-07-20', venue: 'Rizal Memorial Stadium', type: 'National', medal: 'Silver' },
+        { id: 't4', athlete: 'sab', name: 'Southern Luzon TKD Open', date: '2026-03-12', venue: 'Laguna Sports Complex', type: 'Local', medal: 'Gold' }
+      ],
+      gallery: [
+        { id: 'g1', title: 'Podium Finish - Batang Pinoy', img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80' },
+        { id: 'g2', title: 'Intense Sparring Match', img: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80' },
+        { id: 'g3', title: 'Speed Kicking Drills', img: 'https://images.unsplash.com/photo-1509563839001-b5420716ab35?auto=format&fit=crop&w=800&q=80' }
+      ],
+      videos: [
+        { id: 'v1', title: 'Championship Final Highlights - Gab', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
+        { id: 'v2', title: 'Sab Kick Speed Showcase', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
+      ],
+      footerFb: 'https://facebook.com'
+    };
 
-    // ================= 1. ADMIN AUTHENTICATION =================
+    let appData = JSON.parse(localStorage.getItem('tiburcio_tkd_data')) || defaultData;
+
+    function saveData() {
+      try {
+        localStorage.setItem('tiburcio_tkd_data', JSON.stringify(appData));
+      } catch (err) {
+        showToast("Storage quota exceeded! Try uploading a smaller image.");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-x-full');
+      setTimeout(() => {
+        toast.classList.add('translate-x-full');
+      }, 3000);
+    }
+
     function toggleAdminModal() {
-      const modal = document.getElementById('adminModal');
-      modal.classList.toggle('hidden');
-      document.getElementById('adminAuthError').classList.add('hidden');
-      document.getElementById('adminPasswordInput').value = '';
+      if (isAdmin) {
+        isAdmin = false;
+        document.body.classList.remove('is-admin');
+        document.getElementById('admin-badge').classList.add('hidden');
+        document.getElementById('admin-badge').classList.remove('flex');
+        document.getElementById('admin-btn-text').innerText = 'Admin';
+        showToast('Logged out of Admin Mode');
+      } else {
+        document.getElementById('admin-modal').classList.remove('hidden');
+      }
     }
 
     function handleAdminAuth(e) {
       e.preventDefault();
-      const pwd = document.getElementById('adminPasswordInput').value;
-      if (pwd === 'cuteako') {
+      const val = document.getElementById('admin-pass-input').value;
+      if (val === ADMIN_PASS) {
         isAdmin = true;
-        updateAdminUI();
-        toggleAdminModal();
-        showToast('Logged in as Admin');
+        document.body.classList.add('is-admin');
+        document.getElementById('admin-badge').classList.remove('hidden');
+        document.getElementById('admin-badge').classList.add('flex');
+        document.getElementById('admin-btn-text').innerText = 'Logout Admin';
+        document.getElementById('admin-pass-input').value = '';
+        document.getElementById('admin-modal').classList.add('hidden');
+        showToast('Admin Mode Enabled');
+        renderAll();
       } else {
-        document.getElementById('adminAuthError').classList.remove('hidden');
+        showToast('Incorrect Password');
       }
     }
 
-    function updateAdminUI() {
-      const adminElements = document.querySelectorAll('.admin-only');
-      const badge = document.getElementById('adminBadge');
-      const btnText = document.getElementById('adminBtnText');
+    function renderSlide() {
+      const slide = appData.slides[currentSlide];
+      document.getElementById('slide-title').innerText = slide.title;
+      document.getElementById('slide-desc').innerText = slide.desc;
+      document.getElementById('slide-img').src = slide.img;
+      document.getElementById('slide-bg-blur').style.backgroundImage = `url("${slide.img}")`;
 
-      if (isAdmin) {
-        adminElements.forEach(el => el.classList.remove('hidden'));
-        badge.classList.remove('hidden');
-        btnText.innerText = 'Logout Admin';
-      } else {
-        adminElements.forEach(el => el.classList.add('hidden'));
-        badge.classList.add('hidden');
-        btnText.innerText = 'Admin Login';
-      }
-      renderSlides();
-    }
-
-    // ================= 2. HERO SLIDESHOW LOGIC =================
-    function renderSlides() {
-      const slides = window.globalData.slides || [];
-      const container = document.getElementById('sliderContainer');
-      const indicators = document.getElementById('slideIndicators');
-
-      container.innerHTML = '';
-      indicators.innerHTML = '';
-
-      slides.forEach((slide, idx) => {
-        const slideEl = document.createElement('div');
-        slideEl.className = `absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`;
-        slideEl.innerHTML = `
-          <!-- Poster fit background blur & container -->
-          <div class="relative w-full h-full bg-charcoal-900 flex items-center justify-center overflow-hidden">
-            <img src="${slide.image}" class="absolute inset-0 w-full h-full object-cover filter blur-lg opacity-30 scale-110" alt="Slide Blur BG">
-            <img src="${slide.image}" class="relative z-10 max-w-full max-h-full object-contain brightness-90" alt="${slide.title}">
-            <div class="absolute inset-0 z-10 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent"></div>
-          </div>
-          
-          <div class="absolute inset-0 z-20 flex items-center justify-center p-6 sm:p-12 text-center">
-            <div class="max-w-3xl">
-              <span class="text-xs uppercase tracking-widest text-gold-500 font-bold bg-gold-600/10 border border-gold-600/30 px-4 py-1.5 rounded-full">Official Athlete Showcase</span>
-              <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white mt-4 leading-tight">${slide.title}</h1>
-              <p class="text-gray-300 text-sm sm:text-base mt-3 max-w-xl mx-auto">${slide.desc}</p>
-              
-              ${isAdmin ? `
-                <div class="mt-6 flex justify-center gap-3">
-                  <button onclick="openEditSlideModal(${idx})" class="px-4 py-2 bg-gold-600 text-black font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-gold-500 transition flex items-center gap-2 shadow-lg">
-                    <i class="fa-solid fa-pen"></i> Edit Headline & Image
-                  </button>
-                </div>
-              ` : ''}
-            </div>
-          </div>
-        `;
-        container.appendChild(slideEl);
-
+      const dotsContainer = document.getElementById('slide-dots');
+      dotsContainer.innerHTML = '';
+      appData.slides.forEach((_, idx) => {
         const dot = document.createElement('button');
-        dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === currentSlide ? 'bg-gold-500 w-8' : 'bg-white/40'}`;
-        dot.onclick = () => goToSlide(idx);
-        indicators.appendChild(dot);
+        dot.className = `w-3 h-3 rounded-full transition-all ${idx === currentSlide ? 'bg-gold w-8' : 'bg-white/30 hover:bg-white/60'}`;
+        dot.onclick = () => { currentSlide = idx; renderSlide(); };
+        dotsContainer.appendChild(dot);
       });
     }
 
-    function startSlideTimer() {
-      if (slideTimer) clearInterval(slideTimer);
-      slideTimer = setInterval(() => {
-        nextSlide();
-      }, 5000);
-    }
-
     function nextSlide() {
-      const slides = window.globalData.slides || [];
-      if (slides.length === 0) return;
-      currentSlide = (currentSlide + 1) % slides.length;
-      renderSlides();
+      currentSlide = (currentSlide + 1) % appData.slides.length;
+      renderSlide();
     }
 
     function prevSlide() {
-      const slides = window.globalData.slides || [];
-      if (slides.length === 0) return;
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      renderSlides();
+      currentSlide = (currentSlide - 1 + appData.slides.length) % appData.slides.length;
+      renderSlide();
     }
 
-    function goToSlide(idx) {
-      currentSlide = idx;
-      renderSlides();
+    function openSlideEditModal() {
+      const container = document.getElementById('slides-editor-list');
+      container.innerHTML = '';
+
+      appData.slides.forEach((slide, idx) => {
+        const item = document.createElement('div');
+        item.className = 'bg-black/40 border border-white/10 rounded-xl p-4 space-y-3';
+        item.innerHTML = `
+          <div class="flex items-center gap-3 border-b border-white/10 pb-2">
+            <span class="text-xs font-bold text-gold uppercase bg-gold/10 px-2.5 py-1 rounded border border-gold/30">Slide #${idx + 1}</span>
+            <span class="text-xs text-gray-400 truncate flex-grow">${slide.title}</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+            <div class="md:col-span-1">
+              <img src="${slide.img}" class="w-full h-24 object-cover rounded-lg border border-white/10">
+            </div>
+            <div class="md:col-span-3 space-y-3">
+              <div>
+                <label class="block text-[11px] uppercase text-gray-400 mb-1">Headline Title</label>
+                <input type="text" id="slide-title-${idx}" value="${slide.title.replace(/"/g, '&quot;')}" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-[11px] uppercase text-gray-400 mb-1">Description</label>
+                <textarea id="slide-desc-${idx}" rows="2" required class="w-full bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-xs text-white">${slide.desc}</textarea>
+              </div>
+              <div>
+                <label class="block text-[11px] uppercase text-gray-400 mb-1">Replace Image (.png, .jpg, image/*)</label>
+                <input type="file" id="slide-file-${idx}" accept=".png,.jpg,.jpeg,.webp,.gif,image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[11px] file:font-semibold file:bg-gold file:text-black hover:file:bg-goldHover">
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById('slide-edit-modal').classList.remove('hidden');
     }
 
-    function openEditSlideModal(index) {
-      const slides = window.globalData.slides;
-      const slide = slides[index];
-      document.getElementById('editSlideIndex').value = index;
-      document.getElementById('editSlideNum').innerText = `#${index + 1}`;
-      document.getElementById('editSlideTitle').value = slide.title;
-      document.getElementById('editSlideDesc').value = slide.desc;
-      tempSlideImage = slide.image;
-      document.getElementById('editSlideModal').classList.remove('hidden');
+    function closeSlideEditModal() {
+      document.getElementById('slide-edit-modal').classList.add('hidden');
     }
 
-    function closeEditSlideModal() {
-      document.getElementById('editSlideModal').classList.add('hidden');
+    async function saveAllSlides(e) {
+      e.preventDefault();
+
+      for (let i = 0; i < appData.slides.length; i++) {
+        const titleVal = document.getElementById(`slide-title-${i}`).value;
+        const descVal = document.getElementById(`slide-desc-${i}`).value;
+        const fileInput = document.getElementById(`slide-file-${i}`);
+
+        appData.slides[i].title = titleVal;
+        appData.slides[i].desc = descVal;
+
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+          try {
+            const compressed = await compressImage(fileInput.files[0]);
+            appData.slides[i].img = compressed;
+          } catch (err) {
+            showToast(`Error uploading image for Slide #${i + 1}`);
+          }
+        }
+      }
+
+      saveData();
+      renderSlide();
+      closeSlideEditModal();
+      showToast('All 5 slides updated successfully');
     }
 
-    async function handleSlidePhotoUpload(e) {
+    function renderAthletes() {
+      document.getElementById('gab-card-photo').src = appData.athletes.gab.photo;
+      document.getElementById('gab-short-bio').innerText = appData.athletes.gab.bio;
+
+      document.getElementById('sab-card-photo').src = appData.athletes.sab.photo;
+      document.getElementById('sab-short-bio').innerText = appData.athletes.sab.bio;
+    }
+
+    function openAthleteModal(key) {
+      currentAthleteModal = key;
+      const athlete = appData.athletes[key];
+      document.getElementById('athlete-modal-name').innerText = athlete.name;
+      document.getElementById('athlete-modal-nickname').innerText = `NICKNAME: ${athlete.nickname}`;
+      document.getElementById('athlete-modal-photo').src = athlete.photo;
+      document.getElementById('athlete-modal-bio').innerText = athlete.bio;
+
+      const medals = calculateMedals(key);
+      document.getElementById('athlete-modal-gold').innerText = medals.gold;
+      document.getElementById('athlete-modal-silver').innerText = medals.silver;
+      document.getElementById('athlete-modal-bronze').innerText = medals.bronze;
+
+      const tourneyList = document.getElementById('athlete-tourney-list');
+      tourneyList.innerHTML = '';
+      const athleteTourneys = appData.tournaments.filter(t => t.athlete === key);
+
+      if (athleteTourneys.length === 0) {
+        tourneyList.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No tournaments recorded yet.</td></tr>`;
+      } else {
+        athleteTourneys.forEach(t => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-white/5 transition';
+          tr.innerHTML = `
+            <td class="p-3 font-semibold text-white">${t.name}</td>
+            <td class="p-3">${t.date}</td>
+            <td class="p-3">${t.venue}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-white/10 border border-white/10">${t.type}</span></td>
+            <td class="p-3 font-bold ${getMedalColor(t.medal)}">${t.medal}</td>
+          `;
+          tourneyList.appendChild(tr);
+        });
+      }
+
+      document.getElementById('athlete-modal').classList.remove('hidden');
+    }
+
+    function closeAthleteModal() {
+      document.getElementById('athlete-modal').classList.add('hidden');
+    }
+
+    async function uploadAthletePhoto(e) {
       const file = e.target.files[0];
       if (file) {
         try {
-          tempSlideImage = await processAndCompressImage(file, 1280, 800, 0.8);
-          showToast('Slide photo compressed and ready!');
+          const compressed = await compressImage(file);
+          appData.athletes[currentAthleteModal].photo = compressed;
+          saveData();
+          renderAthletes();
+          openAthleteModal(currentAthleteModal);
+          showToast('Athlete photo updated');
         } catch (err) {
-          showToast(err.message || 'Failed to process slide photo', 'error');
+          showToast("Error uploading athlete photo.");
         }
       }
     }
 
-    async function saveSlideDetails(e) {
-      e.preventDefault();
-      const idx = document.getElementById('editSlideIndex').value;
-      window.globalData.slides[idx] = {
-        title: document.getElementById('editSlideTitle').value,
-        desc: document.getElementById('editSlideDesc').value,
-        image: tempSlideImage
-      };
-      
-      await window.syncToFirestore();
-      closeEditSlideModal();
-      renderSlides();
-      showToast('Hero slide updated & saved to cloud!');
+    function openEditBioModal() {
+      document.getElementById('athlete-bio-input').value = appData.athletes[currentAthleteModal].bio;
+      document.getElementById('bio-edit-modal').classList.remove('hidden');
     }
 
-    // ================= 3. ATHLETES LOGIC =================
-    function renderAthletes() {
-      const athletes = window.globalData.athletes;
-      const tourns = window.globalData.tournaments || [];
+    function closeEditBioModal() {
+      document.getElementById('bio-edit-modal').classList.add('hidden');
+    }
 
-      // GAB
-      document.getElementById('gab-card-img').src = athletes.gab.photo;
-      document.getElementById('gab-card-img-bg').src = athletes.gab.photo;
-      document.getElementById('gab-card-bio').innerText = athletes.gab.bio;
-      
-      // SAB
-      document.getElementById('sab-card-img').src = athletes.sab.photo;
-      document.getElementById('sab-card-img-bg').src = athletes.sab.photo;
-      document.getElementById('sab-card-bio').innerText = athletes.sab.bio;
+    function saveAthleteBio(e) {
+      e.preventDefault();
+      appData.athletes[currentAthleteModal].bio = document.getElementById('athlete-bio-input').value;
+      saveData();
+      renderAthletes();
+      openAthleteModal(currentAthleteModal);
+      closeEditBioModal();
+      showToast('Biography updated');
+    }
 
-      // Calculate Medals
-      const gabMedals = calculateMedals('gab', tourns);
-      const sabMedals = calculateMedals('sab', tourns);
+    function calculateMedals(athleteKey) {
+      const filtered = appData.tournaments.filter(t => t.athlete === athleteKey);
+      return {
+        gold: filtered.filter(t => t.medal === 'Gold').length,
+        silver: filtered.filter(t => t.medal === 'Silver').length,
+        bronze: filtered.filter(t => t.medal === 'Bronze').length
+      };
+    }
 
+    function getMedalColor(medal) {
+      if (medal === 'Gold') return 'text-yellow-400';
+      if (medal === 'Silver') return 'text-gray-300';
+      if (medal === 'Bronze') return 'text-amber-600';
+      return 'text-gray-500';
+    }
+
+    function renderTournaments() {
+      const gabMedals = calculateMedals('gab');
       document.getElementById('gab-gold-count').innerText = gabMedals.gold;
       document.getElementById('gab-silver-count').innerText = gabMedals.silver;
       document.getElementById('gab-bronze-count').innerText = gabMedals.bronze;
 
+      const sabMedals = calculateMedals('sab');
       document.getElementById('sab-gold-count').innerText = sabMedals.gold;
       document.getElementById('sab-silver-count').innerText = sabMedals.silver;
       document.getElementById('sab-bronze-count').innerText = sabMedals.bronze;
 
-      document.getElementById('summary-gab-gold').innerText = gabMedals.gold;
-      document.getElementById('summary-gab-silver').innerText = gabMedals.silver;
-      document.getElementById('summary-gab-bronze').innerText = gabMedals.bronze;
+      const filter = document.getElementById('tourney-filter-athlete').value;
+      const tbody = document.getElementById('tourney-table-body');
+      tbody.innerHTML = '';
 
-      document.getElementById('summary-sab-gold').innerText = sabMedals.gold;
-      document.getElementById('summary-sab-silver').innerText = sabMedals.silver;
-      document.getElementById('summary-sab-bronze').innerText = sabMedals.bronze;
-    }
-
-    function calculateMedals(athleteKey, tourns) {
-      const filtered = tourns.filter(t => t.athlete === athleteKey);
-      return {
-        gold: filtered.filter(t => t.result === 'Gold').length,
-        silver: filtered.filter(t => t.result === 'Silver').length,
-        bronze: filtered.filter(t => t.result === 'Bronze').length
-      };
-    }
-
-    async function uploadAthletePhoto(athleteKey, e) {
-      const file = e.target.files[0];
-      if (file) {
-        try {
-          const compressed = await processAndCompressImage(file, 800, 800, 0.8);
-          window.globalData.athletes[athleteKey].photo = compressed;
-          await window.syncToFirestore();
-          renderAthletes();
-          showToast(`Updated ${athleteKey.toUpperCase()}'s photo on cloud!`);
-        } catch (err) {
-          showToast(err.message || 'Image upload failed', 'error');
-        }
-      }
-    }
-
-    function openAthleteModal(athleteKey) {
-      const athletes = window.globalData.athletes;
-      const tourns = window.globalData.tournaments;
-      const athlete = athletes[athleteKey];
-      const medals = calculateMedals(athleteKey, tourns);
-      const athleteTourns = tourns.filter(t => t.athlete === athleteKey);
-
-      const content = document.getElementById('athleteModalContent');
-      content.innerHTML = `
-        <div class="flex flex-col md:flex-row gap-6 items-center md:items-start mb-6">
-          <div class="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-charcoal-800 border-2 border-gold-600/50 shadow-xl flex items-center justify-center">
-            <img src="${athlete.photo}" class="absolute inset-0 w-full h-full object-cover filter blur-sm opacity-40">
-            <img src="${athlete.photo}" class="relative z-10 w-full h-full object-contain">
-          </div>
-          <div class="text-center md:text-left flex-grow">
-            <span class="text-xs uppercase font-bold tracking-widest text-gold-500">Athlete Profile</span>
-            <h2 class="font-serif text-3xl font-bold text-white">${athlete.name} ("${athlete.nickname}")</h2>
-            
-            <div class="mt-3">
-              <p id="modalBioText" class="text-gray-300 text-sm leading-relaxed">${athlete.bio}</p>
-              ${isAdmin ? `
-                <button onclick="enableBioEdit('${athleteKey}')" id="editBioBtn" class="mt-2 text-xs text-gold-400 hover:text-gold-300 underline">
-                  <i class="fa-solid fa-pen"></i> Edit Biography
-                </button>
-                <div id="bioEditArea" class="hidden mt-2">
-                  <textarea id="bioInput" rows="3" class="w-full bg-charcoal-900 border border-white/20 rounded-xl p-3 text-sm text-white">${athlete.bio}</textarea>
-                  <button onclick="saveAthleteBio('${athleteKey}')" class="mt-2 px-3 py-1 bg-gold-600 text-black text-xs font-bold rounded-lg">Save Bio</button>
-                </div>
-              ` : ''}
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-3 gap-4 bg-charcoal-900/90 p-4 rounded-2xl border border-white/10 text-center mb-8">
-          <div>
-            <div class="text-2xl font-black text-gold-400">${medals.gold}</div>
-            <div class="text-[10px] text-gray-400 uppercase font-semibold">Gold Medals</div>
-          </div>
-          <div>
-            <div class="text-2xl font-black text-gray-300">${medals.silver}</div>
-            <div class="text-[10px] text-gray-400 uppercase font-semibold">Silver Medals</div>
-          </div>
-          <div>
-            <div class="text-2xl font-black text-amber-600">${medals.bronze}</div>
-            <div class="text-[10px] text-gray-400 uppercase font-semibold">Bronze Medals</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-2">
-            <h3 class="font-serif text-lg font-bold text-white">Tournament History</h3>
-            ${isAdmin ? `
-              <button onclick="openAddTournamentModal('${athleteKey}')" class="text-xs bg-gold-600/20 text-gold-400 border border-gold-600/40 px-3 py-1 rounded-lg font-semibold hover:bg-gold-600 hover:text-black transition">
-                + Add Record
-              </button>
-            ` : ''}
-          </div>
-
-          <div class="space-y-3 max-h-60 overflow-y-auto pr-2">
-            ${athleteTourns.length === 0 ? '<p class="text-xs text-gray-500 italic">No tournament records found.</p>' : ''}
-            ${athleteTourns.map(t => `
-              <div class="p-3 bg-charcoal-800/80 rounded-xl border border-white/5 flex items-center justify-between">
-                <div>
-                  <span class="text-[10px] uppercase font-bold text-gold-500 bg-gold-600/10 px-2 py-0.5 rounded">${t.type}</span>
-                  <p class="font-semibold text-sm text-white mt-1">${t.name}</p>
-                  <p class="text-xs text-gray-400">${t.date} • ${t.venue}</p>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-bold ${t.result === 'Gold' ? 'text-gold-400' : t.result === 'Silver' ? 'text-gray-300' : t.result === 'Bronze' ? 'text-amber-600' : 'text-gray-400'}">${t.result}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-
-      document.getElementById('athleteModal').classList.remove('hidden');
-    }
-
-    function closeAthleteModal() {
-      document.getElementById('athleteModal').classList.add('hidden');
-    }
-
-    function enableBioEdit(key) {
-      document.getElementById('modalBioText').classList.add('hidden');
-      document.getElementById('editBioBtn').classList.add('hidden');
-      document.getElementById('bioEditArea').classList.remove('hidden');
-    }
-
-    async function saveAthleteBio(key) {
-      window.globalData.athletes[key].bio = document.getElementById('bioInput').value;
-      await window.syncToFirestore();
-      renderAthletes();
-      openAthleteModal(key);
-      showToast('Biography saved to cloud!');
-    }
-
-    // ================= 4. TOURNAMENTS LOGIC =================
-    let currentFilter = 'all';
-
-    function filterTournaments(type) {
-      currentFilter = type;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('bg-gold-600', 'text-white');
-        btn.classList.add('text-gray-400');
-      });
-      document.getElementById(`filter-${type}`).classList.add('bg-gold-600', 'text-white');
-      renderTournaments();
-    }
-
-    function renderTournaments() {
-      const tourns = window.globalData.tournaments || [];
-      const tableBody = document.getElementById('tournamentTableBody');
-      tableBody.innerHTML = '';
-
-      let filtered = tourns;
-      if (currentFilter !== 'all') {
-        filtered = tourns.filter(t => t.athlete === currentFilter);
+      let list = appData.tournaments;
+      if (filter !== 'all') {
+        list = list.filter(t => t.athlete === filter);
       }
 
-      if (filtered.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-gray-500 italic">No tournament records available.</td></tr>`;
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">No tournament records found.</td></tr>`;
         return;
       }
 
-      filtered.forEach(t => {
-        const row = document.createElement('tr');
-        row.className = 'hover:bg-white/5 transition';
-        row.innerHTML = `
-          <td class="py-4 px-6 font-bold text-gold-400 uppercase text-xs">${t.athlete === 'gab' ? 'GAB' : 'SAB'}</td>
-          <td class="py-4 px-6 font-semibold text-white">${t.name}</td>
-          <td class="py-4 px-6 text-xs text-gray-400">${t.date}</td>
-          <td class="py-4 px-6 text-xs text-gray-300">${t.venue}</td>
-          <td class="py-4 px-6"><span class="text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300">${t.type}</span></td>
-          <td class="py-4 px-6 font-bold text-xs ${t.result === 'Gold' ? 'text-gold-400' : t.result === 'Silver' ? 'text-gray-300' : t.result === 'Bronze' ? 'text-amber-600' : 'text-gray-400'}">${t.result}</td>
-          <td class="py-4 px-6 text-right">
-            <button onclick="deleteTournament(${t.id})" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+      list.forEach(t => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/5 transition';
+        tr.innerHTML = `
+          <td class="p-3 font-bold uppercase text-xs text-gold">${t.athlete.toUpperCase()}</td>
+          <td class="p-3 font-semibold text-white">${t.name}</td>
+          <td class="p-3 text-xs">${t.date}</td>
+          <td class="p-3 text-xs">${t.venue}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-white/10 border border-white/10">${t.type}</span></td>
+          <td class="p-3 font-bold text-xs ${getMedalColor(t.medal)}">${t.medal}</td>
+          <td class="p-3 text-right">
+            <button onclick="deleteTournament('${t.id}')" class="text-red-400 hover:text-red-300 p-1">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
           </td>
         `;
-        tableBody.appendChild(row);
+        tbody.appendChild(tr);
       });
+      lucide.createIcons();
     }
 
-    function openAddTournamentModal(preselectedAthlete = 'gab') {
-      document.getElementById('tournAthlete').value = preselectedAthlete;
-      document.getElementById('tournamentModal').classList.remove('hidden');
+    function openAddTourneyModal() {
+      document.getElementById('tourney-add-modal').classList.remove('hidden');
     }
 
-    function closeTournamentModal() {
-      document.getElementById('tournamentModal').classList.add('hidden');
+    function openAddTourneyModalForCurrent() {
+      document.getElementById('tourney-athlete-select').value = currentAthleteModal;
+      openAddTourneyModal();
     }
 
-    async function saveTournament(e) {
+    function closeAddTourneyModal() {
+      document.getElementById('tourney-add-modal').classList.add('hidden');
+    }
+
+    function saveTournamentRecord(e) {
       e.preventDefault();
       const newRecord = {
-        id: Date.now(),
-        athlete: document.getElementById('tournAthlete').value,
-        name: document.getElementById('tournName').value,
-        date: document.getElementById('tournDate').value,
-        type: document.getElementById('tournType').value,
-        venue: document.getElementById('tournVenue').value,
-        result: document.getElementById('tournResult').value
+        id: 't_' + Date.now(),
+        athlete: document.getElementById('tourney-athlete-select').value,
+        name: document.getElementById('tourney-name-input').value,
+        date: document.getElementById('tourney-date-input').value,
+        type: document.getElementById('tourney-type-select').value,
+        venue: document.getElementById('tourney-venue-input').value,
+        medal: document.getElementById('tourney-medal-select').value
       };
 
-      window.globalData.tournaments.unshift(newRecord);
-      await window.syncToFirestore();
-      closeTournamentModal();
+      appData.tournaments.unshift(newRecord);
+      saveData();
       renderTournaments();
-      renderAthletes();
-      showToast('Tournament record saved to cloud!');
+      if (!document.getElementById('athlete-modal').classList.contains('hidden')) {
+        openAthleteModal(currentAthleteModal);
+      }
+      closeAddTourneyModal();
+      showToast('Tournament record saved');
     }
 
-    async function deleteTournament(id) {
-      window.globalData.tournaments = window.globalData.tournaments.filter(t => t.id !== id);
-      await window.syncToFirestore();
-      renderTournaments();
-      renderAthletes();
-      showToast('Tournament record removed from cloud.');
+    function deleteTournament(id) {
+      if (confirm("Are you sure you want to delete this tournament record?")) {
+        appData.tournaments = appData.tournaments.filter(t => t.id !== id);
+        saveData();
+        renderTournaments();
+        showToast('Tournament record deleted');
+      }
     }
 
-    // ================= 5. GALLERY LOGIC =================
     function renderGallery() {
-      const gallery = window.globalData.gallery || [];
-      const grid = document.getElementById('galleryGrid');
+      const grid = document.getElementById('gallery-grid');
       grid.innerHTML = '';
-
-      gallery.forEach((imgUrl, idx) => {
-        const item = document.createElement('div');
-        item.className = 'group relative aspect-square rounded-2xl overflow-hidden glass-card cursor-pointer border border-white/10 hover:border-gold-500/50 transition duration-500 flex items-center justify-center bg-charcoal-800';
-        item.onclick = () => openLightbox(imgUrl);
-        item.innerHTML = `
-          <!-- Poster fit image display -->
-          <img src="${imgUrl}" class="absolute inset-0 w-full h-full object-cover filter blur-md opacity-30">
-          <img src="${imgUrl}" class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition duration-700" alt="Gallery Photo">
-          <div class="absolute inset-0 z-20 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-            <i class="fa-solid fa-expand text-2xl text-white"></i>
+      appData.gallery.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'group relative rounded-xl overflow-hidden border border-white/10 bg-cardBg aspect-video flex items-center justify-center';
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition p-4 flex flex-col justify-end">
+            <p class="text-white font-bold text-sm">${item.title}</p>
           </div>
-          ${isAdmin ? `
-            <button onclick="event.stopPropagation(); deleteGalleryPhoto(${idx})" class="absolute top-3 right-3 z-30 p-2 bg-red-600/80 text-white text-xs rounded-lg hover:bg-red-600 transition">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          ` : ''}
+          <button onclick="deleteGalleryPhoto('${item.id}')" class="admin-only absolute top-2 right-2 bg-red-600 text-white p-1.5 rounded-full hover:bg-red-700 shadow">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
         `;
-        grid.appendChild(item);
+        grid.appendChild(div);
       });
+      lucide.createIcons();
     }
 
-    async function uploadGalleryPhoto(e) {
-      const file = e.target.files[0];
-      if (file) {
+    function openGalleryUploadModal() {
+      document.getElementById('gallery-modal').classList.remove('hidden');
+    }
+
+    function closeGalleryUploadModal() {
+      document.getElementById('gallery-modal').classList.add('hidden');
+    }
+
+    async function saveGalleryPhoto(e) {
+      e.preventDefault();
+      const caption = document.getElementById('gallery-caption-input').value;
+      const fileInput = document.getElementById('gallery-file-input');
+
+      if (fileInput.files && fileInput.files[0]) {
         try {
-          const compressed = await processAndCompressImage(file, 1000, 1000, 0.75);
-          window.globalData.gallery.unshift(compressed);
-          await window.syncToFirestore();
+          const compressed = await compressImage(fileInput.files[0]);
+          appData.gallery.unshift({
+            id: 'g_' + Date.now(),
+            title: caption,
+            img: compressed
+          });
+          saveData();
           renderGallery();
-          showToast('Gallery photo uploaded & synced!');
+          closeGalleryUploadModal();
+          showToast('Gallery photo added');
         } catch (err) {
-          showToast(err.message || 'Image process failed', 'error');
+          showToast("Error processing photo file.");
         }
       }
     }
 
-    async function deleteGalleryPhoto(idx) {
-      window.globalData.gallery.splice(idx, 1);
-      await window.syncToFirestore();
-      renderGallery();
-      showToast('Photo removed.');
+    function deleteGalleryPhoto(id) {
+      if (confirm("Delete this photo from gallery?")) {
+        appData.gallery = appData.gallery.filter(g => g.id !== id);
+        saveData();
+        renderGallery();
+        showToast('Photo removed');
+      }
     }
 
-    function openLightbox(url) {
-      document.getElementById('lightboxImg').src = url;
-      document.getElementById('lightbox').classList.remove('hidden');
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.add('hidden');
-    }
-
-    // ================= 6. VIDEO LOGIC =================
     function renderVideos() {
-      const videos = window.globalData.videos || [];
-      const grid = document.getElementById('videoGrid');
+      const grid = document.getElementById('video-grid');
       grid.innerHTML = '';
-
-      videos.forEach((vid) => {
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl overflow-hidden border border-white/10 flex flex-col';
-        card.innerHTML = `
-          <div class="aspect-video w-full bg-black relative">
-            <iframe src="${vid.url}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+      appData.videos.forEach(v => {
+        const div = document.createElement('div');
+        div.className = 'bg-cardBg border border-white/10 rounded-2xl overflow-hidden relative';
+        div.innerHTML = `
+          <div class="aspect-video w-full bg-black">
+            <iframe src="${v.url}" class="w-full h-full border-0" allowfullscreen></iframe>
           </div>
           <div class="p-4 flex items-center justify-between">
-            <h4 class="font-semibold text-sm text-white line-clamp-1">${vid.title}</h4>
-            ${isAdmin ? `
-              <button onclick="deleteVideo(${vid.id})" class="text-xs text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
-            ` : ''}
+            <p class="text-white font-bold text-sm">${v.title}</p>
+            <button onclick="deleteVideo('${v.id}')" class="admin-only text-red-400 hover:text-red-300">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
           </div>
         `;
-        grid.appendChild(card);
+        grid.appendChild(div);
       });
+      lucide.createIcons();
     }
 
-    function openVideoModal() {
-      document.getElementById('videoModal').classList.remove('hidden');
+    function openVideoUploadModal() {
+      document.getElementById('video-modal').classList.remove('hidden');
     }
 
-    function closeVideoModal() {
-      document.getElementById('videoModal').classList.add('hidden');
+    function closeVideoUploadModal() {
+      document.getElementById('video-modal').classList.add('hidden');
     }
 
-    async function saveVideo(e) {
+    function saveVideoHighlight(e) {
       e.preventDefault();
-      window.globalData.videos.unshift({
-        id: Date.now(),
-        title: document.getElementById('vidTitle').value,
-        url: document.getElementById('vidUrl').value
+      const title = document.getElementById('video-title-input').value;
+      const url = document.getElementById('video-url-input').value;
+
+      appData.videos.unshift({
+        id: 'v_' + Date.now(),
+        title: title,
+        url: url
       });
-      await window.syncToFirestore();
-      closeVideoModal();
+
+      saveData();
       renderVideos();
-      showToast('Video added and synced!');
+      closeVideoUploadModal();
+      showToast('Video highlight added');
     }
 
-    async function deleteVideo(id) {
-      window.globalData.videos = window.globalData.videos.filter(v => v.id !== id);
-      await window.syncToFirestore();
+    function deleteVideo(id) {
+      if (confirm("Remove video highlight?")) {
+        appData.videos = appData.videos.filter(v => v.id !== id);
+        saveData();
+        renderVideos();
+        showToast('Video removed');
+      }
+    }
+
+    function handleSponsorSubmit(e) {
+      e.preventDefault();
+      showToast('Inquiry sent! Thank you for supporting the team.');
+      document.getElementById('sponsor-form').reset();
+    }
+
+    function renderFooter() {
+      const link = document.getElementById('footer-fb-link');
+      link.href = appData.footerFb || 'https://facebook.com';
+    }
+
+    function openFooterEditModal() {
+      document.getElementById('footer-url-input').value = appData.footerFb || 'https://facebook.com';
+      document.getElementById('footer-modal').classList.remove('hidden');
+    }
+
+    function closeFooterEditModal() {
+      document.getElementById('footer-modal').classList.add('hidden');
+    }
+
+    function saveFooterLink(e) {
+      e.preventDefault();
+      appData.footerFb = document.getElementById('footer-url-input').value;
+      saveData();
+      renderFooter();
+      closeFooterEditModal();
+      showToast('Facebook link updated');
+    }
+
+    function renderAll() {
+      renderSlide();
+      renderAthletes();
+      renderTournaments();
+      renderGallery();
       renderVideos();
-      showToast('Video deleted.');
+      renderFooter();
+      lucide.createIcons();
     }
 
-    // ================= 7. SPONSORSHIP FORM =================
-    function submitSponsorship(e) {
-      e.preventDefault();
-      showToast('Sponsorship inquiry submitted!');
-      e.target.reset();
-    }
-
-    // ================= 8. FOOTER FACEBOOK LINK =================
-    function renderFacebookLink() {
-      const fbUrl = window.globalData.fblink || 'https://facebook.com';
-      document.getElementById('facebookBtn').href = fbUrl;
-    }
-
-    function openEditFbModal() {
-      document.getElementById('fbUrlInput').value = window.globalData.fblink || 'https://facebook.com';
-      document.getElementById('editFbModal').classList.remove('hidden');
-    }
-
-    function closeEditFbModal() {
-      document.getElementById('editFbModal').classList.add('hidden');
-    }
-
-    async function saveFbLink(e) {
-      e.preventDefault();
-      const newUrl = document.getElementById('fbUrlInput').value;
-      window.globalData.fblink = newUrl;
-      await window.syncToFirestore();
-      renderFacebookLink();
-      closeEditFbModal();
-      showToast('Facebook link updated on cloud!');
-    }
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+      setInterval(() => {
+        nextSlide();
+      }, 7000);
+    });
   </script>
 </body>
 </html>
