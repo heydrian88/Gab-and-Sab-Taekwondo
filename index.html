@@ -103,19 +103,12 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #d4af37;
     }
-
-    .slide-fade-enter {
-      opacity: 0;
-      transform: scale(1.02);
-      transition: all 0.7s ease-in-out;
-    }
-    .slide-fade-active {
-      opacity: 1;
-      transform: scale(1);
-    }
   </style>
 </head>
 <body class="bg-concrete min-h-screen flex flex-col justify-between selection:bg-gold-600 selection:text-black">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed top-24 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
   <!-- ================= HEADER & NAVIGATION ================= -->
   <header class="sticky top-0 z-40 bg-charcoal-900/90 backdrop-blur-md border-b border-white/10">
@@ -192,7 +185,7 @@
             <div class="admin-only hidden absolute top-4 right-4 bg-charcoal-900/90 border border-gold-600/50 p-2 rounded-lg shadow-xl">
               <label class="cursor-pointer text-xs text-gold-400 hover:text-gold-300 flex items-center gap-2">
                 <i class="fa-solid fa-camera"></i> Change Photo
-                <input type="file" accept="image/*" class="hidden" onchange="uploadAthletePhoto('gab', event)">
+                <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadAthletePhoto('gab', event)">
               </label>
             </div>
 
@@ -243,7 +236,7 @@
             <div class="admin-only hidden absolute top-4 right-4 bg-charcoal-900/90 border border-gold-600/50 p-2 rounded-lg shadow-xl">
               <label class="cursor-pointer text-xs text-gold-400 hover:text-gold-300 flex items-center gap-2">
                 <i class="fa-solid fa-camera"></i> Change Photo
-                <input type="file" accept="image/*" class="hidden" onchange="uploadAthletePhoto('sab', event)">
+                <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadAthletePhoto('sab', event)">
               </label>
             </div>
 
@@ -398,7 +391,7 @@
         <div class="admin-only hidden">
           <label class="cursor-pointer px-5 py-2.5 bg-gold-600 hover:bg-gold-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl transition inline-flex items-center gap-2">
             <i class="fa-solid fa-upload"></i> Upload Gallery Photo
-            <input type="file" accept="image/*" class="hidden" onchange="uploadGalleryPhoto(event)">
+            <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" class="hidden" onchange="uploadGalleryPhoto(event)">
           </label>
         </div>
       </div>
@@ -651,7 +644,7 @@
 
         <div>
           <label class="block text-xs uppercase font-semibold text-gray-300 mb-1">Upload New Slide Photo</label>
-          <input type="file" accept="image/*" onchange="handleSlidePhotoUpload(event)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-600 file:text-black hover:file:bg-gold-500 cursor-pointer">
+          <input type="file" accept=".png, .jpg, .jpeg, .webp, .gif, image/*" onchange="handleSlidePhotoUpload(event)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-600 file:text-black hover:file:bg-gold-500 cursor-pointer">
         </div>
 
         <button type="submit" class="w-full py-3 bg-gold-600 hover:bg-gold-500 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition">
@@ -760,6 +753,70 @@
       { id: 2, title: 'Sab - National Championship Poomsae Routine', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
     ];
 
+    // TOAST NOTIFICATION UTILITY
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const bg = type === 'error' ? 'bg-red-900/90 border-red-500 text-red-200' : 'bg-gold-600/90 border-gold-400 text-black font-semibold';
+      toast.className = `px-4 py-3 rounded-xl border backdrop-blur-md text-xs shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${bg}`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> <span>${message}</span>`;
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // IMAGE COMPRESSION ENGINE (CANVAS DOWN-SCALING)
+    function processAndCompressImage(file, maxWidth = 1280, maxHeight = 720, quality = 0.8) {
+      return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith('image/')) {
+          reject(new Error('Selected file is not a valid image format.'));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Failed to read image file.'));
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onerror = () => reject(new Error('Corrupted or unreadable image.'));
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            // Calculate resized proportions
+            if (width > maxWidth || height > maxHeight) {
+              if (width / height > maxWidth / maxHeight) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              } else {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            // Draw to offscreen canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Compress to standard compressed JPEG
+            const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+            resolve(compressedBase64);
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     // INITIALIZATION ON LOAD
     window.addEventListener('DOMContentLoaded', () => {
       initStorage();
@@ -772,22 +829,37 @@
       startSlideTimer();
     });
 
-    // STORAGE HANDLERS
+    // STORAGE HANDLERS WITH QUOTA EXCEEDED PROTECTION
     function initStorage() {
-      if (!localStorage.getItem('tkd_slides')) localStorage.setItem('tkd_slides', JSON.stringify(defaultSlides));
-      if (!localStorage.getItem('tkd_athletes')) localStorage.setItem('tkd_athletes', JSON.stringify(defaultAthletes));
-      if (!localStorage.getItem('tkd_tournaments')) localStorage.setItem('tkd_tournaments', JSON.stringify(defaultTournaments));
-      if (!localStorage.getItem('tkd_gallery')) localStorage.setItem('tkd_gallery', JSON.stringify(defaultGallery));
-      if (!localStorage.getItem('tkd_videos')) localStorage.setItem('tkd_videos', JSON.stringify(defaultVideos));
+      if (!localStorage.getItem('tkd_slides')) setData('tkd_slides', defaultSlides);
+      if (!localStorage.getItem('tkd_athletes')) setData('tkd_athletes', defaultAthletes);
+      if (!localStorage.getItem('tkd_tournaments')) setData('tkd_tournaments', defaultTournaments);
+      if (!localStorage.getItem('tkd_gallery')) setData('tkd_gallery', defaultGallery);
+      if (!localStorage.getItem('tkd_videos')) setData('tkd_videos', defaultVideos);
       if (!localStorage.getItem('tkd_fblink')) localStorage.setItem('tkd_fblink', 'https://facebook.com');
     }
 
     function getData(key) {
-      return JSON.parse(localStorage.getItem(key));
+      try {
+        return JSON.parse(localStorage.getItem(key));
+      } catch (err) {
+        showToast('Error reading cached data.', 'error');
+        return null;
+      }
     }
 
     function setData(key, value) {
-      localStorage.setItem(key, JSON.stringify(value));
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (err) {
+        if (err.name === 'QuotaExceededError' || err.code === 22) {
+          showToast('Storage quota exceeded! Try deleting older gallery photos.', 'error');
+        } else {
+          showToast('Failed to save data.', 'error');
+        }
+        return false;
+      }
     }
 
     // ================= 1. ADMIN AUTHENTICATION =================
@@ -805,6 +877,7 @@
         isAdmin = true;
         updateAdminUI();
         toggleAdminModal();
+        showToast('Logged in as Admin');
       } else {
         document.getElementById('adminAuthError').classList.remove('hidden');
       }
@@ -824,12 +897,12 @@
         badge.classList.add('hidden');
         btnText.innerText = 'Admin Login';
       }
-      renderSlides(); // Refresh slide overlay buttons
+      renderSlides();
     }
 
     // ================= 2. HERO SLIDESHOW LOGIC =================
     function renderSlides() {
-      const slides = getData('tkd_slides');
+      const slides = getData('tkd_slides') || [];
       const container = document.getElementById('sliderContainer');
       const indicators = document.getElementById('slideIndicators');
 
@@ -837,7 +910,6 @@
       indicators.innerHTML = '';
 
       slides.forEach((slide, idx) => {
-        // Slide item
         const slideEl = document.createElement('div');
         slideEl.className = `absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`;
         slideEl.innerHTML = `
@@ -862,7 +934,6 @@
         `;
         container.appendChild(slideEl);
 
-        // Indicator dot
         const dot = document.createElement('button');
         dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === currentSlide ? 'bg-gold-500 w-8' : 'bg-white/40'}`;
         dot.onclick = () => goToSlide(idx);
@@ -878,13 +949,15 @@
     }
 
     function nextSlide() {
-      const slides = getData('tkd_slides');
+      const slides = getData('tkd_slides') || [];
+      if (slides.length === 0) return;
       currentSlide = (currentSlide + 1) % slides.length;
       renderSlides();
     }
 
     function prevSlide() {
-      const slides = getData('tkd_slides');
+      const slides = getData('tkd_slides') || [];
+      if (slides.length === 0) return;
       currentSlide = (currentSlide - 1 + slides.length) % slides.length;
       renderSlides();
     }
@@ -894,7 +967,6 @@
       renderSlides();
     }
 
-    // Edit Hero Slide Modal Handlers
     function openEditSlideModal(index) {
       const slides = getData('tkd_slides');
       const slide = slides[index];
@@ -910,14 +982,15 @@
       document.getElementById('editSlideModal').classList.add('hidden');
     }
 
-    function handleSlidePhotoUpload(e) {
+    async function handleSlidePhotoUpload(e) {
       const file = e.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          tempSlideImage = evt.target.result;
-        };
-        reader.readAsDataURL(file);
+        try {
+          tempSlideImage = await processAndCompressImage(file, 1600, 900, 0.85);
+          showToast('Slide photo optimized successfully!');
+        } catch (err) {
+          showToast(err.message || 'Failed to process slide photo', 'error');
+        }
       }
     }
 
@@ -930,15 +1003,17 @@
         desc: document.getElementById('editSlideDesc').value,
         image: tempSlideImage
       };
-      setData('tkd_slides', slides);
-      closeEditSlideModal();
-      renderSlides();
+      if (setData('tkd_slides', slides)) {
+        closeEditSlideModal();
+        renderSlides();
+        showToast('Hero slide updated!');
+      }
     }
 
     // ================= 3. ATHLETES LOGIC =================
     function renderAthletes() {
-      const athletes = getData('tkd_athletes');
-      const tourns = getData('tkd_tournaments');
+      const athletes = getData('tkd_athletes') || defaultAthletes;
+      const tourns = getData('tkd_tournaments') || [];
 
       // GAB
       document.getElementById('gab-card-img').src = athletes.gab.photo;
@@ -948,7 +1023,7 @@
       document.getElementById('sab-card-img').src = athletes.sab.photo;
       document.getElementById('sab-card-bio').innerText = athletes.sab.bio;
 
-      // Calculate Medal Counts
+      // Calculate Medals
       const gabMedals = calculateMedals('gab', tourns);
       const sabMedals = calculateMedals('sab', tourns);
 
@@ -960,7 +1035,6 @@
       document.getElementById('sab-silver-count').innerText = sabMedals.silver;
       document.getElementById('sab-bronze-count').innerText = sabMedals.bronze;
 
-      // Also Update Tournament Summary section
       document.getElementById('summary-gab-gold').innerText = gabMedals.gold;
       document.getElementById('summary-gab-silver').innerText = gabMedals.silver;
       document.getElementById('summary-gab-bronze').innerText = gabMedals.bronze;
@@ -979,17 +1053,20 @@
       };
     }
 
-    function uploadAthletePhoto(athleteKey, e) {
+    async function uploadAthletePhoto(athleteKey, e) {
       const file = e.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
+        try {
+          const compressed = await processAndCompressImage(file, 800, 800, 0.85);
           const athletes = getData('tkd_athletes');
-          athletes[athleteKey].photo = evt.target.result;
-          setData('tkd_athletes', athletes);
-          renderAthletes();
-        };
-        reader.readAsDataURL(file);
+          athletes[athleteKey].photo = compressed;
+          if (setData('tkd_athletes', athletes)) {
+            renderAthletes();
+            showToast(`Updated ${athleteKey.toUpperCase()}'s photo!`);
+          }
+        } catch (err) {
+          showToast(err.message || 'Image upload failed', 'error');
+        }
       }
     }
 
@@ -1008,7 +1085,6 @@
             <span class="text-xs uppercase font-bold tracking-widest text-gold-500">Athlete Profile</span>
             <h2 class="font-serif text-3xl font-bold text-white">${athlete.name} ("${athlete.nickname}")</h2>
             
-            <!-- Editable Bio Container -->
             <div class="mt-3">
               <p id="modalBioText" class="text-gray-300 text-sm leading-relaxed">${athlete.bio}</p>
               ${isAdmin ? `
@@ -1024,7 +1100,6 @@
           </div>
         </div>
 
-        <!-- Medal Summary Banner -->
         <div class="grid grid-cols-3 gap-4 bg-charcoal-900/90 p-4 rounded-2xl border border-white/10 text-center mb-8">
           <div>
             <div class="text-2xl font-black text-gold-400">${medals.gold}</div>
@@ -1040,7 +1115,6 @@
           </div>
         </div>
 
-        <!-- Tournament Timeline -->
         <div>
           <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-2">
             <h3 class="font-serif text-lg font-bold text-white">Tournament History</h3>
@@ -1085,9 +1159,11 @@
     function saveAthleteBio(key) {
       const athletes = getData('tkd_athletes');
       athletes[key].bio = document.getElementById('bioInput').value;
-      setData('tkd_athletes', athletes);
-      renderAthletes();
-      openAthleteModal(key); // Refresh modal view
+      if (setData('tkd_athletes', athletes)) {
+        renderAthletes();
+        openAthleteModal(key);
+        showToast('Biography saved!');
+      }
     }
 
     // ================= 4. TOURNAMENTS LOGIC =================
@@ -1104,7 +1180,7 @@
     }
 
     function renderTournaments() {
-      const tourns = getData('tkd_tournaments');
+      const tourns = getData('tkd_tournaments') || [];
       const tableBody = document.getElementById('tournamentTableBody');
       tableBody.innerHTML = '';
 
@@ -1147,7 +1223,7 @@
 
     function saveTournament(e) {
       e.preventDefault();
-      const tourns = getData('tkd_tournaments');
+      const tourns = getData('tkd_tournaments') || [];
       const newRecord = {
         id: Date.now(),
         athlete: document.getElementById('tournAthlete').value,
@@ -1159,23 +1235,27 @@
       };
 
       tourns.unshift(newRecord);
-      setData('tkd_tournaments', tourns);
-      closeTournamentModal();
-      renderTournaments();
-      renderAthletes(); // Recalculate medal counters
+      if (setData('tkd_tournaments', tourns)) {
+        closeTournamentModal();
+        renderTournaments();
+        renderAthletes();
+        showToast('Tournament record saved!');
+      }
     }
 
     function deleteTournament(id) {
-      let tourns = getData('tkd_tournaments');
+      let tourns = getData('tkd_tournaments') || [];
       tourns = tourns.filter(t => t.id !== id);
-      setData('tkd_tournaments', tourns);
-      renderTournaments();
-      renderAthletes();
+      if (setData('tkd_tournaments', tourns)) {
+        renderTournaments();
+        renderAthletes();
+        showToast('Tournament record removed.');
+      }
     }
 
     // ================= 5. GALLERY LOGIC =================
     function renderGallery() {
-      const gallery = getData('tkd_gallery');
+      const gallery = getData('tkd_gallery') || [];
       const grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
 
@@ -1198,25 +1278,31 @@
       });
     }
 
-    function uploadGalleryPhoto(e) {
+    async function uploadGalleryPhoto(e) {
       const file = e.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          const gallery = getData('tkd_gallery');
-          gallery.unshift(evt.target.result);
-          setData('tkd_gallery', gallery);
-          renderGallery();
-        };
-        reader.readAsDataURL(file);
+        try {
+          // Downscale to max 1280x1280 compressed
+          const compressed = await processAndCompressImage(file, 1280, 1280, 0.8);
+          const gallery = getData('tkd_gallery') || [];
+          gallery.unshift(compressed);
+          if (setData('tkd_gallery', gallery)) {
+            renderGallery();
+            showToast('Gallery photo uploaded successfully!');
+          }
+        } catch (err) {
+          showToast(err.message || 'Image process failed', 'error');
+        }
       }
     }
 
     function deleteGalleryPhoto(idx) {
-      const gallery = getData('tkd_gallery');
+      const gallery = getData('tkd_gallery') || [];
       gallery.splice(idx, 1);
-      setData('tkd_gallery', gallery);
-      renderGallery();
+      if (setData('tkd_gallery', gallery)) {
+        renderGallery();
+        showToast('Photo removed.');
+      }
     }
 
     function openLightbox(url) {
@@ -1230,11 +1316,11 @@
 
     // ================= 6. VIDEO LOGIC =================
     function renderVideos() {
-      const videos = getData('tkd_videos');
+      const videos = getData('tkd_videos') || [];
       const grid = document.getElementById('videoGrid');
       grid.innerHTML = '';
 
-      videos.forEach((vid, idx) => {
+      videos.forEach((vid) => {
         const card = document.createElement('div');
         card.className = 'glass-card rounded-2xl overflow-hidden border border-white/10 flex flex-col';
         card.innerHTML = `
@@ -1262,28 +1348,32 @@
 
     function saveVideo(e) {
       e.preventDefault();
-      const videos = getData('tkd_videos');
+      const videos = getData('tkd_videos') || [];
       videos.unshift({
         id: Date.now(),
         title: document.getElementById('vidTitle').value,
         url: document.getElementById('vidUrl').value
       });
-      setData('tkd_videos', videos);
-      closeVideoModal();
-      renderVideos();
+      if (setData('tkd_videos', videos)) {
+        closeVideoModal();
+        renderVideos();
+        showToast('Video added!');
+      }
     }
 
     function deleteVideo(id) {
-      let videos = getData('tkd_videos');
+      let videos = getData('tkd_videos') || [];
       videos = videos.filter(v => v.id !== id);
-      setData('tkd_videos', videos);
-      renderVideos();
+      if (setData('tkd_videos', videos)) {
+        renderVideos();
+        showToast('Video deleted.');
+      }
     }
 
     // ================= 7. SPONSORSHIP FORM =================
     function submitSponsorship(e) {
       e.preventDefault();
-      alert('Thank you for your inquiry! Team Tiburcio will review your message and reach out shortly.');
+      showToast('Sponsorship inquiry submitted!');
       e.target.reset();
     }
 
@@ -1308,6 +1398,7 @@
       localStorage.setItem('tkd_fblink', newUrl);
       renderFacebookLink();
       closeEditFbModal();
+      showToast('Facebook link updated!');
     }
   </script>
 </body>
