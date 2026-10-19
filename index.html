@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Empire | Gab & Sab Taekwondo Journey</title>
-    <!-- Tailwind CSS via CDN -->
+    <!-- Tailwind CSS Engine -->
     <script src="https://tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
+    <!-- Icon Framework -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <script>
         tailwind.config = {
@@ -23,7 +23,8 @@
         }
     </script>
     <style>
-        /* Custom scrollbar */
+        /* Fallback core styles if network blocks classes */
+        body { background-color: #121212 !important; color: #ffffff !important; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -33,14 +34,13 @@
 <body class="bg-darkbg text-white font-sans antialiased">
 
     <!-- 1. NAVIGATION HEADER -->
-    <header class="sticky top-0 z-50 bg-darkbg/95 backdrop-blur border-b border-zinc-800 transition-all duration-300">
+    <header class="sticky top-0 z-50 bg-neutral-950/95 backdrop-blur border-b border-zinc-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo Slot -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-12 h-12 bg-zinc-800 rounded-full border-2 border-tkdred flex items-center justify-center overflow-hidden transition group-hover:border-tkdblue">
-                    <!-- Replace 'logo.png' with your actual logo file name if located in the same folder -->
-                    <img src="logo.png" alt="Team Empire Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
-                    <span class="hidden text-xs font-bold text-zinc-400">GS</span>
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-zinc-800 rounded-full border-2 border-tkdred flex items-center justify-center overflow-hidden">
+                    <!-- Dynamic fallback logo text until you upload your logo.png -->
+                    <img src="logo.png" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
+                    <span class="hidden text-xs font-black text-zinc-400 items-center justify-center">GS</span>
                 </div>
                 <div class="flex flex-col">
                     <span class="text-lg font-black tracking-wider uppercase text-white">Team <span class="text-tkdred">Empire</span></span>
@@ -48,23 +48,20 @@
                 </div>
             </a>
 
-            <!-- Desktop Nav Links -->
             <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide uppercase">
                 <a href="#" class="hover:text-tkdred transition-colors text-zinc-300">Home</a>
                 <a href="#biography" class="hover:text-tkdred transition-colors text-zinc-300">Biography</a>
                 <a href="#tracker" class="hover:text-tkdred transition-colors text-zinc-300">Match Tracker</a>
                 <a href="#gallery" class="hover:text-tkdred transition-colors text-zinc-300">Gallery</a>
-                <a href="#sponsorships" class="bg-tkdred hover:bg-red-700 px-4 py-2 rounded text-white transition-all transform hover:-translate-y-0.5">Sponsorships</a>
+                <a href="#sponsorships" class="bg-tkdred hover:bg-red-700 px-4 py-2 rounded text-white transition-all">Sponsorships</a>
             </nav>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobileMenuBtn" class="md:hidden text-zinc-400 hover:text-white text-2xl focus:outline-none">
+            <button id="mobileMenuBtn" class="md:hidden text-zinc-400 hover:text-white text-2xl">
                 <i class="fa-solid fa-bars"></i>
-            </</button>
+            </button>
         </div>
 
-        <!-- Mobile Nav Menu Dropdown -->
-        <div id="mobileMenu" class="hidden md:hidden bg-zinc-900 border-b border-zinc-800 px-4 py-4 space-y-3">
+        <div id="mobileMenu" class="hidden bg-zinc-900 border-b border-zinc-800 px-4 py-4 space-y-3">
             <a href="#" class="block text-zinc-300 hover:text-tkdred py-2 font-semibold">Home</a>
             <a href="#biography" class="block text-zinc-300 hover:text-tkdred py-2 font-semibold">Biography</a>
             <a href="#tracker" class="block text-zinc-300 hover:text-tkdred py-2 font-semibold">Match Tracker</a>
@@ -74,63 +71,65 @@
     </header>
 
     <!-- 2. HERO SLIDESHOW -->
-    <section class="relative h-[70vh] md:h-[80vh] w-full overflow-hidden bg-black">
-        <!-- Slides Container -->
+    <section class="relative h-[65vh] w-full overflow-hidden bg-neutral-950">
         <div id="slideshowContainer" class="w-full h-full relative">
             <!-- Slide 1 -->
-            <div class="slide absolute inset-0 w-full h-full opacity-100 transition-opacity duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/50 z-10"></div>
-                <img src="https://unsplash.com" class="w-full h-full object-cover opacity-60" alt="Sparring Arena">
-                <div class="absolute bottom-16 md:bottom-24 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl pr-4">
-                    <span class="inline-block bg-tkdred text-xs uppercase tracking-widest font-extrabold px-3 py-1 mb-3 rounded">The Siblings</span>
-                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-none text-white">The Tiburcio Siblings: Built for the Podium</h2>
-                    <p class="text-zinc-300 text-sm sm:text-lg mt-3 font-medium">Two Red High Belts pushing limits, dominating the mats, and chasing national titles in Kyorugi sparring.</p>
+            <div class="slide absolute inset-0 w-full h-full opacity-100 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/40 z-10"></div>
+                <div class="w-full h-full bg-zinc-900/40 flex items-center justify-center text-zinc-800 text-9xl absolute inset-0"><i class="fa-solid fa-user-ninja"></i></div>
+                <div class="absolute bottom-16 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl">
+                    <span class="inline-block bg-tkdred text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 mb-2 rounded">The Siblings</span>
+                    <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">The Tiburcio Siblings: Built for the Podium</h2>
+                    <p class="text-zinc-300 text-xs sm:text-base mt-2">Two Red High Belts pushing limits, dominating the mats, and chasing national titles in Kyorugi sparring.</p>
                 </div>
             </div>
 
             <!-- Slide 2 -->
-            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/50 z-10"></div>
-                <img src="https://unsplash.com" class="w-full h-full object-cover opacity-60" alt="Taekwondo Match">
-                <div class="absolute bottom-16 md:bottom-24 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl pr-4">
-                    <span class="inline-block bg-tkdblue text-xs uppercase tracking-widest font-extrabold px-3 py-1 mb-3 rounded">Keane Gabriel</span>
-                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-none text-white">Keane Gabriel: Precision & Counter-Attack</h2>
-                    <p class="text-zinc-300 text-sm sm:text-lg mt-3 font-medium">Speed, strategy, and relentless focus in the ring. Gab reads the opponent to secure the winning point.</p>
+            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/40 z-10"></div>
+                <div class="w-full h-full bg-zinc-900/40 flex items-center justify-center text-zinc-800 text-9xl absolute inset-0"><i class="fa-solid fa-bolt"></i></div>
+                <div class="absolute bottom-16 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl">
+                    <span class="inline-block bg-tkdblue text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 mb-2 rounded">Keane Gabriel</span>
+                    <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Keane Gabriel: Precision & Counter-Attack</h2>
+                    <p class="text-zinc-300 text-xs sm:text-base mt-2">Speed, strategy, and relentless focus in the ring. Gab reads the opponent to secure the winning point.</p>
                 </div>
             </div>
 
             <!-- Slide 3 -->
-            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/50 z-10"></div>
-                <img src="https://unsplash.com" class="w-full h-full object-cover opacity-60" alt="Podium Finish">
-                <div class="absolute bottom-16 md:bottom-24 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl pr-4">
-                    <span class="inline-block bg-tkdred text-xs uppercase tracking-widest font-extrabold px-3 py-1 mb-3 rounded">Anne Ysabel</span>
-                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-none text-white">Anne Ysabel: Turning Focus into Gold</h2>
-                    <p class="text-zinc-300 text-sm sm:text-lg mt-3 font-medium">From intense conditioning to podium finishes. Sab turning tactical footwork and powerful head kicks into victory.</p>
+            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/40 z-10"></div>
+                <div class="w-full h-full bg-zinc-900/40 flex items-center justify-center text-zinc-800 text-9xl absolute inset-0"><i class="fa-solid fa-award"></i></div>
+                <div class="absolute bottom-16 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl">
+                    <span class="inline-block bg-tkdred text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 mb-2 rounded">Anne Ysabel</span>
+                    <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Anne Ysabel: Turning Focus into Gold</h2>
+                    <p class="text-zinc-300 text-xs sm:text-base mt-2">From intense conditioning to podium finishes. Sab turning tactical footwork and powerful head kicks into victory.</p>
                 </div>
             </div>
 
             <!-- Slide 4 -->
-            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/50 z-10"></div>
-                <img src="https://unsplash.com" class="w-full h-full object-cover opacity-60" alt="Training Day">
-                <div class="absolute bottom-16 md:bottom-24 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl pr-4">
-                    <span class="inline-block bg-zinc-700 text-xs uppercase tracking-widest font-extrabold px-3 py-1 mb-3 rounded">The Grind</span>
-                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-none text-white">Championships are Won in the Dojang</h2>
-                    <p class="text-zinc-300 text-sm sm:text-lg mt-3 font-medium">Hours of sweat, tactical drills, and mental discipline before the electronic chest guards even turn on.</p>
+            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/40 z-10"></div>
+                <div class="w-full h-full bg-zinc-900/40 flex items-center justify-center text-zinc-800 text-9xl absolute inset-0"><i class="fa-solid fa-dumbbell"></i></div>
+                <div class="absolute bottom-16 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl">
+                    <span class="inline-block bg-zinc-700 text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 mb-2 rounded">The Grind</span>
+                    <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Championships are Won in the Dojang</h2>
+                    <p class="text-zinc-300 text-xs sm:text-base mt-2">Hours of sweat, tactical drills, and mental discipline before the electronic chest guards even turn on.</p>
                 </div>
             </div>
 
             <!-- Slide 5 -->
-            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/50 z-10"></div>
-                <img src="https://unsplash.com" class="w-full h-full object-cover opacity-60" alt="Team/Sponsors">
-                <div class="absolute bottom-16 md:bottom-24 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl pr-4">
-                    <span class="inline-block bg-emerald-600 text-xs uppercase tracking-widest font-extrabold px-3 py-1 mb-3 rounded">Partnership</span>
-                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-none text-white">Driven by Family, Fueled by Partners</h2>
-                    <p class="text-zinc-300 text-sm sm:text-lg mt-3 font-medium">It takes a village to build a champion. Join our journey as a corporate sponsor and walk with us to Nationals.</p>
+            <div class="slide absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-transparent to-black/40 z-10"></div>
+                <div class="w-full h-full bg-zinc-900/40 flex items-center justify-center text-zinc-800 text-9xl absolute inset-0"><i class="fa-solid fa-handshake"></i></div>
+                <div class="absolute bottom-16 left-4 sm:left-8 lg:left-16 z-20 max-w-3xl">
+                    <span class="inline-block bg-emerald-600 text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 mb-2 rounded">Partnership</span>
+                    <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Driven by Family, Fueled by Partners</h2>
+                    <p class="text-zinc-300 text-xs sm:text-base mt-2">It takes a village to build a champion. Join our journey as a corporate sponsor and walk with us to Nationals.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slider Arrows -->
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-zinc-900/80 hover:bg-tkdred w-10 h-10 rounded-full flex items-center justify-center transition-all text-white"><i class="fa-solid fa-chevron-left"></i></button>
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-zinc-900/80 hover:bg-tkdred w-10 h-10 rounded-full flex items-center justify-center transition-all text-white"><i class="fa-solid fa-chevron-right"></i></button>
+
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
