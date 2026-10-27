@@ -1,421 +1,155 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiburcio Taekwondo | TKD Champions</title>
-  <!-- Tailwind CSS -->
+  <title>Tiburcio Taekwondo Athletes - Gab & Sab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            gold: {
-              400: '#facc15',
-              500: '#eab308',
-              600: '#ca8a04',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .aspect-poster {
-      aspect-ratio: 4 / 3;
-    }
-    @media (min-width: 768px) {
-      .aspect-poster {
-        aspect-ratio: 16 / 9;
-      }
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #18181b;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #3f3f46;
-      border-radius: 4px;
-    }
-  </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
 
-  <!-- ================= NAVBAR ================= -->
-  <nav class="border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
-      <!-- Logo & Title -->
-      <a href="#home" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 rounded-full border-2 border-amber-500/80 bg-zinc-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors">
-          <svg class="w-6 h-6 text-amber-500 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-extrabold tracking-wider uppercase text-base text-zinc-100 group-hover:text-amber-400 transition-colors">Tiburcio</span>
-          <span class="text-[10px] font-bold tracking-widest uppercase text-amber-500 -mt-1">TKD Champions</span>
-        </div>
-      </a>
-
-      <!-- Desktop Nav Links -->
-      <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-xs font-semibold tracking-wider text-zinc-400 uppercase">
-        <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
-        <a href="#athletes" class="hover:text-amber-400 transition-colors">Athletes</a>
-        <a href="#tournaments" class="hover:text-amber-400 transition-colors">Tournaments</a>
-        <a href="#gallery" class="hover:text-amber-400 transition-colors">Gallery</a>
-        <a href="#videos" class="hover:text-amber-400 transition-colors">Videos</a>
-        <a href="#sponsor" class="hover:text-amber-400 transition-colors">Sponsor Us</a>
-      </div>
-
-      <!-- Admin Button -->
+  <!-- Navigation -->
+  <nav class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <button id="adminBtn" onclick="toggleAdminModal()" class="flex items-center space-x-1.5 text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-semibold px-3.5 py-1.5 rounded-lg border border-zinc-700/80 transition-all shadow-sm">
-          <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-          <span id="adminBtnText">Admin</span>
+        <div class="w-8 h-8 rounded bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-black text-black text-sm">TT</div>
+        <span class="font-bold tracking-wider uppercase text-sm text-zinc-200">Tiburcio Taekwondo</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="adminBtn" onclick="toggleAdminModal()" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded border border-zinc-700 transition">
+          Admin Access
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- ================= MAIN BODY ================= -->
-  <main class="max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 space-y-16 flex-1">
-
-    <!-- HERO SLIDESHOW SECTION -->
-    <section id="home" class="relative">
-      <div class="w-full relative group rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/90 shadow-2xl max-w-5xl mx-auto">
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-1 flex flex-col items-center space-y-12">
+    
+    <!-- Slideshow Poster Section (Using object-contain to prevent any cropping) -->
+    <div class="w-full relative group rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl aspect-poster max-w-md mx-auto h-[450px]">
+      <img id="heroSlideImage" src="" alt="Slide Image" class="w-full h-full object-contain transition-opacity duration-500 opacity-0">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-8 pointer-events-none">
+        <div id="slideTag" class="text-xs font-bold tracking-widest text-amber-400 uppercase mb-1">...</div>
+        <h2 id="slideTitle" class="text-2xl md:text-3xl font-black uppercase tracking-tight text-white mb-2 drop-shadow">...</h2>
+        <p id="slideDesc" class="text-xs md:text-sm text-zinc-300 line-clamp-3">...</p>
         
-        <!-- Slider Image Canvas -->
-        <div class="relative aspect-poster w-full overflow-hidden bg-black flex items-center justify-center">
-          <img id="slideImg" src="" alt="Slideshow Image" class="w-full h-full object-cover opacity-90 transition-all duration-700 scale-100">
-          
-          <!-- Darkness Gradients -->
-          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-black/60"></div>
-
-          <!-- Quote Overlay (Top Center / Right area on hero) -->
-          <div class="absolute top-6 right-6 max-w-xs md:max-w-md text-right hidden sm:block pointer-events-none">
-            <p class="text-[11px] md:text-xs font-extrabold tracking-wider text-zinc-300 uppercase leading-relaxed drop-shadow-md border-r-2 border-amber-500 pr-3">
-              “The path to redemption is not easy—but every struggle refines you. <span class="text-amber-400">Trust the process.</span>”
-            </p>
-          </div>
-
-          <!-- Slide Controls (Arrows) -->
-          <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg">
-            &#10094;
-          </button>
-          <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg">
-            &#10095;
-          </button>
-
-          <!-- Slide Content Overlay Bottom -->
-          <div class="absolute bottom-0 inset-x-0 p-6 md:p-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div class="space-y-2 max-w-xl">
-              <span id="slideTag" class="inline-block px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-[10px] font-black tracking-widest text-amber-400 uppercase">
-                OFFICIAL ATHLETE SHOWCASE
-              </span>
-              <h1 id="slideTitle" class="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-white drop-shadow-lg">
-                PRECISION & POWER
-              </h1>
-              <p id="slideDesc" class="text-xs sm:text-sm text-zinc-300 line-clamp-2 leading-relaxed max-w-lg">
-                Mastering form, speed, and continuous self-improvement in Taekwondo.
-              </p>
-
-              <!-- Admin Slide Manage Trigger Button -->
-              <div id="slideAdminTrigger" class="pt-2 hidden">
-                <button onclick="openSlideshowManager()" class="bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs px-4 py-2 rounded-lg shadow-lg uppercase tracking-wider transition-transform hover:scale-105">
-                  Manage All Slides
-                </button>
-              </div>
-            </div>
-
-            <!-- Slide Dots -->
-            <div class="flex items-center space-x-2 self-start md:self-end" id="slideDots"></div>
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-zinc-800/80 pointer-events-auto">
+          <div class="flex space-x-1.5" id="slideDots"></div>
+          <div class="flex space-x-2">
+            <button onclick="prevSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">&larr; Prev</button>
+            <button onclick="nextSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">Next &rarr;</button>
           </div>
         </div>
-
       </div>
-    </section>
+    </div>
 
-
-    <!-- ATHLETES SECTION -->
-    <section id="athletes" class="space-y-8 pt-4">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-black tracking-widest text-amber-500 uppercase">THE CHAMPIONS</span>
-        <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">MEET THE ATHLETES</h2>
-        <div class="w-12 h-1 bg-amber-500 mx-auto rounded-full mt-2"></div>
-      </div>
-
-      <!-- Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- Gab Athlete Card -->
-        <div class="group bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col">
-          <div class="relative h-80 overflow-hidden bg-zinc-950">
-            <img id="gabPhoto" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" alt="Keane Gabriel Tiburcio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md">
-              RED BELT
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
-          </div>
-          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-            <div>
-              <h3 id="gabName" class="text-2xl font-black uppercase tracking-wide text-white">Keane Gabriel Tiburcio</h3>
-              <p id="gabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Kyorugi & Poomsae Competitor</p>
-              <p id="gabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">
-                Dedicated national-level athlete known for powerful kicking techniques, quick footwork, and tactical ring presence in tournament brackets.
-              </p>
-            </div>
-            <div class="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs text-zinc-500 font-semibold">
-              <span>Division: Featherweight</span>
-              <span class="text-amber-500">Active Competitor</span>
-            </div>
-          </div>
+    <!-- Athletes Profiles Section -->
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      
+      <!-- Gab Profile Card (Using object-contain) -->
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center text-center shadow-lg">
+        <div class="w-28 h-28 rounded-full overflow-hidden border-2 border-amber-500 mb-4 shadow bg-zinc-950">
+          <img id="gabPhoto" src="" alt="Gab" class="w-full h-full object-contain">
         </div>
-
-        <!-- Sab Athlete Card -->
-        <div class="group bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col">
-          <div class="relative h-80 overflow-hidden bg-zinc-950">
-            <img id="sabPhoto" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Anne Ysabel Tiburcio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md">
-              RED BELT
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
-          </div>
-          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-            <div>
-              <h3 id="sabName" class="text-2xl font-black uppercase tracking-wide text-white">Anne Ysabel Tiburcio</h3>
-              <p id="sabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Poomsae & Kyorugi Specialist</p>
-              <p id="sabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">
-                Disciplined martial artist with outstanding trophy records in regional and national championship events, specializing in high-scoring form precision.
-              </p>
-            </div>
-            <div class="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs text-zinc-500 font-semibold">
-              <span>Division: Bantamweight</span>
-              <span class="text-amber-500">Active Competitor</span>
-            </div>
-          </div>
-        </div>
-
+        <h3 id="gabName" class="text-xl font-black uppercase tracking-wide text-white">Keane Gabriel Tiburcio (Gab)</h3>
+        <p id="gabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Red Belt / Kyorugi & Poomsae</p>
+        <p id="gabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">Training hard for upcoming national championships, focusing on precision kicking and competitive sparring strategy.</p>
       </div>
 
-      <!-- Admin Edit Athlete Trigger -->
-      <div id="athleteAdminTrigger" class="text-center pt-2 hidden">
-        <button onclick="openAthletesManager()" class="bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs px-5 py-2.5 rounded-lg border border-zinc-700 uppercase tracking-wider transition">
-          Edit Athlete Details & Photos
-        </button>
-      </div>
-    </section>
-
-
-    <!-- TOURNAMENTS SECTION -->
-    <section id="tournaments" class="space-y-6 pt-4">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-black tracking-widest text-amber-500 uppercase">ACCOMPLISHMENTS</span>
-        <h2 class="text-3xl font-black uppercase tracking-tight text-white">TOURNAMENT RECORDS</h2>
+      <!-- Sab Profile Card (Using object-contain) -->
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center text-center shadow-lg">
+        <div class="w-28 h-28 rounded-full overflow-hidden border-2 border-amber-500 mb-4 shadow bg-zinc-950">
+          <img id="sabPhoto" src="" alt="Sab" class="w-full h-full object-contain">
+        </div>
+        <h3 id="sabName" class="text-xl font-black uppercase tracking-wide text-white">Anne Ysabel Tiburcio (Sab)</h3>
+        <p id="sabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Red Belt / Kyorugi & Poomsae</p>
+        <p id="sabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">Dedicated martial artist demonstrating exceptional discipline, form execution, and tournament focus.</p>
       </div>
 
-      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-lg divide-y divide-zinc-800">
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">National Taekwondo Championships</h4>
-            <p class="text-xs text-zinc-400">Gold Medalist - Kyorugi Division</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2026 Season</span>
-        </div>
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">Bacolod Regional Open Tournament</h4>
-            <p class="text-xs text-zinc-400">Silver & Gold Medalists - Individual & Synchronized Poomsae</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2025 Season</span>
-        </div>
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">Island Cup Championship</h4>
-            <p class="text-xs text-zinc-400">Best Fighter Award & First Place Overall</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2025 Season</span>
-        </div>
-      </div>
-    </section>
+    </div>
 
-
-    <!-- GALLERY SECTION -->
-    <section id="gallery" class="space-y-6 pt-4">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-black tracking-widest text-amber-500 uppercase">ACTION SNAPSHOTS</span>
-        <h2 class="text-3xl font-black uppercase tracking-tight text-white">PHOTO GALLERY</h2>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <div class="h-44 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 group">
-          <img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=600&q=80" alt="Gallery 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-        <div class="h-44 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 group">
-          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Gallery 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-        <div class="h-44 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 group">
-          <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" alt="Gallery 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-        <div class="h-44 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 group">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=600&q=80" alt="Gallery 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-      </div>
-    </section>
-
-
-    <!-- VIDEOS SECTION -->
-    <section id="videos" class="space-y-6 pt-4">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-black tracking-widest text-amber-500 uppercase">HIGHLIGHTS</span>
-        <h2 class="text-3xl font-black uppercase tracking-tight text-white">MATCH REELS</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 space-y-3">
-          <div class="aspect-video bg-zinc-950 rounded-lg flex items-center justify-center border border-zinc-800 relative overflow-hidden group cursor-pointer">
-            <svg class="w-12 h-12 text-amber-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <h4 class="font-bold text-sm text-white">Championship Sparring Finals Highlight</h4>
-          <p class="text-xs text-zinc-400">High kicks and counter-attack combinations.</p>
-        </div>
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 space-y-3">
-          <div class="aspect-video bg-zinc-950 rounded-lg flex items-center justify-center border border-zinc-800 relative overflow-hidden group cursor-pointer">
-            <svg class="w-12 h-12 text-amber-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <h4 class="font-bold text-sm text-white">Synchronized Poomsae Demonstration</h4>
-          <p class="text-xs text-zinc-400">Precision form and balance synchronization.</p>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- SPONSOR US SECTION -->
-    <section id="sponsor" class="bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 rounded-3xl p-8 text-center space-y-4 shadow-2xl">
-      <span class="text-xs font-black tracking-widest text-amber-500 uppercase">SUPPORT THE JOURNEY</span>
-      <h2 class="text-3xl font-black uppercase tracking-tight text-white">SPONSOR GAB & SAB</h2>
-      <p class="text-xs md:text-sm text-zinc-400 max-w-xl mx-auto leading-relaxed">
-        Help empower athlete development, tournament registration, training equipment, and national travel. Partner with team Tiburcio today!
-      </p>
-      <div class="pt-2">
-        <a href="mailto:contact@tiburciotkd.com" class="inline-block bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs px-6 py-3 rounded-xl shadow-lg uppercase tracking-wider transition-transform hover:scale-105">
-          Get In Touch & Sponsor
-        </a>
-      </div>
-    </section>
+    <!-- Admin Controls (Shown when logged in) -->
+    <div id="adminControls" class="hidden flex flex-wrap justify-center gap-4 mt-6">
+      <button onclick="openSlideshowManager()" class="bg-amber-500 text-black font-semibold text-xs px-4 py-2 rounded shadow hover:bg-amber-400 transition">
+        Manage Slideshow Photos
+      </button>
+      <button onclick="openAthletesManager()" class="bg-zinc-800 border border-zinc-700 text-white font-semibold text-xs px-4 py-2 rounded shadow hover:bg-zinc-700 transition">
+        Edit Athlete Profiles
+      </button>
+    </div>
 
   </main>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="border-t border-zinc-800/80 bg-zinc-950 py-6 text-center text-xs text-zinc-500">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
-      <span>&copy; 2026 Tiburcio Taekwondo. All rights reserved.</span>
-      <span class="text-amber-500 font-semibold">Gab & Sab Athlete Portfolio</span>
-    </div>
-  </footer>
-
-
-  <!-- ================= MODALS ================= -->
-
-  <!-- ADMIN LOGIN MODAL -->
+  <!-- Admin Login Modal -->
   <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
-      <h3 class="text-lg font-bold text-white mb-1">Admin Authentication</h3>
-      <p class="text-xs text-zinc-400 mb-4">Enter management password to edit site data.</p>
-      <input type="password" id="passInput" placeholder="Enter password" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 mb-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-sm w-full p-6 relative">
+      <h3 class="text-lg font-bold text-white mb-4">Admin Authentication</h3>
+      <input type="password" id="passInput" placeholder="Enter password" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 mb-4">
       <div class="flex justify-end space-x-2">
-        <button onclick="toggleAdminModal()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Cancel</button>
-        <button onclick="loginAdmin()" class="px-5 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg transition">Login</button>
+        <button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs text-zinc-400 hover:text-white">Cancel</button>
+        <button onclick="loginAdmin()" class="px-4 py-1.5 text-xs bg-amber-500 text-black font-bold rounded hover:bg-amber-400">Login</button>
       </div>
     </div>
   </div>
 
-  <!-- SLIDESHOW MANAGER MODAL -->
-  <div id="managerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
-      <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
-        <div>
-          <h3 class="text-lg font-bold text-white">Manage Slideshow</h3>
-          <p class="text-xs text-zinc-400">Upload or edit slide images, tags, titles, and text.</p>
-        </div>
-        <button onclick="closeSlideshowManager()" class="text-zinc-400 hover:text-white text-2xl font-bold">&times;</button>
+  <!-- Slideshow Manager Modal -->
+  <div id="managerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-2xl w-full p-6 my-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white">Manage Slideshow</h3>
+        <button onclick="closeSlideshowManager()" class="text-zinc-400 hover:text-white text-xl">&times;</button>
       </div>
-
-      <div id="slideFormsContainer" class="space-y-6 overflow-y-auto custom-scrollbar pr-2 flex-1"></div>
-
-      <div class="mt-4 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
-        <button onclick="closeSlideshowManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Close</button>
-        <button onclick="saveAllSlides()" class="px-6 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg shadow-lg">Save All Slides</button>
+      <div id="slideFormsContainer" class="space-y-6 max-h-[60vh] overflow-y-auto pr-2"></div>
+      <div class="mt-6 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
+        <button onclick="closeSlideshowManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white">Close</button>
+        <button onclick="saveAllSlides()" class="px-6 py-2 text-xs bg-amber-500 text-black font-bold rounded hover:bg-amber-400">Save All Changes</button>
       </div>
     </div>
   </div>
 
-  <!-- ATHLETES MANAGER MODAL -->
-  <div id="athletesModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
-      <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
-        <div>
-          <h3 class="text-lg font-bold text-white">Edit Athlete Profiles</h3>
-          <p class="text-xs text-zinc-400">Update information and images for Gab and Sab.</p>
-        </div>
-        <button onclick="closeAthletesManager()" class="text-zinc-400 hover:text-white text-2xl font-bold">&times;</button>
+  <!-- Athletes Manager Modal -->
+  <div id="athletesModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-xl w-full p-6 my-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white">Edit Athlete Profiles</h3>
+        <button onclick="closeAthletesManager()" class="text-zinc-400 hover:text-white text-xl">&times;</button>
       </div>
-
-      <div class="space-y-6 overflow-y-auto custom-scrollbar pr-2 flex-1">
-        <!-- Gab Form -->
-        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3">
-          <div class="font-extrabold text-amber-400 text-xs uppercase tracking-wider">Keane Gabriel (Gab)</div>
-          <input type="text" id="editGabName" placeholder="Full Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
-          <input type="text" id="editGabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
-          <textarea id="editGabBio" rows="2" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white"></textarea>
+      <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-lg space-y-3">
+          <div class="font-bold text-amber-400 text-xs uppercase">Gab's Profile</div>
+          <input type="text" id="editGabName" placeholder="Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <input type="text" id="editGabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <textarea id="editGabBio" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white"></textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed) or URL:</label>
-            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editGabPhoto')" class="text-xs text-zinc-400 mb-2 block w-full">
-            <input type="text" id="editGabPhoto" placeholder="Image URL / Compressed Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
+            <label class="block text-xs text-zinc-400 mb-1">Photo (Local File or URL):</label>
+            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editGabPhoto')" class="text-xs text-zinc-400 mb-2">
+            <input type="text" id="editGabPhoto" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           </div>
         </div>
-
-        <!-- Sab Form -->
-        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3">
-          <div class="font-extrabold text-amber-400 text-xs uppercase tracking-wider">Anne Ysabel (Sab)</div>
-          <input type="text" id="editSabName" placeholder="Full Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
-          <input type="text" id="editSabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
-          <textarea id="editSabBio" rows="2" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white"></textarea>
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-lg space-y-3">
+          <div class="font-bold text-amber-400 text-xs uppercase">Sab's Profile</div>
+          <input type="text" id="editSabName" placeholder="Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <input type="text" id="editSabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <textarea id="editSabBio" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white"></textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed) or URL:</label>
-            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editSabPhoto')" class="text-xs text-zinc-400 mb-2 block w-full">
-            <input type="text" id="editSabPhoto" placeholder="Image URL / Compressed Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
+            <label class="block text-xs text-zinc-400 mb-1">Photo (Local File or URL):</label>
+            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editSabPhoto')" class="text-xs text-zinc-400 mb-2">
+            <input type="text" id="editSabPhoto" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           </div>
         </div>
       </div>
-
-      <div class="mt-4 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
-        <button onclick="closeAthletesManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Close</button>
-        <button onclick="saveAthletes()" class="px-6 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg shadow-lg">Save Profiles</button>
+      <div class="mt-6 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
+        <button onclick="closeAthletesManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white">Close</button>
+        <button onclick="saveAthletes()" class="px-6 py-2 text-xs bg-amber-500 text-black font-bold rounded hover:bg-amber-400">Save Profiles</button>
       </div>
     </div>
   </div>
 
-
-  <!-- ================= LOGIC & FIREBASE INTEGRATION ================= -->
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDhUc71NkqM3fj2RDK7V1HQ1IczIxZN5Ms",
       authDomain: "tiburcio-taekwondo.firebaseapp.com",
@@ -429,86 +163,52 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Default Fallback Data
     let slidesData = [
-      { 
-        tag: "OFFICIAL ATHLETE SHOWCASE", 
-        title: "PRECISION & POWER", 
-        desc: "Mastering form, speed, and continuous self-improvement in Taekwondo.", 
-        img: "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1200&q=80" 
-      },
-      { 
-        tag: "NATIONAL CHAMPIONSHIPS", 
-        title: "GAB TO BACOLOD", 
-        desc: "Dominating local and national tournament brackets through tactical discipline.", 
-        img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80" 
-      }
+      { tag: "PRECISION & POWER", title: "FOCUS", desc: "Mastering form, speed, and continuous self-improvement in Taekwondo.", img: "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80" },
+      { tag: "NATIONAL CHAMPIONSHIPS", title: "GAB TO BACOLOD", desc: "Dominating local and national tournament brackets.", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" }
     ];
 
     let athletesData = {
-      gab: { 
-        name: "Keane Gabriel Tiburcio", 
-        belt: "Red Belt / Kyorugi Competitor", 
-        bio: "Dedicated national-level athlete known for powerful kicking techniques, quick footwork, and tactical ring presence in tournament brackets.", 
-        photo: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" 
-      },
-      sab: { 
-        name: "Anne Ysabel Tiburcio", 
-        belt: "Red Belt / Poomsae Specialist", 
-        bio: "Disciplined martial artist with outstanding trophy records in regional and national championship events, specializing in high-scoring form precision.", 
-        photo: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" 
-      }
+      gab: { name: "Keane Gabriel Tiburcio (Gab)", belt: "Red Belt / Kyorugi & Poomsae", bio: "Training hard for upcoming national championships, focusing on precision kicking and competitive sparring strategy.", photo: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" },
+      sab: { name: "Anne Ysabel Tiburcio (Sab)", belt: "Red Belt / Kyorugi & Poomsae", bio: "Dedicated martial artist demonstrating exceptional discipline, form execution, and tournament focus.", photo: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" }
     };
 
     let currentSlide = 0;
     let isAdmin = false;
 
-    // Initialize App & Fetch Firestore Data
     async function loadData() {
       try {
         const slideDoc = await db.collection("website").doc("slideshow").get();
-        if (slideDoc.exists && slideDoc.data().slides && slideDoc.data().slides.length > 0) {
-          slidesData = slideDoc.data().slides;
-        }
+        if (slideDoc.exists && slideDoc.data().slides) slidesData = slideDoc.data().slides;
 
         const athleteDoc = await db.collection("website").doc("athletes").get();
-        if (athleteDoc.exists && athleteDoc.data().data) {
-          athletesData = athleteDoc.data().data;
-        }
+        if (athleteDoc.exists && athleteDoc.data().data) athletesData = athleteDoc.data().data;
       } catch (err) {
-        console.warn("Using offline fallback data:", err);
+        console.warn("Using fallback data:", err);
       }
       renderSlide();
       renderAthletes();
     }
 
-    // Render Hero Slide
     function renderSlide() {
       const slide = slidesData[currentSlide] || slidesData[0];
-      const img = document.getElementById("slideImg");
-      
-      img.style.opacity = '0.3';
+      const img = document.getElementById("heroSlideImage");
+      img.classList.add("opacity-0");
       setTimeout(() => {
         img.src = slide.img;
-        document.getElementById("slideTag").innerText = slide.tag || "OFFICIAL ATHLETE SHOWCASE";
+        document.getElementById("slideTag").innerText = slide.tag || "ATHLETE HIGHLIGHT";
         document.getElementById("slideTitle").innerText = slide.title || "";
         document.getElementById("slideDesc").innerText = slide.desc || "";
-        img.style.opacity = '0.9';
+        img.classList.remove("opacity-0");
       }, 200);
-
       renderDots();
     }
 
     function renderDots() {
       const container = document.getElementById("slideDots");
-      container.innerHTML = slidesData.map((_, i) => `
-        <button onclick="goToSlide(${i})" class="h-2 rounded-full transition-all ${i === currentSlide ? 'bg-amber-400 w-6' : 'bg-zinc-700 w-2 hover:bg-zinc-500'}"></button>
-      `).join('');
-    }
-
-    function goToSlide(index) {
-      currentSlide = index;
-      renderSlide();
+      container.innerHTML = slidesData.map((_, i) => 
+        `<div class="w-2 h-2 rounded-full transition-all ${i === currentSlide ? 'bg-amber-400 w-4' : 'bg-zinc-700'}"></div>`
+      ).join('');
     }
 
     function nextSlide() {
@@ -521,23 +221,18 @@
       renderSlide();
     }
 
-    // Render Athletes Profiles
     function renderAthletes() {
-      if (athletesData.gab) {
-        document.getElementById("gabName").innerText = athletesData.gab.name;
-        document.getElementById("gabBelt").innerText = athletesData.gab.belt;
-        document.getElementById("gabBio").innerText = athletesData.gab.bio;
-        document.getElementById("gabPhoto").src = athletesData.gab.photo;
-      }
-      if (athletesData.sab) {
-        document.getElementById("sabName").innerText = athletesData.sab.name;
-        document.getElementById("sabBelt").innerText = athletesData.sab.belt;
-        document.getElementById("sabBio").innerText = athletesData.sab.bio;
-        document.getElementById("sabPhoto").src = athletesData.sab.photo;
-      }
+      document.getElementById("gabName").innerText = athletesData.gab.name;
+      document.getElementById("gabBelt").innerText = athletesData.gab.belt;
+      document.getElementById("gabBio").innerText = athletesData.gab.bio;
+      document.getElementById("gabPhoto").src = athletesData.gab.photo;
+
+      document.getElementById("sabName").innerText = athletesData.sab.name;
+      document.getElementById("sabBelt").innerText = athletesData.sab.belt;
+      document.getElementById("sabBio").innerText = athletesData.sab.bio;
+      document.getElementById("sabPhoto").src = athletesData.sab.photo;
     }
 
-    // Admin Auth Logic
     function toggleAdminModal() {
       document.getElementById("loginModal").classList.toggle("hidden");
     }
@@ -546,42 +241,34 @@
       const pass = document.getElementById("passInput").value;
       if (pass === "cuteako") {
         isAdmin = true;
-        document.getElementById("adminBtnText").innerText = "Admin Active";
-        document.getElementById("adminBtn").classList.remove("bg-zinc-900", "text-zinc-300");
-        document.getElementById("adminBtn").classList.add("bg-amber-500", "text-black", "border-amber-400");
-        
-        // Show Admin Edit Trigger Controls
-        document.getElementById("slideAdminTrigger").classList.remove("hidden");
-        document.getElementById("athleteAdminTrigger").classList.remove("hidden");
-        
+        document.getElementById("adminControls").classList.remove("hidden");
+        document.getElementById("adminBtn").innerText = "Admin Active";
+        document.getElementById("adminBtn").classList.add("bg-amber-500", "text-black");
         toggleAdminModal();
       } else {
-        alert("Incorrect Admin Password!");
+        alert("Incorrect Password!");
       }
     }
 
-    // Modal Triggers
     function openSlideshowManager() {
       const container = document.getElementById("slideFormsContainer");
       container.innerHTML = slidesData.map((slide, i) => `
-        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3">
-          <div class="font-black text-amber-400 text-xs uppercase tracking-wider">Slide #${i + 1}</div>
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-lg space-y-3">
+          <div class="font-bold text-amber-400 text-xs uppercase">Slide #${i + 1}</div>
           <input type="text" id="tag_${i}" value="${slide.tag || ''}" placeholder="Tag/Subtitle" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           <input type="text" id="title_${i}" value="${slide.title || ''}" placeholder="Headline Title" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
-          <textarea id="desc_${i}" rows="2" placeholder="Description" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">${slide.desc || ''}</textarea>
+          <textarea id="desc_${i}" placeholder="Description" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">${slide.desc || ''}</textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Image Upload (Auto-Compressed) or URL:</label>
-            <input type="file" accept="image/*" onchange="compressSlideImage(event, ${i})" class="text-xs text-zinc-400 mb-2 block w-full">
-            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL / Base64" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+            <label class="block text-xs text-zinc-400 mb-1">Replace Image (Local File or URL):</label>
+            <input type="file" accept="image/*" onchange="compressImage(event, ${i})" class="text-xs text-zinc-400 mb-2">
+            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           </div>
         </div>
       `).join('');
       document.getElementById("managerModal").classList.remove("hidden");
     }
 
-    function closeSlideshowManager() {
-      document.getElementById("managerModal").classList.add("hidden");
-    }
+    function closeSlideshowManager() { document.getElementById("managerModal").classList.add("hidden"); }
 
     function openAthletesManager() {
       document.getElementById("editGabName").value = athletesData.gab.name;
@@ -597,12 +284,9 @@
       document.getElementById("athletesModal").classList.remove("hidden");
     }
 
-    function closeAthletesManager() {
-      document.getElementById("athletesModal").classList.add("hidden");
-    }
+    function closeAthletesManager() { document.getElementById("athletesModal").classList.add("hidden"); }
 
-    // Client-side HTML5 Canvas Image Compression (Option 2 - Fits inside Firestore Base64)
-    function compressSlideImage(event, index) {
+    function compressImage(event, index) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -633,7 +317,7 @@
         img.src = e.target.result;
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          const maxWidth = 800;
+          const maxWidth = 600;
           const scaleSize = maxWidth / img.width;
           canvas.width = (img.width > maxWidth) ? maxWidth : img.width;
           canvas.height = (img.width > maxWidth) ? (img.height * scaleSize) : img.height;
@@ -644,7 +328,6 @@
       };
     }
 
-    // Firestore Save Handlers
     async function saveAllSlides() {
       const updatedSlides = slidesData.map((_, i) => ({
         tag: document.getElementById(`tag_${i}`).value,
@@ -657,7 +340,7 @@
         slidesData = updatedSlides;
         renderSlide();
         closeSlideshowManager();
-        alert("Slides saved successfully to database!");
+        alert("Slideshow updated successfully!");
       } catch (err) {
         alert("Error saving slides: " + err.message);
       }
@@ -680,13 +363,12 @@
         await db.collection("website").doc("athletes").set({ data: athletesData });
         renderAthletes();
         closeAthletesManager();
-        alert("Athlete profiles saved successfully to database!");
+        alert("Athlete profiles updated successfully!");
       } catch (err) {
         alert("Error saving profiles: " + err.message);
       }
     }
 
-    // Init App
     loadData();
   </script>
 </body>
