@@ -57,10 +57,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
       <!-- Logo & Title -->
       <a href="#home" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 rounded-full border-2 border-amber-500/80 bg-zinc-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors">
-          <svg class="w-6 h-6 text-amber-500 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
+        <div class="w-10 h-10 rounded-full border-2 border-amber-500/80 bg-zinc-900 overflow-hidden flex items-center justify-center p-0.5 group-hover:border-amber-400 transition-colors">
+          <img src="gab and sab logo.jpg" alt="Gab & Sab Logo" class="w-full h-full object-contain">
         </div>
         <div class="flex flex-col">
           <span class="font-extrabold tracking-wider uppercase text-base text-zinc-100 group-hover:text-amber-400 transition-colors">Tiburcio</span>
@@ -438,19 +436,29 @@
     </div>
   </div>
 
-  <!-- TOURNAMENTS MANAGER MODAL -->
+  <!-- TOURNAMENTS MANAGER MODAL (WITH SEPARATE TABS FOR GAB & SAB) -->
   <div id="tournamentsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
         <div>
-          <h3 class="text-lg font-bold text-white">Manage Tournaments & Medals</h3>
-          <p class="text-xs text-zinc-400">Add, edit, or remove tournament records and medals won.</p>
+          <h3 class="text-lg font-bold text-white">Manage Tournaments</h3>
+          <p class="text-xs text-zinc-400">Add or edit separate tournament records for Gab and Sab.</p>
         </div>
         <button onclick="closeTournamentsManager()" class="text-zinc-400 hover:text-white text-2xl font-bold">&times;</button>
       </div>
 
+      <!-- Athlete Selection Tabs -->
+      <div class="flex space-x-2 border-b border-zinc-800 pb-3 mb-4">
+        <button id="tabGabBtn" onclick="switchTournamentTab('gab')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-amber-500 text-black">
+          Gab's Tournaments
+        </button>
+        <button id="tabSabBtn" onclick="switchTournamentTab('sab')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-zinc-800 text-zinc-400 hover:text-white">
+          Sab's Tournaments
+        </button>
+      </div>
+
       <div id="tournamentFormsContainer" class="space-y-4 overflow-y-auto custom-scrollbar pr-2 flex-1">
-        <!-- Rendered dynamically -->
+        <!-- Rendered dynamically per active athlete tab -->
       </div>
 
       <div class="mt-4 pt-3 flex justify-between items-center border-t border-zinc-800">
@@ -511,27 +519,32 @@
       }
     };
 
-    let tournamentsData = [
-      {
-        name: "National Taekwondo Championships",
-        venue: "Manila, Philippines",
-        date: "2026 Season",
-        medals: "Gold Medalist - Kyorugi Division"
-      },
-      {
-        name: "Bacolod Regional Open Tournament",
-        venue: "Bacolod City",
-        date: "2025 Season",
-        medals: "Silver & Gold Medalists - Individual & Synchronized Poomsae"
-      },
-      {
-        name: "Island Cup Championship",
-        venue: "Cebu City",
-        date: "2025 Season",
-        medals: "Best Fighter Award & First Place Overall"
-      }
-    ];
+    let tournamentsData = {
+      gab: [
+        {
+          name: "National Taekwondo Championships",
+          venue: "Manila, Philippines",
+          date: "2026 Season",
+          medals: "Gold Medalist - Kyorugi Division"
+        },
+        {
+          name: "Island Cup Championship",
+          venue: "Cebu City",
+          date: "2025 Season",
+          medals: "Gold Medalist & Best Fighter Award"
+        }
+      ],
+      sab: [
+        {
+          name: "Bacolod Regional Open Tournament",
+          venue: "Bacolod City",
+          date: "2025 Season",
+          medals: "Gold & Silver Medalist - Synchronized Poomsae"
+        }
+      ]
+    };
 
+    let activeTournTab = 'gab';
     let currentSlide = 0;
     let isAdmin = false;
 
@@ -549,8 +562,8 @@
         }
 
         const tournDoc = await db.collection("website").doc("tournaments").get();
-        if (tournDoc.exists && tournDoc.data().tournaments) {
-          tournamentsData = tournDoc.data().tournaments;
+        if (tournDoc.exists && tournDoc.data().data) {
+          tournamentsData = tournDoc.data().data;
         }
       } catch (err) {
         console.warn("Using offline fallback data:", err);
@@ -614,39 +627,52 @@
         document.getElementById("sabPhoto").src = athletesData.sab.photo;
       }
 
-      // Calculate totals from tournaments list matching keywords
+      // Calculate Gab totals
       let gabGold = 0, gabSilver = 0, gabBronze = 0;
-      let sabGold = 0, sabSilver = 0, sabBronze = 0;
-
-      tournamentsData.forEach(t => {
+      (tournamentsData.gab || []).forEach(t => {
         const m = (t.medals || "").toLowerCase();
-        if (m.includes('gold')) { gabGold++; sabGold++; }
-        if (m.includes('silver')) { gabSilver++; sabSilver++; }
-        if (m.includes('bronze')) { gabBronze++; sabBronze++; }
+        if (m.includes('gold')) gabGold++;
+        if (m.includes('silver')) gabSilver++;
+        if (m.includes('bronze')) gabBronze++;
       });
+      document.getElementById("gabGoldCount").innerText = gabGold;
+      document.getElementById("gabSilverCount").innerText = gabSilver;
+      document.getElementById("gabBronzeCount").innerText = gabBronze;
 
-      document.getElementById("gabGoldCount").innerText = gabGold || 2;
-      document.getElementById("gabSilverCount").innerText = gabSilver || 1;
-      document.getElementById("gabBronzeCount").innerText = gabBronze || 0;
-
-      document.getElementById("sabGoldCount").innerText = sabGold || 2;
-      document.getElementById("sabSilverCount").innerText = sabSilver || 1;
-      document.getElementById("sabBronzeCount").innerText = sabBronze || 0;
+      // Calculate Sab totals
+      let sabGold = 0, sabSilver = 0, sabBronze = 0;
+      (tournamentsData.sab || []).forEach(t => {
+        const m = (t.medals || "").toLowerCase();
+        if (m.includes('gold')) sabGold++;
+        if (m.includes('silver')) sabSilver++;
+        if (m.includes('bronze')) sabBronze++;
+      });
+      document.getElementById("sabGoldCount").innerText = sabGold;
+      document.getElementById("sabSilverCount").innerText = sabSilver;
+      document.getElementById("sabBronzeCount").innerText = sabBronze;
     }
 
-    // Render Tournaments
+    // Render Combined Public Tournaments List
     function renderTournaments() {
       const container = document.getElementById("tournamentsContainer");
-      if (!tournamentsData || tournamentsData.length === 0) {
+      const combined = [
+        ...(tournamentsData.gab || []).map(t => ({ ...t, athlete: 'Gab' })),
+        ...(tournamentsData.sab || []).map(t => ({ ...t, athlete: 'Sab' }))
+      ];
+
+      if (combined.length === 0) {
         container.innerHTML = `<div class="py-4 text-center text-xs text-zinc-500">No tournament records listed yet.</div>`;
         return;
       }
 
-      container.innerHTML = tournamentsData.map(t => `
+      container.innerHTML = combined.map(t => `
         <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
           <div>
-            <h4 class="font-bold text-sm text-white">${t.name}</h4>
-            <p class="text-xs text-amber-400 font-medium">${t.medals}</p>
+            <div class="flex items-center space-x-2">
+              <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded ${t.athlete === 'Gab' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}">${t.athlete}</span>
+              <h4 class="font-bold text-sm text-white">${t.name}</h4>
+            </div>
+            <p class="text-xs text-amber-400 font-medium mt-1">${t.medals}</p>
             <p class="text-[11px] text-zinc-400 mt-0.5">📍 ${t.venue || 'TBA'}</p>
           </div>
           <span class="text-xs text-zinc-300 font-semibold px-2.5 py-1 rounded bg-zinc-800 border border-zinc-700 self-start sm:self-auto">${t.date}</span>
@@ -714,7 +740,6 @@
         document.getElementById("editSabBio").value = athletesData.sab.bio || '';
         document.getElementById("editSabPhoto").value = athletesData.sab.photo || '';
       }
-      document.getElementById("athletesModal").classList.add("hidden"); // safety clear
       document.getElementById("athletesModal").classList.remove("hidden");
     }
 
@@ -722,8 +747,24 @@
       document.getElementById("athletesModal").classList.add("hidden");
     }
 
-    function openTournamentsManager() {
+    // Separate Tournament Tab Switching for Gab & Sab
+    function switchTournamentTab(athleteKey) {
+      activeTournTab = athleteKey;
+      const gabBtn = document.getElementById("tabGabBtn");
+      const sabBtn = document.getElementById("tabSabBtn");
+
+      if (athleteKey === 'gab') {
+        gabBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-amber-500 text-black";
+        sabBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-zinc-800 text-zinc-400 hover:text-white";
+      } else {
+        sabBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-amber-500 text-black";
+        gabBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-zinc-800 text-zinc-400 hover:text-white";
+      }
       renderTournamentForms();
+    }
+
+    function openTournamentsManager() {
+      switchTournamentTab('gab');
       document.getElementById("tournamentsModal").classList.remove("hidden");
     }
 
@@ -733,10 +774,12 @@
 
     function renderTournamentForms() {
       const container = document.getElementById("tournamentFormsContainer");
-      container.innerHTML = tournamentsData.map((t, i) => `
+      const currentList = tournamentsData[activeTournTab] || [];
+
+      container.innerHTML = currentList.map((t, i) => `
         <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3 relative group">
           <div class="flex justify-between items-center">
-            <span class="font-black text-amber-400 text-xs uppercase tracking-wider">Tournament #${i + 1}</span>
+            <span class="font-black text-amber-400 text-xs uppercase tracking-wider">${activeTournTab.toUpperCase()}'S Tournament #${i + 1}</span>
             <button onclick="removeTournamentForm(${i})" class="text-red-400 hover:text-red-300 text-xs font-bold">&times; Remove</button>
           </div>
           <input type="text" id="tournName_${i}" value="${t.name || ''}" placeholder="Tournament Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
@@ -750,12 +793,13 @@
     }
 
     function addTournamentForm() {
-      tournamentsData.push({ name: "", venue: "", date: "", medals: "" });
+      if (!tournamentsData[activeTournTab]) tournamentsData[activeTournTab] = [];
+      tournamentsData[activeTournTab].push({ name: "", venue: "", date: "", medals: "" });
       renderTournamentForms();
     }
 
     function removeTournamentForm(index) {
-      tournamentsData.splice(index, 1);
+      tournamentsData[activeTournTab].splice(index, 1);
       renderTournamentForms();
     }
 
@@ -846,17 +890,20 @@
     }
 
     async function saveTournaments() {
-      const updatedTournaments = tournamentsData.map((_, i) => ({
+      // First, read current input field values for active tab
+      const currentList = tournamentsData[activeTournTab] || [];
+      const updatedActiveTab = currentList.map((_, i) => ({
         name: document.getElementById(`tournName_${i}`).value,
         venue: document.getElementById(`tournVenue_${i}`).value,
         date: document.getElementById(`tournDate_${i}`).value,
         medals: document.getElementById(`tournMedals_${i}`).value
       }));
+      tournamentsData[activeTournTab] = updatedActiveTab;
+
       try {
-        await db.collection("website").doc("tournaments").set({ tournaments: updatedTournaments });
-        tournamentsData = updatedTournaments;
+        await db.collection("website").doc("tournaments").set({ data: tournamentsData });
         renderTournaments();
-        renderAthletes(); // refresh medal count badges
+        renderAthletes(); // recalculate medal counter badges
         closeTournamentsManager();
         alert("Tournament records updated successfully!");
       } catch (err) {
