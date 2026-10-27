@@ -48,13 +48,6 @@
       background: #3f3f46;
       border-radius: 4px;
     }
-    /* Ambient Glow Background Pattern */
-    .hero-bg-glow {
-      background-image: radial-gradient(circle at 50% 30%, rgba(234, 179, 8, 0.12) 0%, rgba(9, 9, 11, 0) 70%),
-                        linear-gradient(to right, rgba(39, 39, 42, 0.2) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(39, 39, 42, 0.2) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px;
-    }
   </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
@@ -83,16 +76,13 @@
         <a href="#sponsor" class="hover:text-amber-400 transition-colors">Sponsor Us</a>
       </div>
 
-      <!-- Admin Button & Logout Container -->
-      <div class="flex items-center space-x-2">
+      <!-- Admin Button -->
+      <div class="flex items-center space-x-3">
         <button id="adminBtn" onclick="toggleAdminModal()" class="flex items-center space-x-1.5 text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-semibold px-3.5 py-1.5 rounded-lg border border-zinc-700/80 transition-all shadow-sm">
           <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
           <span id="adminBtnText">Admin</span>
-        </button>
-        <button id="logoutBtn" onclick="logoutAdmin()" class="hidden text-xs bg-zinc-900 hover:bg-red-950/40 text-red-400 font-bold px-3 py-1.5 rounded-lg border border-red-900/50 transition-all shadow-sm">
-          Logout
         </button>
       </div>
     </div>
@@ -102,7 +92,7 @@
   <main class="max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 space-y-16 flex-1">
 
     <!-- HERO SLIDESHOW SECTION -->
-    <section id="home" class="relative hero-bg-glow rounded-3xl p-2 md:p-6">
+    <section id="home" class="relative">
       <div class="w-full relative group rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/90 shadow-2xl max-w-5xl mx-auto">
         
         <!-- Slider Image Canvas (object-contain to prevent cropping) -->
@@ -801,7 +791,6 @@
 
     // Admin Auth Logic
     function toggleAdminModal() {
-      if (isAdmin) return;
       document.getElementById("loginModal").classList.toggle("hidden");
     }
 
@@ -812,7 +801,6 @@
         document.getElementById("adminBtnText").innerText = "Admin Active";
         document.getElementById("adminBtn").classList.remove("bg-zinc-900", "text-zinc-300");
         document.getElementById("adminBtn").classList.add("bg-amber-500", "text-black", "border-amber-400");
-        document.getElementById("logoutBtn").classList.remove("hidden");
         
         // Show Admin Edit Controls & Unlocks Tournament History List
         document.getElementById("slideAdminTrigger").classList.remove("hidden");
@@ -820,27 +808,10 @@
         document.getElementById("tournamentAdminTrigger").classList.remove("hidden");
         renderTournaments();
         
-        document.getElementById("passInput").value = "";
         toggleAdminModal();
       } else {
         alert("Incorrect Admin Password!");
       }
-    }
-
-    function logoutAdmin() {
-      isAdmin = false;
-      document.getElementById("adminBtnText").innerText = "Admin";
-      document.getElementById("adminBtn").classList.add("bg-zinc-900", "text-zinc-300");
-      document.getElementById("adminBtn").classList.remove("bg-amber-500", "text-black", "border-amber-400");
-      document.getElementById("logoutBtn").classList.add("hidden");
-
-      // Hide Admin Edit Controls & Lock Tournament History List
-      document.getElementById("slideAdminTrigger").classList.add("hidden");
-      document.getElementById("athleteAdminTrigger").classList.add("hidden");
-      document.getElementById("tournamentAdminTrigger").classList.add("hidden");
-      renderTournaments();
-
-      alert("Logged out of Admin mode successfully!");
     }
 
     // Modal Triggers
@@ -1053,7 +1024,7 @@
       try {
         await db.collection("website").doc("tournaments").set({ data: tournamentsData });
         renderTournaments();
-        renderAthletes();
+        renderAthletes(); // recalculate medal counter badges with current filters
         closeTournamentsManager();
         alert("Tournament records updated successfully!");
       } catch (err) {
