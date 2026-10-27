@@ -176,21 +176,32 @@
               </p>
             </div>
             
-            <!-- Medal Count Badge Below Gab's Info -->
-            <div id="gabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
-                <div id="gabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+            <!-- Medal Filter Tabs & Count Badge Below Gab's Info -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center text-[10px] uppercase font-extrabold text-zinc-400">
+                <span>Medals Count</span>
+                <div class="flex space-x-1" id="gabFilterBtns">
+                  <button onclick="setGabFilter('all')" id="gabF_all" class="px-2 py-0.5 rounded bg-amber-500 text-black">All</button>
+                  <button onclick="setGabFilter('national')" id="gabF_national" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Nat'l</button>
+                  <button onclick="setGabFilter('local')" id="gabF_local" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Local</button>
+                  <button onclick="setGabFilter('international')" id="gabF_international" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Int'l</button>
+                </div>
               </div>
-              <div class="h-6 w-[1px] bg-zinc-800"></div>
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
-                <div id="gabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
-              </div>
-              <div class="h-6 w-[1px] bg-zinc-800"></div>
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
-                <div id="gabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+              <div id="gabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
+                  <div id="gabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+                </div>
+                <div class="h-6 w-[1px] bg-zinc-800"></div>
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
+                  <div id="gabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
+                </div>
+                <div class="h-6 w-[1px] bg-zinc-800"></div>
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
+                  <div id="gabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+                </div>
               </div>
             </div>
 
@@ -219,21 +230,32 @@
               </p>
             </div>
 
-            <!-- Medal Count Badge Below Sab's Info -->
-            <div id="sabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
-                <div id="sabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+            <!-- Medal Filter Tabs & Count Badge Below Sab's Info -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center text-[10px] uppercase font-extrabold text-zinc-400">
+                <span>Medals Count</span>
+                <div class="flex space-x-1" id="sabFilterBtns">
+                  <button onclick="setSabFilter('all')" id="sabF_all" class="px-2 py-0.5 rounded bg-amber-500 text-black">All</button>
+                  <button onclick="setSabFilter('national')" id="sabF_national" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Nat'l</button>
+                  <button onclick="setSabFilter('local')" id="sabF_local" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Local</button>
+                  <button onclick="setSabFilter('international')" id="sabF_international" class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white">Int'l</button>
+                </div>
               </div>
-              <div class="h-6 w-[1px] bg-zinc-800"></div>
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
-                <div id="sabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
-              </div>
-              <div class="h-6 w-[1px] bg-zinc-800"></div>
-              <div>
-                <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
-                <div id="sabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+              <div id="sabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
+                  <div id="sabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+                </div>
+                <div class="h-6 w-[1px] bg-zinc-800"></div>
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
+                  <div id="sabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
+                </div>
+                <div class="h-6 w-[1px] bg-zinc-800"></div>
+                <div>
+                  <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
+                  <div id="sabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+                </div>
               </div>
             </div>
 
@@ -436,7 +458,7 @@
     </div>
   </div>
 
-  <!-- TOURNAMENTS MANAGER MODAL (WITH SEPARATE TABS FOR GAB & SAB) -->
+  <!-- TOURNAMENTS MANAGER MODAL -->
   <div id="tournamentsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
@@ -458,7 +480,7 @@
       </div>
 
       <div id="tournamentFormsContainer" class="space-y-4 overflow-y-auto custom-scrollbar pr-2 flex-1">
-        <!-- Rendered dynamically per active athlete tab -->
+        <!-- Rendered dynamically -->
       </div>
 
       <div class="mt-4 pt-3 flex justify-between items-center border-t border-zinc-800">
@@ -525,12 +547,14 @@
           name: "National Taekwondo Championships",
           venue: "Manila, Philippines",
           date: "2026 Season",
+          type: "national",
           medals: "Gold Medalist - Kyorugi Division"
         },
         {
           name: "Island Cup Championship",
           venue: "Cebu City",
           date: "2025 Season",
+          type: "local",
           medals: "Gold Medalist & Best Fighter Award"
         }
       ],
@@ -539,12 +563,15 @@
           name: "Bacolod Regional Open Tournament",
           venue: "Bacolod City",
           date: "2025 Season",
+          type: "local",
           medals: "Gold & Silver Medalist - Synchronized Poomsae"
         }
       ]
     };
 
     let activeTournTab = 'gab';
+    let gabFilter = 'all';
+    let sabFilter = 'all';
     let currentSlide = 0;
     let isAdmin = false;
 
@@ -612,7 +639,34 @@
       renderSlide();
     }
 
-    // Render Athletes Profiles & Calculate Medal Counts
+    // Filter Buttons Handlers for Gab & Sab Profile Medals
+    function setGabFilter(filterType) {
+      gabFilter = filterType;
+      ['all', 'national', 'local', 'international'].forEach(f => {
+        const btn = document.getElementById(`gabF_${f}`);
+        if (f === filterType) {
+          btn.className = "px-2 py-0.5 rounded bg-amber-500 text-black";
+        } else {
+          btn.className = "px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white";
+        }
+      });
+      renderAthletes();
+    }
+
+    function setSabFilter(filterType) {
+      sabFilter = filterType;
+      ['all', 'national', 'local', 'international'].forEach(f => {
+        const btn = document.getElementById(`sabF_${f}`);
+        if (f === filterType) {
+          btn.className = "px-2 py-0.5 rounded bg-amber-500 text-black";
+        } else {
+          btn.className = "px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 hover:text-white";
+        }
+      });
+      renderAthletes();
+    }
+
+    // Render Athletes Profiles & Calculate Medal Counts (with Filtering)
     function renderAthletes() {
       if (athletesData.gab) {
         document.getElementById("gabName").innerText = athletesData.gab.name;
@@ -627,25 +681,31 @@
         document.getElementById("sabPhoto").src = athletesData.sab.photo;
       }
 
-      // Calculate Gab totals
+      // Calculate Gab filtered totals
       let gabGold = 0, gabSilver = 0, gabBronze = 0;
       (tournamentsData.gab || []).forEach(t => {
-        const m = (t.medals || "").toLowerCase();
-        if (m.includes('gold')) gabGold++;
-        if (m.includes('silver')) gabSilver++;
-        if (m.includes('bronze')) gabBronze++;
+        const typeMatch = (gabFilter === 'all') || ((t.type || 'local').toLowerCase() === gabFilter);
+        if (typeMatch) {
+          const m = (t.medals || "").toLowerCase();
+          if (m.includes('gold')) gabGold++;
+          if (m.includes('silver')) gabSilver++;
+          if (m.includes('bronze')) gabBronze++;
+        }
       });
       document.getElementById("gabGoldCount").innerText = gabGold;
       document.getElementById("gabSilverCount").innerText = gabSilver;
       document.getElementById("gabBronzeCount").innerText = gabBronze;
 
-      // Calculate Sab totals
+      // Calculate Sab filtered totals
       let sabGold = 0, sabSilver = 0, sabBronze = 0;
       (tournamentsData.sab || []).forEach(t => {
-        const m = (t.medals || "").toLowerCase();
-        if (m.includes('gold')) sabGold++;
-        if (m.includes('silver')) sabSilver++;
-        if (m.includes('bronze')) sabBronze++;
+        const typeMatch = (sabFilter === 'all') || ((t.type || 'local').toLowerCase() === sabFilter);
+        if (typeMatch) {
+          const m = (t.medals || "").toLowerCase();
+          if (m.includes('gold')) sabGold++;
+          if (m.includes('silver')) sabSilver++;
+          if (m.includes('bronze')) sabBronze++;
+        }
       });
       document.getElementById("sabGoldCount").innerText = sabGold;
       document.getElementById("sabSilverCount").innerText = sabSilver;
@@ -670,6 +730,7 @@
           <div>
             <div class="flex items-center space-x-2">
               <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded ${t.athlete === 'Gab' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}">${t.athlete}</span>
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">${t.type || 'local'}</span>
               <h4 class="font-bold text-sm text-white">${t.name}</h4>
             </div>
             <p class="text-xs text-amber-400 font-medium mt-1">${t.medals}</p>
@@ -782,7 +843,14 @@
             <span class="font-black text-amber-400 text-xs uppercase tracking-wider">${activeTournTab.toUpperCase()}'S Tournament #${i + 1}</span>
             <button onclick="removeTournamentForm(${i})" class="text-red-400 hover:text-red-300 text-xs font-bold">&times; Remove</button>
           </div>
-          <input type="text" id="tournName_${i}" value="${t.name || ''}" placeholder="Tournament Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <input type="text" id="tournName_${i}" value="${t.name || ''}" placeholder="Tournament Name" class="sm:col-span-2 bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+            <select id="tournType_${i}" class="bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+              <option value="national" ${t.type === 'national' ? 'selected' : ''}>National</option>
+              <option value="local" ${t.type === 'local' || !t.type ? 'selected' : ''}>Local</option>
+              <option value="international" ${t.type === 'international' ? 'selected' : ''}>International</option>
+            </select>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input type="text" id="tournVenue_${i}" value="${t.venue || ''}" placeholder="Venue (e.g. Manila, Philippines)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
             <input type="text" id="tournDate_${i}" value="${t.date || ''}" placeholder="Date / Season (e.g. 2026 Season)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
@@ -794,7 +862,7 @@
 
     function addTournamentForm() {
       if (!tournamentsData[activeTournTab]) tournamentsData[activeTournTab] = [];
-      tournamentsData[activeTournTab].push({ name: "", venue: "", date: "", medals: "" });
+      tournamentsData[activeTournTab].push({ name: "", venue: "", date: "", type: "national", medals: "" });
       renderTournamentForms();
     }
 
@@ -894,6 +962,7 @@
       const currentList = tournamentsData[activeTournTab] || [];
       const updatedActiveTab = currentList.map((_, i) => ({
         name: document.getElementById(`tournName_${i}`).value,
+        type: document.getElementById(`tournType_${i}`).value,
         venue: document.getElementById(`tournVenue_${i}`).value,
         date: document.getElementById(`tournDate_${i}`).value,
         medals: document.getElementById(`tournMedals_${i}`).value
@@ -903,7 +972,7 @@
       try {
         await db.collection("website").doc("tournaments").set({ data: tournamentsData });
         renderTournaments();
-        renderAthletes(); // recalculate medal counter badges
+        renderAthletes(); // recalculate medal counter badges with current filters
         closeTournamentsManager();
         alert("Tournament records updated successfully!");
       } catch (err) {
