@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiburcio Taekwondo Athletes</title>
+  <title>Tiburcio Taekwondo Athletes - Gab & Sab</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -29,41 +29,55 @@
     </div>
   </nav>
 
-  <!-- Main Showcase Container -->
-  <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-1 flex flex-col items-center">
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-1 flex flex-col items-center space-y-12">
     
     <!-- Slideshow Poster Section -->
     <div class="w-full relative group rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl aspect-poster max-w-md mx-auto">
-      
-      <!-- Slide Image -->
       <img id="slideImg" src="" alt="Slide Image" class="w-full h-full object-cover transition-opacity duration-500 opacity-0">
-
-      <!-- Gradient Overlay & Content -->
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-8">
         <div id="slideTag" class="text-xs font-bold tracking-widest text-amber-400 uppercase mb-1">...</div>
         <h2 id="slideTitle" class="text-2xl md:text-3xl font-black uppercase tracking-tight text-white mb-2 drop-shadow">...</h2>
         <p id="slideDesc" class="text-xs md:text-sm text-zinc-300 line-clamp-3">...</p>
         
-        <!-- Navigation Controls -->
         <div class="flex items-center justify-between mt-6 pt-4 border-t border-zinc-800/80">
           <div class="flex space-x-1.5" id="slideDots"></div>
           <div class="flex space-x-2">
-            <button onclick="prevSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">
-              &larr; Prev
-            </button>
-            <button onclick="nextSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">
-              Next &rarr;
-            </button>
+            <button onclick="prevSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">&larr; Prev</button>
+            <button onclick="nextSlide()" class="p-2 rounded-lg bg-zinc-800/80 hover:bg-amber-500 hover:text-black transition border border-zinc-700 text-xs">Next &rarr;</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Athletes Profiles Section -->
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      
+      <!-- Gab Profile Card -->
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center text-center shadow-lg">
+        <img id="gabPhoto" src="" alt="Gab" class="w-28 h-28 rounded-full object-cover border-2 border-amber-500 mb-4 shadow">
+        <h3 id="gabName" class="text-xl font-black uppercase tracking-wide text-white">Keane Gabriel Tiburcio (Gab)</h3>
+        <p id="gabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Red Belt / Kyorugi & Poomsae</p>
+        <p id="gabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">Training hard for upcoming national championships, focusing on precision kicking and competitive sparring strategy.</p>
+      </div>
+
+      <!-- Sab Profile Card -->
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center text-center shadow-lg">
+        <img id="sabPhoto" src="" alt="Sab" class="w-28 h-28 rounded-full object-cover border-2 border-amber-500 mb-4 shadow">
+        <h3 id="sabName" class="text-xl font-black uppercase tracking-wide text-white">Anne Ysabel Tiburcio (Sab)</h3>
+        <p id="sabBelt" class="text-xs text-amber-400 font-bold uppercase mt-1">Red Belt / Kyorugi & Poomsae</p>
+        <p id="sabBio" class="text-xs text-zinc-400 mt-3 leading-relaxed">Dedicated martial artist demonstrating exceptional discipline, form execution, and tournament focus.</p>
       </div>
 
     </div>
 
-    <!-- Edit Button (Shown when logged in) -->
-    <div id="adminControls" class="hidden mt-6 flex space-x-4">
+    <!-- Admin Controls (Shown when logged in) -->
+    <div id="adminControls" class="hidden flex flex-wrap justify-center gap-4 mt-6">
       <button onclick="openSlideshowManager()" class="bg-amber-500 text-black font-semibold text-xs px-4 py-2 rounded shadow hover:bg-amber-400 transition">
         Manage Slideshow Photos
+      </button>
+      <button onclick="openAthletesManager()" class="bg-zinc-800 border border-zinc-700 text-white font-semibold text-xs px-4 py-2 rounded shadow hover:bg-zinc-700 transition">
+        Edit Athlete Profiles
       </button>
     </div>
 
@@ -88,11 +102,7 @@
         <h3 class="text-lg font-bold text-white">Manage Slideshow</h3>
         <button onclick="closeSlideshowManager()" class="text-zinc-400 hover:text-white text-xl">&times;</button>
       </div>
-      
-      <div id="slideFormsContainer" class="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
-        <!-- Forms dynamically generated here -->
-      </div>
-
+      <div id="slideFormsContainer" class="space-y-6 max-h-[60vh] overflow-y-auto pr-2"></div>
       <div class="mt-6 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
         <button onclick="closeSlideshowManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white">Close</button>
         <button onclick="saveAllSlides()" class="px-6 py-2 text-xs bg-amber-500 text-black font-bold rounded hover:bg-amber-400">Save All Changes</button>
@@ -100,8 +110,47 @@
     </div>
   </div>
 
+  <!-- Athletes Manager Modal -->
+  <div id="athletesModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-xl w-full p-6 my-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white">Edit Athlete Profiles</h3>
+        <button onclick="closeAthletesManager()" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+        <!-- Gab Form -->
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-lg space-y-3">
+          <div class="font-bold text-amber-400 text-xs uppercase">Gab's Profile</div>
+          <input type="text" id="editGabName" placeholder="Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <input type="text" id="editGabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <textarea id="editGabBio" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white"></textarea>
+          <div>
+            <label class="block text-xs text-zinc-400 mb-1">Photo (Local File or URL):</label>
+            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editGabPhoto')" class="text-xs text-zinc-400 mb-2">
+            <input type="text" id="editGabPhoto" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          </div>
+        </div>
+        <!-- Sab Form -->
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-lg space-y-3">
+          <div class="font-bold text-amber-400 text-xs uppercase">Sab's Profile</div>
+          <input type="text" id="editSabName" placeholder="Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <input type="text" id="editSabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <textarea id="editSabBio" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white"></textarea>
+          <div>
+            <label class="block text-xs text-zinc-400 mb-1">Photo (Local File or URL):</label>
+            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editSabPhoto')" class="text-xs text-zinc-400 mb-2">
+            <input type="text" id="editSabPhoto" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
+        <button onclick="closeAthletesManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white">Close</button>
+        <button onclick="saveAthletes()" class="px-6 py-2 text-xs bg-amber-500 text-black font-bold rounded hover:bg-amber-400">Save Profiles</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDhUc71NkqM3fj2RDK7V1HQ1IczIxZN5Ms",
       authDomain: "tiburcio-taekwondo.firebaseapp.com",
@@ -115,32 +164,36 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Default Slides
     let slidesData = [
       { tag: "PRECISION & POWER", title: "FOCUS", desc: "Mastering form, speed, and continuous self-improvement in Taekwondo.", img: "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=800&q=80" },
       { tag: "NATIONAL CHAMPIONSHIPS", title: "GAB TO BACOLOD", desc: "Dominating local and national tournament brackets.", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" }
     ];
 
+    let athletesData = {
+      gab: { name: "Keane Gabriel Tiburcio (Gab)", belt: "Red Belt / Kyorugi & Poomsae", bio: "Training hard for upcoming national championships, focusing on precision kicking and competitive sparring strategy.", photo: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" },
+      sab: { name: "Anne Ysabel Tiburcio (Sab)", belt: "Red Belt / Kyorugi & Poomsae", bio: "Dedicated martial artist demonstrating exceptional discipline, form execution, and tournament focus.", photo: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" }
+    };
+
     let currentSlide = 0;
     let isAdmin = false;
 
-    // Load Slides from Firestore
-    async function loadSlides() {
+    async function loadData() {
       try {
-        const doc = await db.collection("website").doc("slideshow").get();
-        if (doc.exists && doc.data().slides) {
-          slidesData = doc.data().slides;
-        }
+        const slideDoc = await db.collection("website").doc("slideshow").get();
+        if (slideDoc.exists && slideDoc.data().slides) slidesData = slideDoc.data().slides;
+
+        const athleteDoc = await db.collection("website").doc("athletes").get();
+        if (athleteDoc.exists && athleteDoc.data().data) athletesData = athleteDoc.data().data;
       } catch (err) {
-        console.warn("Using fallback slides data:", err);
+        console.warn("Using fallback data:", err);
       }
       renderSlide();
+      renderAthletes();
     }
 
     function renderSlide() {
       const slide = slidesData[currentSlide] || slidesData[0];
       const img = document.getElementById("slideImg");
-      
       img.classList.add("opacity-0");
       setTimeout(() => {
         img.src = slide.img;
@@ -149,7 +202,6 @@
         document.getElementById("slideDesc").innerText = slide.desc || "";
         img.classList.remove("opacity-0");
       }, 200);
-
       renderDots();
     }
 
@@ -170,7 +222,18 @@
       renderSlide();
     }
 
-    // Admin Access Controls
+    function renderAthletes() {
+      document.getElementById("gabName").innerText = athletesData.gab.name;
+      document.getElementById("gabBelt").innerText = athletesData.gab.belt;
+      document.getElementById("gabBio").innerText = athletesData.gab.bio;
+      document.getElementById("gabPhoto").src = athletesData.gab.photo;
+
+      document.getElementById("sabName").innerText = athletesData.sab.name;
+      document.getElementById("sabBelt").innerText = athletesData.sab.belt;
+      document.getElementById("sabBio").innerText = athletesData.sab.bio;
+      document.getElementById("sabPhoto").src = athletesData.sab.photo;
+    }
+
     function toggleAdminModal() {
       document.getElementById("loginModal").classList.toggle("hidden");
     }
@@ -199,23 +262,35 @@
           <div>
             <label class="block text-xs text-zinc-400 mb-1">Replace Image (Local File or URL):</label>
             <input type="file" accept="image/*" onchange="compressImage(event, ${i})" class="text-xs text-zinc-400 mb-2">
-            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL (auto-filled if file uploaded)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           </div>
         </div>
       `).join('');
-
       document.getElementById("managerModal").classList.remove("hidden");
     }
 
-    function closeSlideshowManager() {
-      document.getElementById("managerModal").classList.add("hidden");
+    function closeSlideshowManager() { document.getElementById("managerModal").classList.add("hidden"); }
+
+    function openAthletesManager() {
+      document.getElementById("editGabName").value = athletesData.gab.name;
+      document.getElementById("editGabBelt").value = athletesData.gab.belt;
+      document.getElementById("editGabBio").value = athletesData.gab.bio;
+      document.getElementById("editGabPhoto").value = athletesData.gab.photo;
+
+      document.getElementById("editSabName").value = athletesData.sab.name;
+      document.getElementById("editSabBelt").value = athletesData.sab.belt;
+      document.getElementById("editSabBio").value = athletesData.sab.bio;
+      document.getElementById("editSabPhoto").value = athletesData.sab.photo;
+
+      document.getElementById("athletesModal").classList.remove("hidden");
     }
 
-    // Client-side Browser Canvas Image Compressor
+    function closeAthletesManager() { document.getElementById("athletesModal").classList.add("hidden"); }
+
+    // Client-side Browser Canvas Image Compressor for Slideshow
     function compressImage(event, index) {
       const file = event.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (e) => {
@@ -227,13 +302,31 @@
           const scaleSize = maxWidth / img.width;
           canvas.width = (img.width > maxWidth) ? maxWidth : img.width;
           canvas.height = (img.width > maxWidth) ? (img.height * scaleSize) : img.height;
-
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          document.getElementById(`img_${index}`).value = canvas.toDataURL("image/jpeg", 0.7);
+        };
+      };
+    }
 
-          // Compress image to JPEG format at 70% quality (~100 KB)
-          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
-          document.getElementById(`img_${index}`).value = compressedBase64;
+    // Client-side Browser Canvas Image Compressor for Athletes
+    function compressAthleteImage(event, targetId) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const maxWidth = 600;
+          const scaleSize = maxWidth / img.width;
+          canvas.width = (img.width > maxWidth) ? maxWidth : img.width;
+          canvas.height = (img.width > maxWidth) ? (img.height * scaleSize) : img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          document.getElementById(targetId).value = canvas.toDataURL("image/jpeg", 0.7);
         };
       };
     }
@@ -245,7 +338,6 @@
         desc: document.getElementById(`desc_${i}`).value,
         img: document.getElementById(`img_${i}`).value
       }));
-
       try {
         await db.collection("website").doc("slideshow").set({ slides: updatedSlides });
         slidesData = updatedSlides;
@@ -257,8 +349,30 @@
       }
     }
 
-    // Init
-    loadSlides();
+    async function saveAthletes() {
+      athletesData.gab = {
+        name: document.getElementById("editGabName").value,
+        belt: document.getElementById("editGabBelt").value,
+        bio: document.getElementById("editGabBio").value,
+        photo: document.getElementById("editGabPhoto").value
+      };
+      athletesData.sab = {
+        name: document.getElementById("editSabName").value,
+        belt: document.getElementById("editSabBelt").value,
+        bio: document.getElementById("editSabBio").value,
+        photo: document.getElementById("editSabPhoto").value
+      };
+      try {
+        await db.collection("website").doc("athletes").set({ data: athletesData });
+        renderAthletes();
+        closeAthletesManager();
+        alert("Athlete profiles updated successfully!");
+      } catch (err) {
+        alert("Error saving profiles: " + err.message);
+      }
+    }
+
+    loadData();
   </script>
 </body>
 </html>
