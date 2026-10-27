@@ -58,7 +58,7 @@
       <!-- Logo & Title -->
       <a href="#home" class="flex items-center space-x-3 group">
         <div class="w-10 h-10 rounded-full border-2 border-amber-500/80 bg-zinc-900 overflow-hidden flex items-center justify-center p-0.5 group-hover:border-amber-400 transition-colors">
-          <img src="gab and sab logo.jpg" alt="Gab & Sab Logo" class="w-full h-full object-contain">
+          <img id="siteLogoImg" src="gab and sab logo.jpg" alt="Gab & Sab Logo" class="w-full h-full object-contain">
         </div>
         <div class="flex flex-col">
           <span class="font-extrabold tracking-wider uppercase text-base text-zinc-100 group-hover:text-amber-400 transition-colors">Tiburcio</span>
@@ -268,10 +268,10 @@
 
       </div>
 
-      <!-- Admin Edit Athlete Trigger -->
+      <!-- Admin Edit Athlete & Brand Trigger -->
       <div id="athleteAdminTrigger" class="text-center pt-2 hidden">
         <button onclick="openAthletesManager()" class="bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs px-5 py-2.5 rounded-lg border border-zinc-700 uppercase tracking-wider transition">
-          Edit Athlete Details & Photos
+          Edit Athlete Details, Logo & Settings
         </button>
       </div>
     </section>
@@ -372,7 +372,16 @@
   <footer class="border-t border-zinc-800/80 bg-zinc-950 py-6 text-center text-xs text-zinc-500">
     <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
       <span>&copy; 2026 Tiburcio Taekwondo. All rights reserved.</span>
-      <span class="text-amber-500 font-semibold">Gab & Sab Athlete Portfolio</span>
+      <div class="flex items-center space-x-4">
+        <span class="text-amber-500 font-semibold">Gab & Sab Athlete Portfolio</span>
+        <!-- Facebook Page Link -->
+        <a id="footerFbLink" href="https://facebook.com" target="_blank" class="text-zinc-400 hover:text-amber-400 flex items-center space-x-1 transition-colors">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          <span class="text-[11px] font-bold uppercase">Facebook</span>
+        </a>
+      </div>
     </div>
   </footer>
 
@@ -412,18 +421,33 @@
     </div>
   </div>
 
-  <!-- ATHLETES MANAGER MODAL -->
+  <!-- ATHLETES & BRAND MANAGER MODAL (WITH LOGO UPLOAD & FACEBOOK LINK) -->
   <div id="athletesModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
         <div>
-          <h3 class="text-lg font-bold text-white">Edit Athlete Profiles</h3>
-          <p class="text-xs text-zinc-400">Update information and images for Gab and Sab.</p>
+          <h3 class="text-lg font-bold text-white">Edit Athlete Profiles & Brand</h3>
+          <p class="text-xs text-zinc-400">Update logo, Facebook page, and profiles for Gab and Sab.</p>
         </div>
         <button onclick="closeAthletesManager()" class="text-zinc-400 hover:text-white text-2xl font-bold">&times;</button>
       </div>
 
       <div class="space-y-6 overflow-y-auto custom-scrollbar pr-2 flex-1">
+        
+        <!-- Logo & Social Settings -->
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3">
+          <div class="font-extrabold text-amber-400 text-xs uppercase tracking-wider">Site Brand & Logo Settings</div>
+          <div>
+            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Upload New Logo (Viewable by All Users):</label>
+            <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editSiteLogo')" class="text-xs text-zinc-400 mb-2 block w-full">
+            <input type="text" id="editSiteLogo" placeholder="Logo Image URL / Base64 Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Facebook Page Link:</label>
+            <input type="text" id="editFbLink" placeholder="https://facebook.com/your-page" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
+          </div>
+        </div>
+
         <!-- Gab Form -->
         <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3">
           <div class="font-extrabold text-amber-400 text-xs uppercase tracking-wider">Keane Gabriel (Gab)</div>
@@ -453,7 +477,7 @@
 
       <div class="mt-4 pt-4 border-t border-zinc-800 flex justify-end space-x-3">
         <button onclick="closeAthletesManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Close</button>
-        <button onclick="saveAthletes()" class="px-6 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg shadow-lg">Save Profiles</button>
+        <button onclick="saveAthletes()" class="px-6 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg shadow-lg">Save All Settings</button>
       </div>
     </div>
   </div>
@@ -527,6 +551,8 @@
     ];
 
     let athletesData = {
+      siteLogo: "gab and sab logo.jpg",
+      fbLink: "https://facebook.com",
       gab: { 
         name: "Keane Gabriel Tiburcio", 
         belt: "Red Belt / Kyorugi Competitor", 
@@ -666,8 +692,14 @@
       renderAthletes();
     }
 
-    // Render Athletes Profiles & Calculate Medal Counts (with Filtering)
+    // Render Athletes Profiles, Logo, Facebook Link & Calculate Medal Counts
     function renderAthletes() {
+      if (athletesData.siteLogo) {
+        document.getElementById("siteLogoImg").src = athletesData.siteLogo;
+      }
+      if (athletesData.fbLink) {
+        document.getElementById("footerFbLink").href = athletesData.fbLink;
+      }
       if (athletesData.gab) {
         document.getElementById("gabName").innerText = athletesData.gab.name;
         document.getElementById("gabBelt").innerText = athletesData.gab.belt;
@@ -789,6 +821,8 @@
     }
 
     function openAthletesManager() {
+      document.getElementById("editSiteLogo").value = athletesData.siteLogo || 'gab and sab logo.jpg';
+      document.getElementById("editFbLink").value = athletesData.fbLink || 'https://facebook.com';
       if (athletesData.gab) {
         document.getElementById("editGabName").value = athletesData.gab.name || '';
         document.getElementById("editGabBelt").value = athletesData.gab.belt || '';
@@ -893,7 +927,7 @@
       };
     }
 
-    // Canvas Image Compressor for Athletes
+    // Canvas Image Compressor for Athletes and Logo Uploads
     function compressAthleteImage(event, targetId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -935,6 +969,8 @@
     }
 
     async function saveAthletes() {
+      athletesData.siteLogo = document.getElementById("editSiteLogo").value;
+      athletesData.fbLink = document.getElementById("editFbLink").value;
       athletesData.gab = {
         name: document.getElementById("editGabName").value,
         belt: document.getElementById("editGabBelt").value,
@@ -951,14 +987,13 @@
         await db.collection("website").doc("athletes").set({ data: athletesData });
         renderAthletes();
         closeAthletesManager();
-        alert("Athlete profiles updated successfully!");
+        alert("Profiles, logo, and settings saved successfully!");
       } catch (err) {
         alert("Error saving profiles: " + err.message);
       }
     }
 
     async function saveTournaments() {
-      // First, read current input field values for active tab
       const currentList = tournamentsData[activeTournTab] || [];
       const updatedActiveTab = currentList.map((_, i) => ({
         name: document.getElementById(`tournName_${i}`).value,
