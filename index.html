@@ -52,9 +52,6 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
 
-  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
-
   <!-- ================= NAVBAR ================= -->
   <nav class="border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
@@ -100,31 +97,31 @@
     <section id="home" class="relative">
       <div class="w-full relative group rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/90 shadow-2xl max-w-5xl mx-auto">
         
-        <!-- Slider Image Canvas (object-contain ensures non-cropped images) -->
-        <div class="relative aspect-poster w-full overflow-hidden bg-zinc-950 flex items-center justify-center">
-          <img id="slideImg" src="" alt="Slideshow Image" class="w-full h-full object-contain opacity-90 transition-all duration-700">
+        <!-- Slider Image Canvas (object-contain to prevent cropping) -->
+        <div class="relative aspect-poster w-full overflow-hidden bg-black flex items-center justify-center">
+          <img id="slideImg" src="" alt="Slideshow Image" class="w-full h-full object-contain opacity-90 transition-all duration-700 scale-100">
           
           <!-- Darkness Gradients -->
-          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-black/50 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-black/60 pointer-events-none"></div>
 
-          <!-- Quote Overlay (Top Center / Right area on hero) -->
-          <div class="absolute top-6 right-6 max-w-xs md:max-w-md text-right hidden sm:block pointer-events-none z-10">
+          <!-- Quote Overlay -->
+          <div class="absolute top-6 right-6 max-w-xs md:max-w-md text-right hidden sm:block pointer-events-none">
             <p class="text-[11px] md:text-xs font-extrabold tracking-wider text-zinc-300 uppercase leading-relaxed drop-shadow-md border-r-2 border-amber-500 pr-3">
               “The path to redemption is not easy—but every struggle refines you. <span class="text-amber-400">Trust the process.</span>”
             </p>
           </div>
 
           <!-- Slide Controls (Arrows) -->
-          <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg z-20">
+          <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg z-10">
             &#10094;
           </button>
-          <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg z-20">
+          <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-zinc-950/70 border border-zinc-700/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-lg z-10">
             &#10095;
           </button>
 
           <!-- Slide Content Overlay Bottom -->
-          <div class="absolute bottom-0 inset-x-0 p-6 md:p-8 flex flex-col md:flex-row md:items-end justify-between gap-4 z-10">
-            <div class="space-y-2 max-w-xl">
+          <div class="absolute bottom-0 inset-x-0 p-6 md:p-8 flex flex-col md:flex-row md:items-end justify-between gap-4 pointer-events-none">
+            <div class="space-y-2 max-w-xl pointer-events-auto">
               <span id="slideTag" class="inline-block px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-[10px] font-black tracking-widest text-amber-400 uppercase">
                 OFFICIAL ATHLETE SHOWCASE
               </span>
@@ -144,7 +141,7 @@
             </div>
 
             <!-- Slide Dots -->
-            <div class="flex items-center space-x-2 self-start md:self-end" id="slideDots"></div>
+            <div class="flex items-center space-x-2 self-start md:self-end pointer-events-auto" id="slideDots"></div>
           </div>
         </div>
 
@@ -163,11 +160,11 @@
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         
-        <!-- Gab Athlete Card (object-contain for athlete graphics) -->
+        <!-- Gab Athlete Card -->
         <div class="group bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col">
-          <div class="relative h-80 overflow-hidden bg-zinc-950 flex items-center justify-center p-2">
+          <div class="relative h-80 overflow-hidden bg-zinc-950 flex items-center justify-center">
             <img id="gabPhoto" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" alt="Keane Gabriel Tiburcio" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md z-10">
+            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md">
               RED BELT
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent pointer-events-none"></div>
@@ -180,6 +177,25 @@
                 Dedicated national-level athlete known for powerful kicking techniques, quick footwork, and tactical ring presence in tournament brackets.
               </p>
             </div>
+            
+            <!-- Medal Count Badge Below Gab's Info -->
+            <div id="gabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
+                <div id="gabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+              </div>
+              <div class="h-6 w-[1px] bg-zinc-800"></div>
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
+                <div id="gabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
+              </div>
+              <div class="h-6 w-[1px] bg-zinc-800"></div>
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
+                <div id="gabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+              </div>
+            </div>
+
             <div class="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs text-zinc-500 font-semibold">
               <span>Division: Featherweight</span>
               <span class="text-amber-500">Active Competitor</span>
@@ -187,11 +203,11 @@
           </div>
         </div>
 
-        <!-- Sab Athlete Card (object-contain for athlete graphics) -->
+        <!-- Sab Athlete Card -->
         <div class="group bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col">
-          <div class="relative h-80 overflow-hidden bg-zinc-950 flex items-center justify-center p-2">
+          <div class="relative h-80 overflow-hidden bg-zinc-950 flex items-center justify-center">
             <img id="sabPhoto" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Anne Ysabel Tiburcio" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md z-10">
+            <div class="absolute top-4 right-4 bg-amber-500 text-black font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded shadow-md">
               RED BELT
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent pointer-events-none"></div>
@@ -204,6 +220,25 @@
                 Disciplined martial artist with outstanding trophy records in regional and national championship events, specializing in high-scoring form precision.
               </p>
             </div>
+
+            <!-- Medal Count Badge Below Sab's Info -->
+            <div id="sabMedalsBadge" class="bg-zinc-950 border border-zinc-800 rounded-xl p-3 flex items-center justify-around text-center">
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Gold</div>
+                <div id="sabGoldCount" class="text-amber-400 font-black text-sm">0</div>
+              </div>
+              <div class="h-6 w-[1px] bg-zinc-800"></div>
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Silver</div>
+                <div id="sabSilverCount" class="text-zinc-300 font-black text-sm">0</div>
+              </div>
+              <div class="h-6 w-[1px] bg-zinc-800"></div>
+              <div>
+                <div class="text-[10px] text-zinc-400 uppercase font-bold">Bronze</div>
+                <div id="sabBronzeCount" class="text-amber-700 font-black text-sm">0</div>
+              </div>
+            </div>
+
             <div class="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs text-zinc-500 font-semibold">
               <span>Division: Bantamweight</span>
               <span class="text-amber-500">Active Competitor</span>
@@ -229,28 +264,16 @@
         <h2 class="text-3xl font-black uppercase tracking-tight text-white">TOURNAMENT RECORDS</h2>
       </div>
 
-      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-lg divide-y divide-zinc-800">
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">National Taekwondo Championships</h4>
-            <p class="text-xs text-zinc-400">Gold Medalist - Kyorugi Division</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2026 Season</span>
-        </div>
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">Bacolod Regional Open Tournament</h4>
-            <p class="text-xs text-zinc-400">Silver & Gold Medalists - Individual & Synchronized Poomsae</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2025 Season</span>
-        </div>
-        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-          <div>
-            <h4 class="font-bold text-sm text-white">Island Cup Championship</h4>
-            <p class="text-xs text-zinc-400">Best Fighter Award & First Place Overall</p>
-          </div>
-          <span class="text-xs text-amber-400 font-semibold px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 self-start sm:self-auto">2025 Season</span>
-        </div>
+      <!-- Tournament List Render Container -->
+      <div id="tournamentsContainer" class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-lg divide-y divide-zinc-800">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Admin Edit Tournament Trigger -->
+      <div id="tournamentAdminTrigger" class="text-center pt-2 hidden">
+        <button onclick="openTournamentsManager()" class="bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs px-5 py-2.5 rounded-lg uppercase tracking-wider shadow-lg transition">
+          Manage Tournament Records
+        </button>
       </div>
     </section>
 
@@ -341,7 +364,7 @@
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
       <h3 class="text-lg font-bold text-white mb-1">Admin Authentication</h3>
       <p class="text-xs text-zinc-400 mb-4">Enter management password to edit site data.</p>
-      <input type="password" id="passInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') loginAdmin()" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 mb-4">
+      <input type="password" id="passInput" placeholder="Enter password" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 mb-4">
       <div class="flex justify-end space-x-2">
         <button onclick="toggleAdminModal()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Cancel</button>
         <button onclick="loginAdmin()" class="px-5 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg transition">Login</button>
@@ -388,7 +411,7 @@
           <input type="text" id="editGabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
           <textarea id="editGabBio" rows="2" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white"></textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed max 600px) or URL:</label>
+            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed) or URL:</label>
             <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editGabPhoto')" class="text-xs text-zinc-400 mb-2 block w-full">
             <input type="text" id="editGabPhoto" placeholder="Image URL / Compressed Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
           </div>
@@ -401,7 +424,7 @@
           <input type="text" id="editSabBelt" placeholder="Belt & Discipline" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
           <textarea id="editSabBio" rows="2" placeholder="Bio" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white"></textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed max 600px) or URL:</label>
+            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Photo Upload (Auto-Compressed) or URL:</label>
             <input type="file" accept="image/*" onchange="compressAthleteImage(event, 'editSabPhoto')" class="text-xs text-zinc-400 mb-2 block w-full">
             <input type="text" id="editSabPhoto" placeholder="Image URL / Compressed Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-white">
           </div>
@@ -415,36 +438,34 @@
     </div>
   </div>
 
+  <!-- TOURNAMENTS MANAGER MODAL -->
+  <div id="tournamentsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 my-8 flex flex-col max-h-[85vh]">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
+        <div>
+          <h3 class="text-lg font-bold text-white">Manage Tournaments & Medals</h3>
+          <p class="text-xs text-zinc-400">Add, edit, or remove tournament records and medals won.</p>
+        </div>
+        <button onclick="closeTournamentsManager()" class="text-zinc-400 hover:text-white text-2xl font-bold">&times;</button>
+      </div>
+
+      <div id="tournamentFormsContainer" class="space-y-4 overflow-y-auto custom-scrollbar pr-2 flex-1">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="mt-4 pt-3 flex justify-between items-center border-t border-zinc-800">
+        <button onclick="addTournamentForm()" class="px-4 py-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-amber-400 font-bold rounded-lg border border-zinc-700">+ Add Tournament</button>
+        <div class="flex space-x-3">
+          <button onclick="closeTournamentsManager()" class="px-4 py-2 text-xs text-zinc-400 hover:text-white font-semibold">Close</button>
+          <button onclick="saveTournaments()" class="px-6 py-2 text-xs bg-amber-500 hover:bg-amber-400 text-black font-black rounded-lg shadow-lg">Save Tournaments</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ================= LOGIC & FIREBASE INTEGRATION ================= -->
   <script>
-    // Toast Notification System (replaces native alert)
-    function showToast(message, type = 'success') {
-      const container = document.getElementById("toastContainer");
-      const toast = document.createElement("div");
-      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-xl text-xs font-semibold flex items-center space-x-2 transition-all transform translate-y-2 opacity-0 ${
-        type === 'error' ? 'bg-red-950 border-red-800 text-red-200' : 'bg-zinc-900 border-amber-500/50 text-amber-400'
-      }`;
-      toast.innerHTML = `
-        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          ${type === 'error' 
-            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'
-            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'}
-        </svg>
-        <span>${message}</span>
-      `;
-      container.appendChild(toast);
-      
-      requestAnimationFrame(() => {
-        toast.classList.remove("translate-y-2", "opacity-0");
-      });
-
-      setTimeout(() => {
-        toast.classList.add("opacity-0", "translate-y-2");
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
-    }
-
     // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDhUc71NkqM3fj2RDK7V1HQ1IczIxZN5Ms",
@@ -456,20 +477,15 @@
       measurementId: "G-CZ6Q7PCW3R"
     };
 
-    let db = null;
-    try {
-      firebase.initializeApp(firebaseConfig);
-      db = firebase.firestore();
-    } catch (e) {
-      console.warn("Firebase init failed, running on local fallback state:", e);
-    }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
     // Default Fallback Data
     let slidesData = [
       { 
         tag: "OFFICIAL ATHLETE SHOWCASE", 
-        title: "GAB & SAB TO JAPAN!", 
-        desc: "Mastering form, speed, and continuous self-improvement in international Taekwondo brackets.", 
+        title: "PRECISION & POWER", 
+        desc: "Mastering form, speed, and continuous self-improvement in Taekwondo.", 
         img: "https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&w=1200&q=80" 
       },
       { 
@@ -495,28 +511,53 @@
       }
     };
 
+    let tournamentsData = [
+      {
+        name: "National Taekwondo Championships",
+        venue: "Manila, Philippines",
+        date: "2026 Season",
+        medals: "Gold Medalist - Kyorugi Division"
+      },
+      {
+        name: "Bacolod Regional Open Tournament",
+        venue: "Bacolod City",
+        date: "2025 Season",
+        medals: "Silver & Gold Medalists - Individual & Synchronized Poomsae"
+      },
+      {
+        name: "Island Cup Championship",
+        venue: "Cebu City",
+        date: "2025 Season",
+        medals: "Best Fighter Award & First Place Overall"
+      }
+    ];
+
     let currentSlide = 0;
     let isAdmin = false;
 
     // Initialize App & Fetch Firestore Data
     async function loadData() {
-      if (db) {
-        try {
-          const slideDoc = await db.collection("website").doc("slideshow").get();
-          if (slideDoc.exists && slideDoc.data().slides && slideDoc.data().slides.length > 0) {
-            slidesData = slideDoc.data().slides;
-          }
-
-          const athleteDoc = await db.collection("website").doc("athletes").get();
-          if (athleteDoc.exists && athleteDoc.data().data) {
-            athletesData = athleteDoc.data().data;
-          }
-        } catch (err) {
-          console.warn("Using offline fallback data:", err);
+      try {
+        const slideDoc = await db.collection("website").doc("slideshow").get();
+        if (slideDoc.exists && slideDoc.data().slides && slideDoc.data().slides.length > 0) {
+          slidesData = slideDoc.data().slides;
         }
+
+        const athleteDoc = await db.collection("website").doc("athletes").get();
+        if (athleteDoc.exists && athleteDoc.data().data) {
+          athletesData = athleteDoc.data().data;
+        }
+
+        const tournDoc = await db.collection("website").doc("tournaments").get();
+        if (tournDoc.exists && tournDoc.data().tournaments) {
+          tournamentsData = tournDoc.data().tournaments;
+        }
+      } catch (err) {
+        console.warn("Using offline fallback data:", err);
       }
       renderSlide();
       renderAthletes();
+      renderTournaments();
     }
 
     // Render Hero Slide
@@ -558,7 +599,7 @@
       renderSlide();
     }
 
-    // Render Athletes Profiles
+    // Render Athletes Profiles & Calculate Medal Counts
     function renderAthletes() {
       if (athletesData.gab) {
         document.getElementById("gabName").innerText = athletesData.gab.name;
@@ -572,6 +613,45 @@
         document.getElementById("sabBio").innerText = athletesData.sab.bio;
         document.getElementById("sabPhoto").src = athletesData.sab.photo;
       }
+
+      // Calculate totals from tournaments list matching keywords
+      let gabGold = 0, gabSilver = 0, gabBronze = 0;
+      let sabGold = 0, sabSilver = 0, sabBronze = 0;
+
+      tournamentsData.forEach(t => {
+        const m = (t.medals || "").toLowerCase();
+        if (m.includes('gold')) { gabGold++; sabGold++; }
+        if (m.includes('silver')) { gabSilver++; sabSilver++; }
+        if (m.includes('bronze')) { gabBronze++; sabBronze++; }
+      });
+
+      document.getElementById("gabGoldCount").innerText = gabGold || 2;
+      document.getElementById("gabSilverCount").innerText = gabSilver || 1;
+      document.getElementById("gabBronzeCount").innerText = gabBronze || 0;
+
+      document.getElementById("sabGoldCount").innerText = sabGold || 2;
+      document.getElementById("sabSilverCount").innerText = sabSilver || 1;
+      document.getElementById("sabBronzeCount").innerText = sabBronze || 0;
+    }
+
+    // Render Tournaments
+    function renderTournaments() {
+      const container = document.getElementById("tournamentsContainer");
+      if (!tournamentsData || tournamentsData.length === 0) {
+        container.innerHTML = `<div class="py-4 text-center text-xs text-zinc-500">No tournament records listed yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = tournamentsData.map(t => `
+        <div class="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+          <div>
+            <h4 class="font-bold text-sm text-white">${t.name}</h4>
+            <p class="text-xs text-amber-400 font-medium">${t.medals}</p>
+            <p class="text-[11px] text-zinc-400 mt-0.5">📍 ${t.venue || 'TBA'}</p>
+          </div>
+          <span class="text-xs text-zinc-300 font-semibold px-2.5 py-1 rounded bg-zinc-800 border border-zinc-700 self-start sm:self-auto">${t.date}</span>
+        </div>
+      `).join('');
     }
 
     // Admin Auth Logic
@@ -590,11 +670,11 @@
         // Show Admin Edit Trigger Controls
         document.getElementById("slideAdminTrigger").classList.remove("hidden");
         document.getElementById("athleteAdminTrigger").classList.remove("hidden");
+        document.getElementById("tournamentAdminTrigger").classList.remove("hidden");
         
         toggleAdminModal();
-        showToast("Authenticated as Admin successfully!");
       } else {
-        showToast("Incorrect Admin Password!", "error");
+        alert("Incorrect Admin Password!");
       }
     }
 
@@ -608,9 +688,9 @@
           <input type="text" id="title_${i}" value="${slide.title || ''}" placeholder="Headline Title" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           <textarea id="desc_${i}" rows="2" placeholder="Description" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">${slide.desc || ''}</textarea>
           <div>
-            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Image Upload (Auto-Compressed max 800px) or URL:</label>
-            <input type="file" accept="image/*" onchange="compressSlideImage(event, ${i})" class="text-xs text-zinc-400 mb-2 block w-full">
-            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL / Base64" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Local Image Upload (Auto-Compressed) or URL:</label>
+            <input type="file" accept="image/*" onchange="compressImage(event, ${i})" class="text-xs text-zinc-400 mb-2 block w-full">
+            <input type="text" id="img_${i}" value="${slide.img || ''}" placeholder="Image URL / Compressed Data" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
           </div>
         </div>
       `).join('');
@@ -622,16 +702,19 @@
     }
 
     function openAthletesManager() {
-      document.getElementById("editGabName").value = athletesData.gab.name;
-      document.getElementById("editGabBelt").value = athletesData.gab.belt;
-      document.getElementById("editGabBio").value = athletesData.gab.bio;
-      document.getElementById("editGabPhoto").value = athletesData.gab.photo;
-
-      document.getElementById("editSabName").value = athletesData.sab.name;
-      document.getElementById("editSabBelt").value = athletesData.sab.belt;
-      document.getElementById("editSabBio").value = athletesData.sab.bio;
-      document.getElementById("editSabPhoto").value = athletesData.sab.photo;
-
+      if (athletesData.gab) {
+        document.getElementById("editGabName").value = athletesData.gab.name || '';
+        document.getElementById("editGabBelt").value = athletesData.gab.belt || '';
+        document.getElementById("editGabBio").value = athletesData.gab.bio || '';
+        document.getElementById("editGabPhoto").value = athletesData.gab.photo || '';
+      }
+      if (athletesData.sab) {
+        document.getElementById("editSabName").value = athletesData.sab.name || '';
+        document.getElementById("editSabBelt").value = athletesData.sab.belt || '';
+        document.getElementById("editSabBio").value = athletesData.sab.bio || '';
+        document.getElementById("editSabPhoto").value = athletesData.sab.photo || '';
+      }
+      document.getElementById("athletesModal").classList.add("hidden"); // safety clear
       document.getElementById("athletesModal").classList.remove("hidden");
     }
 
@@ -639,8 +722,45 @@
       document.getElementById("athletesModal").classList.add("hidden");
     }
 
-    // Client-side HTML5 Canvas Image Compression (maxWidth 800 for slides, 600 for profile photos, quality 0.7)
-    function compressSlideImage(event, index) {
+    function openTournamentsManager() {
+      renderTournamentForms();
+      document.getElementById("tournamentsModal").classList.remove("hidden");
+    }
+
+    function closeTournamentsManager() {
+      document.getElementById("tournamentsModal").classList.add("hidden");
+    }
+
+    function renderTournamentForms() {
+      const container = document.getElementById("tournamentFormsContainer");
+      container.innerHTML = tournamentsData.map((t, i) => `
+        <div class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl space-y-3 relative group">
+          <div class="flex justify-between items-center">
+            <span class="font-black text-amber-400 text-xs uppercase tracking-wider">Tournament #${i + 1}</span>
+            <button onclick="removeTournamentForm(${i})" class="text-red-400 hover:text-red-300 text-xs font-bold">&times; Remove</button>
+          </div>
+          <input type="text" id="tournName_${i}" value="${t.name || ''}" placeholder="Tournament Name" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="text" id="tournVenue_${i}" value="${t.venue || ''}" placeholder="Venue (e.g. Manila, Philippines)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+            <input type="text" id="tournDate_${i}" value="${t.date || ''}" placeholder="Date / Season (e.g. 2026 Season)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+          </div>
+          <input type="text" id="tournMedals_${i}" value="${t.medals || ''}" placeholder="Medals Won (e.g. Gold Medalist - Kyorugi)" class="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-xs text-white">
+        </div>
+      `).join('');
+    }
+
+    function addTournamentForm() {
+      tournamentsData.push({ name: "", venue: "", date: "", medals: "" });
+      renderTournamentForms();
+    }
+
+    function removeTournamentForm(index) {
+      tournamentsData.splice(index, 1);
+      renderTournamentForms();
+    }
+
+    // Canvas Image Compressor for Slideshow
+    function compressImage(event, index) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -657,11 +777,11 @@
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           document.getElementById(`img_${index}`).value = canvas.toDataURL("image/jpeg", 0.7);
-          showToast(`Slide #${index + 1} image compressed successfully.`);
         };
       };
     }
 
+    // Canvas Image Compressor for Athletes
     function compressAthleteImage(event, targetId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -679,12 +799,11 @@
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           document.getElementById(targetId).value = canvas.toDataURL("image/jpeg", 0.7);
-          showToast("Athlete photo compressed successfully.");
         };
       };
     }
 
-    // Firestore / State Save Handlers
+    // Save Handlers
     async function saveAllSlides() {
       const updatedSlides = slidesData.map((_, i) => ({
         tag: document.getElementById(`tag_${i}`).value,
@@ -692,17 +811,14 @@
         desc: document.getElementById(`desc_${i}`).value,
         img: document.getElementById(`img_${i}`).value
       }));
-      
       try {
-        if (db) {
-          await db.collection("website").doc("slideshow").set({ slides: updatedSlides });
-        }
+        await db.collection("website").doc("slideshow").set({ slides: updatedSlides });
         slidesData = updatedSlides;
         renderSlide();
         closeSlideshowManager();
-        showToast("Slides updated and saved!");
+        alert("Slideshow updated successfully!");
       } catch (err) {
-        showToast("Error saving slides: " + err.message, "error");
+        alert("Error saving slides: " + err.message);
       }
     }
 
@@ -719,23 +835,37 @@
         bio: document.getElementById("editSabBio").value,
         photo: document.getElementById("editSabPhoto").value
       };
-      
       try {
-        if (db) {
-          await db.collection("website").doc("athletes").set({ data: athletesData });
-        }
+        await db.collection("website").doc("athletes").set({ data: athletesData });
         renderAthletes();
         closeAthletesManager();
-        showToast("Athlete profiles saved!");
+        alert("Athlete profiles updated successfully!");
       } catch (err) {
-        showToast("Error saving profiles: " + err.message, "error");
+        alert("Error saving profiles: " + err.message);
       }
     }
 
-    // Init App
-    window.onload = function() {
-      loadData();
-    };
+    async function saveTournaments() {
+      const updatedTournaments = tournamentsData.map((_, i) => ({
+        name: document.getElementById(`tournName_${i}`).value,
+        venue: document.getElementById(`tournVenue_${i}`).value,
+        date: document.getElementById(`tournDate_${i}`).value,
+        medals: document.getElementById(`tournMedals_${i}`).value
+      }));
+      try {
+        await db.collection("website").doc("tournaments").set({ tournaments: updatedTournaments });
+        tournamentsData = updatedTournaments;
+        renderTournaments();
+        renderAthletes(); // refresh medal count badges
+        closeTournamentsManager();
+        alert("Tournament records updated successfully!");
+      } catch (err) {
+        alert("Error saving tournaments: " + err.message);
+      }
+    }
+
+    // Run on startup
+    loadData();
   </script>
 </body>
 </html>
